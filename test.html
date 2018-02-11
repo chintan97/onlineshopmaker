@@ -1,0 +1,6 @@
+<script type="text/javascript">
+	var data = '{ "a1":[{"a":1}, {"b":2}] }';
+	var obj = JSON.parse(data);
+	const jsonFile = 'user_folders/test_dir/product_data.json';
+	writeJsonFile(jsonFile, obj).catch(err => console.log(err));
+</script>
