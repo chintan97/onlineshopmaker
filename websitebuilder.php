@@ -103,6 +103,7 @@ if(!isset($_SESSION["username"])){
 							<ul class="actions">
 								<li><input type="button" id='button_last_submit' name='button_last_submit' value="Submit" class="special" onclick="last_submit();" /></li>
 								<li><input type="button" id='preview_product' name='preview_product' value="Preview products" class="special" onclick="window.open('preview-products.php','_blank');" /></li>
+								<li><input type="button" id='download_data' name='download_data' value="download data in excel" class="special"onclick="window.open('download-product-data.php','_blank');" /></li>
 							</ul>
 						</div>
 					</div>
