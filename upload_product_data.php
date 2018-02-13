@@ -15,6 +15,8 @@
 	$product_offer_price = $_POST["product_offer_price"];
 	$product_offer_percentage = $_POST["product_offer_percentage"];
 	$product_color = $_POST["product_color"];
+	$product_cat = $_POST["product_cat"];
+	$product_subcat = $_POST["product_subcat"];
 	$product_image = $_FILES["product_image"];
 	$shop_name = $_POST["shop_name"];
 	$file_names = array();
@@ -68,13 +70,39 @@
 		$_SESSION["json_str"] = array();
 	}
 	$string = array('product_price' => (string)$product_price, 'product_stock' => (string)$product_stock, 'product_threshold' => (string)$product_threshold, 'product_image' => $file_names, 'product_id' => (string)$product_id, 'product_brand' => (string)$product_brand, 'product_size' => $product_size, 'product_description' => (string)$product_description, 'product_gender' => (string)$product_gender, 'product_offer_price' => (string)$product_offer_price, 'product_offer_percentage' => (string)$product_offer_percentage, 'product_color' => (string)$product_color); 
-	$json_str[(string)$product_name] = $string; 
-	$_SESSION['json_str'] = array_merge($_SESSION['json_str'],$json_str);
-	$json_str2[(string)$shop_name] = $_SESSION['json_str'];
+	$json_str[(string)$product_name] = $string;
+
+
+	if (isset($_SESSION['json_str'][$product_cat])){
+		if (isset($_SESSION['json_str'][$product_cat][$product_subcat])){
+			$temp_arr = $_SESSION['json_str'][$product_cat][$product_subcat];
+			$temp_arr2[$product_subcat] = array_merge($temp_arr, $json_str);
+			$temp_arr3[$product_cat] = $temp_arr2;
+			$_SESSION['json_str'] = $temp_arr3;
+		}
+		else{
+			$temp_arr2[$product_subcat] = $json_str;
+			$temp_arr3 = $_SESSION['json_str'][$product_cat];
+			$temp_arr4[$product_cat] = array_merge($temp_arr3, $temp_arr2);
+			$_SESSION['json_str'] = $temp_arr4;
+		}
+	}
+	else{
+		$temp_arr2[$product_subcat] = $json_str;
+		$temp_arr3[$product_cat] = $temp_arr2;
+		$_SESSION['json_str'] = array_merge($_SESSION['json_str'], $temp_arr3);
+	}
+	//$json_str2[(string)$product_subcat] = $json_str;
+	//$json_str3[(string)$product_cat] = $json_str2;
+	//$_SESSION['json_str'] = array_merge($_SESSION['json_str'],$json_str3);
+	$json_str4[(string)$shop_name] = $_SESSION['json_str'];
+	
+
+
 	// i have a idea but i think you should do it 
 	//get a shop name from anywhere (add a input text make its visibility hidden and set its value to shopname and add it to your form this form and then fetch the value of that )
 	//then take a master array and for e.g -------$main_json['shopname'] = $_SESSION['json_str'] add this line here and in the below line pass $main_json instead of SESSION value got it??
-	fwrite($file, json_encode($json_str2));
+	fwrite($file, json_encode($json_str4));
 	fclose($file);
 	header("location:javascript://history.go(-1)");
 ?>

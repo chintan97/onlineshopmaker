@@ -20,6 +20,7 @@ if(!isset($_SESSION["username"])){
 		<script src="js/skel-layers.min.js"></script>
 		<script src="js/init.js"></script>
 		<script src="js/myjs.js"></script>
+		<script src="js/list.js"></script>
 		<noscript>
 			<link rel="stylesheet" href="css/skel.css" />
 			<link rel="stylesheet" href="css/style.css" />

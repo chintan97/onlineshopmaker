@@ -20,6 +20,8 @@ if(isset($_SESSION["username"])){
 		<script src="js/skel.min.js"></script>
 		<script src="js/skel-layers.min.js"></script>
 		<script src="js/init.js"></script>
+		<script type="js/jquery.dropotron-1.0.js"></script>
+		<script type="js/drop-down-items.js"></script>
 		<noscript>
 			<link rel="stylesheet" href="css/skel.css" />
 			<link rel="stylesheet" href="css/style.css" />

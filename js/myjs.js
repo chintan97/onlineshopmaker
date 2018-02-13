@@ -284,6 +284,25 @@
 				var count_temp = ""+start;
 
 				newdiv2.innerHTML='<form enctype="multipart/form-data" method="post" name="data_product" id="data_product" action="upload_product_data.php">'+
+					'<select id="Category" name="Category" onchange="SelectSubCat();">'+
+					'<option value="category">category</option>'+
+					'<option value="electronics">electronics</option>'+
+					'<option value="accessories">accessories</option>'+
+					'<option value="footwear">footwear</option>'+
+					'<option value="top wear">top wear</option>'+
+					'<option value="bottom wear">bottom wear</option>'+
+					'<option value="innerwear">innerwear</option>'+
+					'<option value="baby and kids">baby and kids</option>'+
+					'<option value="toys">toys</option>'+
+					'<option value="home">home</option>'+
+					'<option value="furniture">furniture</option>'+
+					'<option value="books">books</option>'+
+					'<option value="games">games</option>'+
+					'<option value="sports">sports</option>'+
+					'<option value="fitness">fitness</option>'+
+					'<option value="other">other</option>'+
+					'</select><label>Select product category<font Size="5" Color="red">*</font></label>'+
+					'<select id="SubCat" name="SubCat"><option value="subcategory"></option></select><label>Select product subcategory<font Size="5" Color="red">*</font></label>'+
 					'<input type="text" id="product_name" name="product_name" required/><label>Product name<font Size="5" Color="red">*</font></label>'+
 					'<input type="text" id="product_price" name="product_price" required/><label>Product price<font Size="5" Color="red">*</font></label>'+
 					'<input type="text" id="product_stock" name="product_stock" required/><label>Product stock<font Size="5" Color="red">*</font></label>'+
@@ -298,8 +317,9 @@
 					'<input type="text" id="product_offer_percentage" name="product_offer_percentage"><label>Product offer in percentage(%)</label>'+
 					'<input type="text" id="product_color" name="product_color"><label>Product color</label>'+
 					'<input type="hidden" id="shop_name" name="shop_name" value="'+shopname+'">'+
+					'<input type="hidden" id="product_cat" name="product_cat">'+
+					'<input type="hidden" id="product_subcat" name="product_subcat">'+
 					'</form>';
-				
 				if (start < count){
 					var button = document.createElement("BUTTON");
 					var button_name = document.createTextNode("Next entry");
@@ -325,6 +345,16 @@
 							document.getElementById('product_threshold').focus();
 							return false;
 						}
+						else if (document.getElementById('Category').value=='category'){
+							alert('Please select product category');
+							document.getElementById('Category').focus();
+							return false;
+						}
+						else if (document.getElementById('SubCat').value=='subcategory'){
+							alert('Please select product subcategory');
+							document.getElementById('SubCat').focus();
+							return false;
+						}
 
 						for (i = 0; i < product_list.length; i++){
 							if (product_list[i] == pname){
@@ -333,7 +363,8 @@
 								return false;
 							}
 						}
-
+						document.getElementById('product_cat').value = document.getElementById('Category').value;
+						document.getElementById('product_subcat').value = document.getElementById('SubCat').value;	
 						product_list.push(document.getElementById('product_name').value);
 						start++;
 						document.data_product.submit();
