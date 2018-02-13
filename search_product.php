@@ -8,12 +8,12 @@ if (strlen($q)>0) {
   $max_count = 0;
   $q = preg_replace('/\s+/', '', $q);
   for ($i=0; $i<count($product_names); $i++){
-  	if (stristr($product_names[$i], $q)){
+  	if (stristr($product_names[$i][2], $q)){
   		if ($hint == ""){
-  			$hint = "<a href='preview-products.php?pro=".$product_names[$i]."'>".$product_names[$i]."</a>";
+  			$hint = "<a href='preview-products.php?pro=".$product_names[$i][2]."&i=".$i."'>".$product_names[$i][2]."</a>";
   		}
   		else{
-  			$hint = $hint."<br><a href='preview-products.php?pro=".$product_names[$i]."'>".$product_names[$i]."</a>";
+  			$hint = $hint."<br><a href='preview-products.php?pro=".$product_names[$i][2]."&i=".$i."'>".$product_names[$i][2]."</a>";
   		}
   		$max_count++;
   	}

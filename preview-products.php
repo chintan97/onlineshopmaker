@@ -85,16 +85,33 @@
 								echo "<h3>You have not entered any products till now!!!</h3>";
 							}
 							else{
-								echo "<h3>Total product entered: ".count($json_array[$_SESSION['shop_name']])."</h3>";
-								$product_names = [];
+								$count_cat = 0;  // category count
+								$count_subcat = 0;  // subcategory count
+								$count_pro = 0;  // product count
+								$list = [];  // list format => [product_category, product_subcategory, product_name]
 								foreach ($json_array[$_SESSION['shop_name']] as $key=>$value) {
-									array_push($product_names, $key);
+									$count_cat++;
+									foreach ($value as $key1 => $value1) {
+										$count_subcat++;
+										foreach ($value1 as $key2 => $value2) {
+											$count_pro++;
+											$list_names = [];
+											array_push($list_names, $key);  // product category
+											array_push($list_names, $key1);  // product subcategory
+											array_push($list_names, $key2);  // product name
+											array_push($list, $list_names);
+										}
+									}
 								}
-								$_SESSION["names"] = $product_names;
+								echo "<h3>Total product categories: ".$count_cat;
+								echo "<br>Total product subcategories: ".$count_subcat;
+								echo "<br>Total products entered: ".$count_pro."</h3>";
+								$_SESSION["names"] = $list;
 								?>
-								<div align="left">
+
+								<div align="left" id="by_product_name">
 									<div class="3u 6u$(4)">
-										Search by produt name: 
+										Search by product name: 
 										<div align="left">
 										 <input type="text" id="search_product" name="search_product" onkeyup="showResult(this.value);">
 										 	<div id="show_product"></div>
@@ -105,9 +122,12 @@
 
 								if (isset($_GET["pro"])){
 									$got_name = $_GET["pro"];
+									$got_id = $_GET["i"];
 									if ($got_name != ""){
 										echo "<br><br><h4>Showing data for product name: ".$got_name."</h4>";
-										$data_to_show = $json_array[$_SESSION['shop_name']][$got_name];
+										$data_to_show = $json_array[$_SESSION['shop_name']][$list[$got_id][0]][$list[$got_id][1]][$got_name];
+										echo "<br>Product category: ".$list[$got_id][0];
+										echo "<br>Product subcategory: ".$list[$got_id][1];
 										foreach ($data_to_show as $key => $value) {
 											if ($key != "product_image")
 												if ($value != "")

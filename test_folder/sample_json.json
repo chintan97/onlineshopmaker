@@ -1,17 +1,4 @@
-{
-  "abc": {
-    "electronics": {
-      "AC": {
-        "Lenovo A7000": {
-          "product_price": "8999",
-          "product_stock": "25",
-          "product_threshold": "5",
-          "product_image": [
-            "Lenovo A7000_1.png"
-          ],
-          "product_id": "00001",
-          "product_brand": "",
-          "product_size": "",
+{"abc":{"electronics":{"mobile":{"lenovoA6000":{"product_price":"399","product_stock":"20","product_threshold":"5","product_image":["Lenovo A6000_1.png"],"product_id":"00002","product_brand":"","product_size":"","product_description":"","product_gender":"","product_offer_price":"","product_offer_percentage":"","product_color":""}}}}}     "product_size": "",
           "product_description": "",
           "product_gender": "",
           "product_offer_price": "",

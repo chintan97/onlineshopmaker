@@ -16,21 +16,27 @@ else{
 	}
 	else{
 		$list = array();
-		$list_tags = array('product_name', 'product_price', 'product_stock', 'product_threshold', 'product_id', 'product_brand', 'product_size', 'product_description', 'product_gender', 'product_offer_price', 'product_offer_percentage', 'product_color');
+		$list_tags = array('category','subcategory','product name', 'product price', 'product stock', 'product threshold', 'product id', 'product brand', 'product size', 'product description', 'product gender', 'product offer price', 'product offer percentage', 'product color');
 		array_push($list, $list_tags);
 
 		foreach ($json_array[$_SESSION['shop_name']] as $key=>$value) {
-			$list_names = [];
-			array_push($list_names, $key);
 			foreach ($value as $key1 => $value1) {
-				if ($key1 != "product_image"){
-					if ($value1 != "")
-						array_push($list_names, $value1);
-					else
-						array_push($list_names, "N.A.");
+				foreach ($value1 as $key2 => $value2) {
+					$list_names = [];
+					array_push($list_names, $key);  // product category
+					array_push($list_names, $key1);  // product subcategory
+					array_push($list_names, $key2);  // product name
+					foreach ($value2 as $key3 => $value3) {  // data	
+						if ($key3 != "product_image"){
+							if ($value3 != "")
+								array_push($list_names, $value3);  
+							else
+								array_push($list_names, "N.A.");
+						}
+					}
+					array_push($list, $list_names);
 				}
 			}
-			array_push($list, $list_names);
 		}
 
 		$file_csv = fopen('user_folders/'.$_SESSION['username'].'/product_data.csv', 'w');
