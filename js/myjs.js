@@ -398,9 +398,7 @@
 		
 		
 		function last_submit(){
-			var con = confirm('Are you sure want to submit data entered till now?');
-			if (con == true){
-
+			if(confirm('Are you sure want to submit data entered till now?')){
 			}
 		}
 		
@@ -537,4 +535,7 @@
 				
 			}
 			document.getElementById('second_div').style.display='block';
+		}
+		function img_click(n){
+			window.location.href='template_show.php?temp=template'+n;
 		}
