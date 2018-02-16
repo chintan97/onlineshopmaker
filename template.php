@@ -53,6 +53,7 @@ if(!isset($_SESSION["username"])){
 			<section id="main" class="wrapper">
 				<h2 align="center" >Choose From Our Finest Themes</h2>
 				<h3 align="center" >Made By Our Design Crew</h3>
+				<h4 align="center">Click on Image to Choose</h4>
 				<div class="container">
 				<div class="box alt">
 					<div class="row 50% uniform">
