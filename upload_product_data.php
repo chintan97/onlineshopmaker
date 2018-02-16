@@ -20,7 +20,7 @@
 	$product_image = $_FILES["product_image"];
 	$shop_name = $_POST["shop_name"];
 	$file_names = array();
-
+	$temp_flag = $_POST["temp_flag"];
 	$_SESSION["shop_name"] = $shop_name;
 
 	$user = $_SESSION["username"];
@@ -104,5 +104,11 @@
 	//then take a master array and for e.g -------$main_json['shopname'] = $_SESSION['json_str'] add this line here and in the below line pass $main_json instead of SESSION value got it??
 	fwrite($file, json_encode($json_str4));
 	fclose($file);
-	header("location:javascript://history.go(-1)");
+	//echo "<script type='text/javascript'>alert('Called.');</script>";
+	if ($temp_flag != 1){
+		header("location:javascript://history.go(-1)");
+	}
+	else{
+		header("location:template.php");
+	}
 ?>

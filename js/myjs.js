@@ -246,7 +246,7 @@
 				var header_second_div=document.createElement('header');
 				header_second_div.setAttribute('id','header_second_div');
 				second_div.appendChild(header_second_div);
-				header_second_div.innerHTML='<h3>Step 2</h3>';
+				header_second_div.innerHTML='<h3>Step 2<br>Note: DO NOT REFRESH PAGE NOW</h3></h3>';
 				var header,p,newdiv1,table,tr,td1,td2,newdiv2;
 				var in_second_div = document.createElement('div');
 				in_second_div.setAttribute('id','in_second_div');
@@ -319,6 +319,7 @@
 					'<input type="hidden" id="shop_name" name="shop_name" value="'+shopname+'">'+
 					'<input type="hidden" id="product_cat" name="product_cat">'+
 					'<input type="hidden" id="product_subcat" name="product_subcat">'+
+					'<input type="hidden" id="temp_flag" name="temp_flag" value="0">'+
 					'</form>';
 				if (start < count){
 					var button = document.createElement("BUTTON");
@@ -398,7 +399,56 @@
 		
 		
 		function last_submit(){
-			if(confirm('Are you sure want to submit data entered till now?')){
+			if(confirm('Are you sure want to submit data entered till now? YOU CANNOT REVERT IF YOU PRESS OK!')){
+				if (confirm('YOU CANNOT REVERT NOW. Do you want to submit entered data for this product? IF YOU PRESS YES, THIS PRODUCT DATA WILL BE SUBMITTED, ELSE ONLY PREVIOUS DATA WILL BE PRESERVED!')){
+					var pname = document.getElementById('product_name').value;
+					if (pname==''){
+						alert('Please enter product name!');
+						document.getElementById('product_name').focus();
+						return false;
+					}
+					else if (document.getElementById('product_price').value=='' || isNaN(document.getElementById('product_price').value)){
+						alert('Please enter product price!');
+						document.getElementById('product_price').focus();
+						return false;
+					}
+					else if (document.getElementById('product_stock').value=='' || isNaN(document.getElementById('product_stock').value)){
+						alert('Please enter product stock!');
+						document.getElementById('product_stock').focus();
+						return false;
+					}
+					else if (document.getElementById('product_threshold').value=='' || isNaN(document.getElementById('product_threshold').value)){
+						alert('Please enter product threshold!');
+						document.getElementById('product_threshold').focus();
+						return false;
+					}
+					else if (document.getElementById('Category').value=='category'){
+						alert('Please select product category');
+						document.getElementById('Category').focus();
+						return false;
+					}
+					else if (document.getElementById('SubCat').value=='subcategory'){
+						alert('Please select product subcategory');
+						document.getElementById('SubCat').focus();
+						return false;
+					}
+					for (i = 0; i < product_list.length; i++){
+						if (product_list[i] == pname){
+							alert('Product name cannot be same, product name '+pname+' matched with product '+(i+1));
+							document.getElementById('product_name').value = '';
+							return false;
+						}
+					}
+					document.getElementById('product_cat').value = document.getElementById('Category').value;
+					document.getElementById('product_subcat').value = document.getElementById('SubCat').value;	
+					product_list.push(document.getElementById('product_name').value);
+					start++;
+					document.getElementById('temp_flag').value = "1";
+					document.data_product.submit();
+				}
+				else{
+					document.location.href = "template.php";
+				}
 			}
 		}
 		
@@ -495,7 +545,7 @@
 			var header_second_div=document.createElement('header');
 			header_second_div.setAttribute('id','header_second_div');
 			second_div.appendChild(header_second_div);
-			header_second_div.innerHTML='<h3>Step 2</h3>';
+			header_second_div.innerHTML='<h3>Step 2<br>Note: DO NOT REFRESH PAGE NOW</h3>';
 			var header,p,newdiv1,table,tr,td1,td2,newdiv2;
 			var in_second_div = document.createElement('div');
 			in_second_div.setAttribute('id','in_second_div');

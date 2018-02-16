@@ -6,6 +6,10 @@ if(!isset($_SESSION["username"])){
 	window.location.href="login.php"
 	</script>';
 }
+//$fl = fopen('user_folders/'.$_SESSION["username"].'/product_data.json', 'r');
+if (filesize('user_folders/'.$_SESSION["username"].'/product_data.json') > 0){
+	header('location:template.php');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -63,6 +67,7 @@ if(!isset($_SESSION["username"])){
 					<div id='first_div'>
 						<header>
 						<h3>Step 1</h3>
+						<h3>Note: DO NOT REFRESH PAGE NOW</h3>
 						</header>
 						<div class="12u 12u$(4)">
 							<table>
