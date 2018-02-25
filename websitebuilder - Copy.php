@@ -68,7 +68,7 @@ if(!isset($_SESSION["username"])){
 							<table>
 							<tr><td>Your Shop Name</td><td><input type="text" name="shopname" id="shopname"  placeholder="Shop Name"  required /></td></tr>
 							<tr>
-							<td>How Many Types Of Products You Want In Your Shop? </td>
+							<td>How Many Products You Want In Your Shop? </td>
 							<td>
 							<div name='type' id='type' class="10u$">
 							<input type="text" name="product_type" id="product_type" required/>
