@@ -85,7 +85,7 @@
 			$temp_arr2[$product_subcat] = $json_str;
 			$temp_arr3 = $_SESSION['json_str'][$product_cat];
 			$temp_arr4[$product_cat] = array_merge($temp_arr3, $temp_arr2);
-			$_SESSION['json_str'] = $temp_arr4;
+			$_SESSION['json_str'] = array_merge($_SESSION['json_str'], $temp_arr4);
 		}
 	}
 	else{

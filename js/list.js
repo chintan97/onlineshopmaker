@@ -80,9 +80,9 @@ var ele = ["entrance exam","academic","literature","indian writing","biographics
  }
 }
 if(document.data_product.Category.value == 'games'){
-var ele = ["PS3","PS4","Xbox one","Xbox 360","gaming console","smart glasses(VR)","other"];
+var ele = ["PS3","PS4","Xbox one","Xbox 360","gaming console","smart glasses VR","other"];
  for (var i=0; i<ele.length; i++){
- 	addOption(document.drop_list.SubCat, ele[i], ele[i]);
+ 	addOption(document.data_product.SubCat, ele[i], ele[i]);
  }
 }
 if(document.data_product.Category.value == 'sports'){
