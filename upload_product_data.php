@@ -44,7 +44,7 @@
 
 		$filename = stripslashes($_FILES['product_image']['name'][$i]);
 		$extension = getExtension($filename);
-		$image_name = $product_name.'_'.($i+1).'.'.$extension;
+		$image_name = $product_id.'_'.($i+1).'.'.$extension;
 
 		array_push($file_names, $image_name);
 		$path = "user_folders/".$user."/images/".$image_name;

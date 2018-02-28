@@ -400,7 +400,7 @@
 		
 		function last_submit(){
 			if(confirm('Are you sure want to submit data entered till now? YOU CANNOT REVERT IF YOU PRESS OK!')){
-				if (confirm('YOU CANNOT REVERT NOW. Do you want to submit entered data for this product? IF YOU PRESS YES, THIS PRODUCT DATA WILL BE SUBMITTED, ELSE ONLY PREVIOUS DATA WILL BE PRESERVED!')){
+				if (confirm('YOU CANNOT REVERT NOW. Do you want to submit entered data for this product? IF YOU PRESS OK, THIS PRODUCT DATA WILL BE SUBMITTED, ELSE ONLY PREVIOUS DATA WILL BE PRESERVED!')){
 					var pname = document.getElementById('product_name').value;
 					if (pname==''){
 						alert('Please enter product name!');
