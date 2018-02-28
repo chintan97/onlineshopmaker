@@ -331,18 +331,18 @@
 							document.getElementById('product_name').focus();
 							return false;
 						}
-						else if (document.getElementById('product_price').value=='' || isNaN(document.getElementById('product_price').value)){
-							alert('Please enter product price!');
+						else if (document.getElementById('product_price').value=='' || isNaN(document.getElementById('product_price').value) || document.getElementById('product_price').value < 0){
+							alert('Please enter valid product price!');
 							document.getElementById('product_price').focus();
 							return false;
 						}
-						else if (document.getElementById('product_stock').value=='' || isNaN(document.getElementById('product_stock').value)){
-							alert('Please enter product stock!');
+						else if (document.getElementById('product_stock').value=='' || isNaN(document.getElementById('product_stock').value) || document.getElementById('product_stock').value < 0){
+							alert('Please enter valid product stock!');
 							document.getElementById('product_stock').focus();
 							return false;
 						}
-						else if (document.getElementById('product_threshold').value=='' || isNaN(document.getElementById('product_threshold').value)){
-							alert('Please enter product threshold!');
+						else if (document.getElementById('product_threshold').value=='' || isNaN(document.getElementById('product_threshold').value) || document.getElementById('product_threshold').value < 0){
+							alert('Please enter valid product threshold!');
 							document.getElementById('product_threshold').focus();
 							return false;
 						}
@@ -354,6 +354,11 @@
 						else if (document.getElementById('SubCat').value=='subcategory'){
 							alert('Please select product subcategory');
 							document.getElementById('SubCat').focus();
+							return false;
+						}
+						else if (document.getElementById('product_image[]').value == ''){
+							alert('You must select at least one image!');
+							document.getElementById('product_image[]').focus();
 							return false;
 						}
 

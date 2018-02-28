@@ -31,6 +31,9 @@
   		else if (choice == "delete-products"){
   			document.getElementById("mainContent").innerHTML='<iframe width=100% height=100% src="delete-product-admin.php" ></iframe>';
   		}
+  		else if (choice == "add-products"){
+  			document.getElementById("mainContent").innerHTML='<iframe width=100% height=100% src="add-product-admin.php" ></iframe>';
+  		}
   	}
   </script>
 </head>
@@ -40,6 +43,7 @@
 		<button onclick="load_pages('download-products');">download data in excel</button><br>
 		<button onclick="load_pages('update-products');">Update product data</button><br>
 		<button onclick="load_pages('delete-products');">Delete product</button><br>
+		<button onclick="load_pages('add-products');">Add product</button><br>
 	</div>
 	<div class="topBar" id="topBar">
 		<a href="change-pass.php">change password</a>
