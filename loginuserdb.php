@@ -15,6 +15,10 @@ if($res['Active']==1){
 		$_SESSION['go']=0;
 		header("location:websitebuilder.php");
 	}
+	else if ($_SESSION['go']==2){
+		$_SESSION['go']=0;
+		header("location:admin-page.php");
+	}
 	else{
 		header("location:index.php");
 	}

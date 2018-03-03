@@ -18,8 +18,34 @@
 			<link rel="stylesheet" href="css/style.css" />
 			<link rel="stylesheet" href="css/style-xlarge.css" />
 		</noscript>
-
+	<style type="text/css">
+		.image_class{
+			position: relative;
+    		display: inline-block;
+    		font-size: 0;
+		}
+		.image_class .close{
+			position: absolute;
+			top: 3px;
+			right: 3px;
+			z-index: 100;
+			background-color: #FFF;
+		    padding: 5px 2px 2px;
+		    color: #000;
+		    font-weight: bold;
+		    cursor: pointer;
+		    opacity: .2;
+		    text-align: center;
+		    font-size: 22px;
+		    line-height: 10px;
+		    border-radius: 50%;
+		}
+		.image_class:hover .close {
+ 		   opacity: 1;
+		}
+	</style>
 	<script>
+		var images_to_delete = new Array();
 		function showResult(str) {
 		  if (str.length==0) { 
 		    document.getElementById("show_product").innerHTML="";
@@ -138,7 +164,22 @@
 				document.getElementById('product_threshold').focus();
 				return false;
 			}
-			document.update-form.submit();
+			else if (document.getElementById('image_count').value == images_to_delete.length && document.getElementById('product_upload_image[]').value == ''){
+				event.preventDefault();
+				alert("You must keep at least one image, you have deleted all old images and no new images selected!")
+				document.getElementById('product_upload_image[]').focus();
+				return false;
+			}
+			console.log(images_to_delete);
+			document.getElementById('images_to_delete').value = JSON.stringify(images_to_delete);
+			console.log(document.getElementById('images_to_delete').value);
+			document.update_form.submit();
+		}
+
+		function delete_image(img_name){
+			console.log(img_name);
+			document.getElementById(img_name).style.display = 'none';
+			images_to_delete.push(img_name);
 		}
 	</script>
 
@@ -309,7 +350,7 @@
 									if ($got_name != ""){
 										echo "<br><br><h4>Showing data for product name: ".$got_name."</h4>";
 										?>
-										<form enctype="multipart/form-data" method="post" id="update-form" name="update-form" action="update-data-admin.php">
+										<form enctype="multipart/form-data" method="post" id="update_form" name="update_form" action="update-data-admin.php">
 										<?php
 										$data_to_show = $json_array[$_SESSION['shop_name']][$list[$got_id][0]][$list[$got_id][1]][$got_name];
 										echo "<br>Product category: ".$list[$got_id][0];
@@ -323,15 +364,27 @@
 												echo "<input type='hidden' id='product_id' name='product_id' value='".$value."'>";
 											}
 											else{
-												echo "<br>product_image";
-												for ($j=0; $j<count($value); $j++){
+												echo "<br>product_image<br><strong>Once you delete image, action cannot be undone</strong><br>";
 												?>
-													<br><img alt="Image could not be loaded" width="400" src="<?php echo 'user_folders/'.$_SESSION['username'].'/images/'.$value[$j]; ?>" border="5"/>
+												<input type="hidden" id="image_count" name="image_count" value="<?php echo count($value); ?>">
+												<?php
+												for ($j=0; $j<count($value); $j++){
+												?>	<div class="image_class">
+													<div id="<?php echo $value[$j] ?>">
+													<span class="close" onclick="delete_image('<?php echo $value[$j] ?>');">&times;</span>
+													<br><img alt="Image could not be loaded" width="200" height="300" src="<?php echo 'user_folders/'.$_SESSION['username'].'/images/'.$value[$j]; ?>" border="5"/>
+													</div>
+													</div>
 												<?php
 												}
+												?>
+													<br><br>
+													<input type="file" id="product_upload_image[]" name="product_upload_image[]" accept="image/*" multiple/><label>Add more images (You can select multiple images)</label>
+												<?php
 											}
 										}
 										?>
+										<input type="hidden" name="images_to_delete" id="images_to_delete">
 										<button onclick="submit_data();">Update</button>
 										</form>	
 										<?php

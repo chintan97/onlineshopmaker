@@ -1,3 +1,12 @@
+<?php session_start(); 
+if(!isset($_SESSION["username"])){
+	$_SESSION['go']=2;
+	echo '<script language="javascript">
+	alert("You need to Sign In to use this feature!!!")
+	window.location.href="login.php"
+	</script>';
+}
+?>
 <html>
 <head>
 <style>

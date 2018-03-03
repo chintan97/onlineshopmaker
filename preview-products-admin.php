@@ -289,10 +289,12 @@
 												else
 													echo "<br>".$key.": Not specified";
 											else{
-												echo "<br>product_image";
+												echo "<br>product_image<br>";
 												for ($j=0; $j<count($value); $j++){
 												?>
-													<br><img alt="Image could not be loaded" width="400" src="<?php echo 'user_folders/'.$_SESSION['username'].'/images/'.$value[$j]; ?>" border="5"/>
+													<div style="position: relative; display: inline-block;">
+													<br><img alt="Image could not be loaded" width="200" height="300" src="<?php echo 'user_folders/'.$_SESSION['username'].'/images/'.$value[$j]; ?>" border="5"/>
+													</div>
 												<?php
 												}
 											}

@@ -307,7 +307,7 @@
 					'<input type="text" id="product_price" name="product_price" required/><label>Product price<font Size="5" Color="red">*</font></label>'+
 					'<input type="text" id="product_stock" name="product_stock" required/><label>Product stock<font Size="5" Color="red">*</font></label>'+
 					'<input type="text" id="product_threshold" name="product_threshold" required/><label>Product threshold (it will notify when stock reaches threshold)<font Size="5" Color="red">*</font></label>'+
-					'<input type="file" id="product_image[]" name="product_image[]" accept="image/*" required multiple/><label>Product image (You can selsct multiple images)<font Size="5" Color="red">*</font></label>'+
+					'<input type="file" id="product_image[]" name="product_image[]" accept="image/*" required multiple/><label>Product image (You can select multiple images)<font Size="5" Color="red">*</font></label>'+
 					'<input type="hidden" id="product_id" name="product_id" value="'+(pad.substring(0, 5-count_temp.length)+count_temp)+'">'+
 					'<input type="text" id="product_brand" name="product_brand"><label>Product brand</label>'+
 					'<input type="text" id="product_size" name="product_size" placeholder="width x height x depth or S/M/L/XL"><label>Product size</label>'+
