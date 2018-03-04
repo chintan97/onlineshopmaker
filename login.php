@@ -11,7 +11,7 @@ if(isset($_SESSION["username"])){
 
 	<head>
 		<meta charset="UTF-8">
-		<title>Online Shop Maker</title>
+		<title>login</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />

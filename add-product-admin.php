@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <html>
 	<head>
 		<script src="js/jquery.min.js"></script>
@@ -13,7 +14,6 @@
 	</head>
 
 	<?php
-		session_start();
 		$username = $_SESSION['username'];
 		$file_name = 'user_folders/'.$username.'/product_data.json';
 		$file = fopen($file_name, 'r');
