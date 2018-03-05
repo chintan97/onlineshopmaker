@@ -52,7 +52,8 @@
     		var product_cat = document.getElementById('Category').value;
     		var product_subcat = document.getElementById('SubCat').value;
     		var product_image = document.getElementById('product_image[]').value;
-    		console.log(document.getElementById('product_id').value);
+    		var product_offer_price = document.getElementById('product_offer_price').value;
+    		var product_offer_percentage = document.getElementById('product_offer_percentage').value;
     		if (product_name == ''){
     			event.preventDefault();
     			alert("Product name cannot be empty!");
@@ -65,15 +66,15 @@
     			document.getElementById('product_price').focus();
     			return false;
     		}
-    		else if (product_stock == '' || isNaN(product_stock) || product_stock < 0){
+    		else if (product_stock == '' || isNaN(product_stock) || product_stock < 0 || !(product_stock % 1 === 0)){
     			event.preventDefault();
-    			alert("Product stock cannot be empty or it must be a positive number!");
+    			alert("Product stock cannot be empty or it must be a positive integer!");
     			document.getElementById('product_stock').focus();
     			return false;
     		}
-    		else if (product_threshold == '' || isNaN(product_threshold) || product_threshold < 0){
+    		else if (product_threshold == '' || isNaN(product_threshold) || product_threshold < 0 || !(product_threshold % 1 === 0)){
     			event.preventDefault();
-    			alert("Product threshold cannot be empty or it must be a positive number!");
+    			alert("Product threshold cannot be empty or it must be a positive integer!");
     			document.getElementById('product_threshold').focus();
     			return false;
     		}
@@ -95,6 +96,47 @@
 				document.getElementById('product_image[]').focus();
 				return false;
 			}
+			else if (product_offer_price != '' && (isNaN(product_offer_price) || product_offer_price < 0)){
+				event.preventDefault();
+				alert('Offer price must be a non-nagetive number!');
+				document.getElementById('product_offer_price').focus();
+				return false;
+			}
+			else if (product_offer_percentage != '' && (isNaN(product_offer_percentage) || product_offer_percentage < 0)){
+				event.preventDefault();
+				alert('Offer percentage must be a non-nagetive number!');
+				document.getElementById('product_offer_percentage').focus();
+				return false;
+			}
+			else if (product_offer_price != '' || product_offer_percentage != ''){
+				event.preventDefault();
+				var get_per = ((product_price - product_offer_price)*100)/(product_price);
+				if (!((product_offer_percentage - get_per) < 0.5 && (product_offer_percentage - get_per) > (0-0.5))){
+					alert('Offer price and percentage not matched with actual price!');
+					document.getElementById('product_offer_percentage').focus();
+					return false;
+				}
+			}
+			else if (product_offer_price > product_price){
+				event.preventDefault();
+				alert('Offer price cannot be more than product price!');
+				document.getElementById('product_offer_price').focus();
+				return false;
+			}
+			else if (product_offer_percentage > 100){
+				event.preventDefault();
+				alert('Offer percentage cannot be more than 100!');
+				document.getElementById('product_offer_percentage').focus();
+				return false;
+			}
+			else if (product_offer_price != '' && product_offer_percentage == ''){
+				var get_percentage = ((product_price - product_offer_price)*100)/(product_price);
+				document.getElementById('product_offer_percentage').value = get_percentage;
+			}
+			else if (product_offer_price == '' && product_offer_percentage != ''){
+				var get_price = ((100 - product_offer_percentage)*product_price)/100;
+				document.getElementById('product_offer_price').value = get_price;
+			}
 			for (i = 0; i < product_names.length; i++){
 				if (product_names[i] == product_name){
 					event.preventDefault();
@@ -108,6 +150,28 @@
 			document.getElementById('product_subcat').value = document.getElementById('SubCat').value;
 			document.data_product.submit();
     	}
+
+    	function get_offer_percentage(off_pri){
+			var pro_pri = document.getElementById('product_price').value;
+			if (pro_pri != '' && off_pri != '' && !isNaN(pro_pri) && !isNaN(off_pri) && off_pri >= 0 && pro_pri > 0){
+				var get_percentage = ((pro_pri - off_pri)*100)/(pro_pri);
+				document.getElementById('product_offer_percentage').value = get_percentage.toFixed(2);
+			}
+			if (off_pri == ''){
+				document.getElementById('product_offer_percentage').value = '';
+			}
+		}		
+		
+		function get_offer_price(off_per){
+			var pro_pri = document.getElementById('product_price').value;
+			if (pro_pri != '' && off_per != '' && !isNaN(pro_pri) && !isNaN(off_per) && off_per >=0 && pro_pri > 0){
+				var get_price = ((100 - off_per)*pro_pri)/100;
+				document.getElementById('product_offer_price').value = get_price.toFixed(0);
+			}
+			if (off_per == ''){
+				document.getElementById('product_offer_price').value = '';
+			}
+		}
 	</script>
 
 	<body>
@@ -141,8 +205,8 @@
 			<input type="text" id="product_size" name="product_size" placeholder="width x height x depth or S/M/L/XL"><label>Product size</label>
 			<input type="text" id="product_description" name="product_description"><label>Product description</label>
 			<input type="text" id="product_gender" name="product_gender"><label>Product gender</label>
-			<input type="text" id="product_offer_price" name="product_offer_price"><label>Product offer price</label>
-			<input type="text" id="product_offer_percentage" name="product_offer_percentage"><label>Product offer in percentage(%)</label>
+			<input type="text" id="product_offer_price" onkeyup="get_offer_percentage(this.value)" name="product_offer_price"><label>Product offer price</label>
+			<input type="text" id="product_offer_percentage" onkeyup="get_offer_price(this.value)" name="product_offer_percentage"><label>Product offer in percentage(%)</label>
 			<input type="text" id="product_color" name="product_color"><label>Product color</label>
 			<input type="hidden" id="product_cat" name="product_cat">
 			<input type="hidden" id="product_subcat" name="product_subcat">

@@ -2,7 +2,6 @@
 session_start();
 $username=$_POST["uname"];
 $pwd=$_POST["pwd"];
-$go_to=$_POST['hidden_go'];
 $c=mysql_connect("localhost","root","");
 $z=mysql_select_db("2594801_onlineshopmaker", $c);
 $au="select User_name,Active,Email,Name from user where User_name='".$username."' AND Password='".$pwd."'";
