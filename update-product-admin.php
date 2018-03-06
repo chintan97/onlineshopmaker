@@ -140,35 +140,78 @@
 			var pro_price = document.getElementById("product_price").value;
 			var pro_stock = document.getElementById("product_stock").value;
 			var pro_threshold = document.getElementById("product_threshold").value;
+			var product_offer_price = document.getElementById("product_offer_price").value;
+			var product_offer_percentage = document.getElementById("product_offer_percentage").value;
 			if (pro_name==''){
 				event.preventDefault();
-				alert("You can not leave product_name empty!")
+				alert("You can not leave product_name empty!");
 				document.getElementById('product_name').focus();
 				return false;
 			}
-			else if (pro_price=='' || isNaN(pro_price)){
+			else if (pro_price=='' || isNaN(pro_price) || pro_price < 0){
 				event.preventDefault();
-				alert("You can not leave product_price empty!")
+				alert("You can not leave product_price empty!");
 				document.getElementById('product_price').focus();
 				return false;
 			}
-			else if (pro_stock=='' || isNaN(pro_stock)){
+			else if (pro_stock=='' || isNaN(pro_stock) || pro_stock < 0 || !(pro_stock % 1 === 0)){
 				event.preventDefault();
-				alert("You can not leave product_stock empty!")
+				alert("You can not leave product_stock empty or it must be positive integer!");
 				document.getElementById('product_stock').focus();
 				return false;
 			}
-			else if (pro_threshold=='' || isNaN(pro_threshold)){
+			else if (pro_threshold=='' || isNaN(pro_threshold) || pro_threshold < 0 || !(pro_threshold % 1 === 0)){
 				event.preventDefault();
-				alert("You can not leave product_threshold empty or it must be number!")
+				alert("You can not leave product_threshold empty or it must be positive integer!");
 				document.getElementById('product_threshold').focus();
 				return false;
 			}
 			else if (document.getElementById('image_count').value == images_to_delete.length && document.getElementById('product_upload_image[]').value == ''){
 				event.preventDefault();
-				alert("You must keep at least one image, you have deleted all old images and no new images selected!")
+				alert("You must keep at least one image, you have deleted all old images and no new images selected!");
 				document.getElementById('product_upload_image[]').focus();
 				return false;
+			}
+			else if (product_offer_price != '' && (isNaN(product_offer_price) || product_offer_price < 0)){
+				event.preventDefault();
+				alert('Offer price must be a non-nagetive number!');
+				document.getElementById('product_offer_price').focus();
+				return false;
+			}
+			else if (product_offer_percentage != '' && (isNaN(product_offer_percentage) || product_offer_percentage < 0)){
+				event.preventDefault();
+				alert('Offer percentage must be a non-nagetive number!');
+				document.getElementById('product_offer_percentage').focus();
+				return false;
+			}
+			else if (product_offer_price != '' || product_offer_percentage != ''){
+				event.preventDefault();
+				var get_per = ((pro_price - product_offer_price)*100)/(pro_price);
+				if (!((product_offer_percentage - get_per) < 0.5 && (product_offer_percentage - get_per) > (0-0.5))){
+					alert('Offer price and percentage not matched with actual price!');
+					document.getElementById('product_offer_percentage').focus();
+					return false;
+				}
+			}
+			else if (product_offer_price > pro_price){
+				event.preventDefault();
+				alert('Offer price cannot be more than product price!');
+				document.getElementById('product_offer_price').focus();
+				return false;
+			}
+			else if (product_offer_percentage > 100){
+				event.preventDefault();
+				alert('Offer percentage cannot be more than 100!');
+				document.getElementById('product_offer_percentage').focus();
+				return false;
+			}
+			else if (product_offer_price != '' && product_offer_percentage == ''){
+				var get_percentage = ((pro_price - product_offer_price)*100)/(pro_price);
+				document.getElementById('product_offer_percentage').value = get_percentage;
+			}
+			else if (product_offer_price == '' && product_offer_percentage != ''){
+				var get_price = ((100 - product_offer_percentage)*pro_price)/100;
+				document.getElementById('product_offer_price').value = get_price;
 			}
 			console.log(images_to_delete);
 			document.getElementById('images_to_delete').value = JSON.stringify(images_to_delete);
@@ -180,6 +223,28 @@
 			console.log(img_name);
 			document.getElementById(img_name).style.display = 'none';
 			images_to_delete.push(img_name);
+		}
+
+		function get_offer_percentage(off_pri){
+			var pro_pri = document.getElementById('product_price').value;
+			if (pro_pri != '' && off_pri != '' && !isNaN(pro_pri) && !isNaN(off_pri) && off_pri >= 0 && pro_pri > 0){
+				var get_percentage = ((pro_pri - off_pri)*100)/(pro_pri);
+				document.getElementById('product_offer_percentage').value = get_percentage.toFixed(2);
+			}
+			if (off_pri == ''){
+				document.getElementById('product_offer_percentage').value = '';
+			}
+		}		
+		
+		function get_offer_price(off_per){
+			var pro_pri = document.getElementById('product_price').value;
+			if (pro_pri != '' && off_per != '' && !isNaN(pro_pri) && !isNaN(off_per) && off_per >=0 && pro_pri > 0){
+				var get_price = ((100 - off_per)*pro_pri)/100;
+				document.getElementById('product_offer_price').value = get_price.toFixed(0);
+			}
+			if (off_per == ''){
+				document.getElementById('product_offer_price').value = '';
+			}
 		}
 	</script>
 
@@ -357,8 +422,14 @@
 										echo "<br>Product subcategory: ".$list[$got_id][1];
 										echo "<br>product_name: <input type='text' id='product_name' name='product_name' value='".$got_name."'>";
 										foreach ($data_to_show as $key => $value) {
-											if ($key != "product_image" && $key != "product_id"){
+											if ($key != "product_image" && $key != "product_id" && $key != "product_offer_price" && $key != "product_offer_percentage"){
 												echo "<br>".$key.": <input type='text' id='".$key."' name='".$key."' value='".$value."'>";
+											}
+											else if ($key == "product_offer_price"){
+												echo "<br>".$key.": <input type='text' onkeyup='get_offer_percentage(this.value);' id='".$key."' name='".$key."' value='".$value."'>";
+											}
+											else if ($key == "product_offer_percentage"){
+												echo "<br>".$key.": <input type='text' onkeyup='get_offer_price(this.value);' id='".$key."' name='".$key."' value='".$value."'>";
 											}
 											else if ($key == "product_id"){
 												echo "<input type='hidden' id='product_id' name='product_id' value='".$value."'>";
