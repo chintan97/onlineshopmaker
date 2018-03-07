@@ -71,26 +71,65 @@ if (filesize('user_folders/'.$_SESSION["username"].'/product_data.json') > 0){
 						</header>
 						<div class="12u 12u$(4)">
 							<table>
-							<tr><td>Your Shop Name</td><td><input type="text" name="shopname" id="shopname"  placeholder="Shop Name"  required /></td></tr>
-							<tr>
-							<td>How Many Products You Want In Your Shop? </td>
-							<td>
-							<div name='type' id='type' class="10u$">
-							<input type="text" name="product_type" id="product_type" required/>
-							
-							<!--<div class="select-wrapper">
-								<select name="product_type" id="product_type" onchange='make_fields();' onfocus='check_data_shop();'>
-								  <option value="">- Types -</option>
-								  <option value="1">1</option>
-								  <option value="2">2</option>
-								  <option value="3">3</option>
-								  <option value="4">4</option>
-								  <option value="5">5</option>
-								  </select>
-							</div>
-							-->
-							</div>
-							</td></tr>
+								<tr>
+									<td>Your Shop Name</td>
+									<td><input type="text" name="shopname" id="shopname"  placeholder="Shop Name"  required />
+									</td>
+								</tr>
+								<tr>
+									<td>How Many Products You Want In Your Shop? </td>
+									<td>
+									<div name='type' id='type' class="10u$">
+										<input type="text" name="product_type" id="product_type" required/>
+									</div>
+									</td>
+								</tr>
+								<tr>
+									<td>Shop address</td>
+									<td>
+										<input type="text" name="shop_address" id="shop_address" required/>
+									</td>
+								</tr>
+								<tr>
+									<td>city</td>
+									<td>
+										<input type="text" name="shop_city" id="shop_city" required/>
+									</td>
+								</tr>
+								<tr>
+									<td>state</td>
+									<td>
+										<input type="text" name="shop_state" id="shop_state" required/>
+									</td>
+								</tr>
+								<tr>
+									<td>country</td>
+									<td>
+										<input type="text" name="shop_country" id="shop_country" required/>
+									</td>
+								</tr>
+								<tr>
+									<td>Contact Email (User feedbacks will be sent here)</td>
+									<td>
+										<input type="Email" name="contact_email" id="contact_email" required/>
+									</td>
+								</tr>
+								<tr>
+									<td>Contact mobile (Will be shown in website)</td>
+									<td>
+										<input type="Email" name="contact_mobile" id="contact_mobile" required/>
+									</td>
+								</tr>
+								<tr>
+									<td>Product price currency</td>
+									<td>
+										<select id="product_currency" name="product_currency">
+											<option value="rupee">rupee</option>
+											<option value="dollar">dollar</option>
+											<option value="GBP">Britain pound</option>
+										</select>
+									</td>
+								</tr>
 							</table>
 						</div>
 						</div>

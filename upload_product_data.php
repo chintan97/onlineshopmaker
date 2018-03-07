@@ -19,6 +19,13 @@
 	$product_subcat = $_POST["product_subcat"];
 	$product_image = $_FILES["product_image"];
 	$shop_name = $_POST["shop_name"];
+	$shop_address = $_POST["shop_address"];
+	$shop_city = $_POST["shop_city"];
+	$shop_state = $_POST["shop_state"];
+	$shop_country = $_POST["shop_country"];
+	$contact_email = $_POST["contact_email"];
+	$contact_mobile = $_POST["contact_mobile"];
+	$product_currency = $_POST["product_currency"];
 	$file_names = array();
 	$temp_flag = $_POST["temp_flag"];
 	$_SESSION["shop_name"] = $shop_name;
@@ -51,23 +58,17 @@
 		copy($_FILES['product_image']['tmp_name'][$i], $path);
 	}
 	$file = fopen('user_folders/'.$user.'/product_data.json', 'w');
-	/*$string = '{'.(string)$product_name.' : {'.
-		'product_price : '.(string)$product_price.','.
-		'product_stock : '.(string)$product_stock.','.
-		'product_threshold : '.(string)$product_threshold.','.
-		'product_image : '.$product_image.','.
-		'product_id : '.(string)$product_id.','.
-		'product_brand : '.$product_brand.','.
-		'product_size : '.(string)$product_size.','.
-		'product_description : '.(string)$product_description.','.
-		'product_gender : '.$product_gender.','.
-		'product_offer_price : '.(string)$product_offer_price.','.
-		'product_offer_percentage : '.(string)$product_offer_percentage.','.
-		'product_color : '.$product_color.','.
-		'}'.
-	'}';*/
-	if(!isset($_SESSION["json_str"])){
+	if(!isset($_SESSION["json_str"])){  // First product, so edit owner_data.json here
 		$_SESSION["json_str"] = array();
+		$file_owner = fopen('user_folders/'.$user.'/owner_data.json', 'a+');
+		$file_read = fread($file_owner, filesize('user_folders/'.$user.'/owner_data.json'));
+		$read_data = json_decode($file_read, true);
+		$previous_array = $read_data[$user];
+		$temp_data = array('shop_address' => (String)$shop_address, 'shop_city' => (String)$shop_city, 'shop_state' => (String)$shop_state, 'shop_country' => (String)$shop_country, 'contact_email' => (String)$contact_email, 'contact_mobile' => (String)$contact_mobile, 'product_currency' => (String)$product_currency);
+		$new_array = array_merge($previous_array, $temp_data);
+		$new_data[$user] = $new_array;
+		file_put_contents('user_folders/'.$user.'/owner_data.json', json_encode($new_data));
+		fclose($file_owner);
 	}
 	$string = array('product_price' => (string)$product_price, 'product_stock' => (string)$product_stock, 'product_threshold' => (string)$product_threshold, 'product_image' => $file_names, 'product_id' => (string)$product_id, 'product_brand' => (string)$product_brand, 'product_size' => $product_size, 'product_description' => (string)$product_description, 'product_gender' => (string)$product_gender, 'product_offer_price' => (string)$product_offer_price, 'product_offer_percentage' => (string)$product_offer_percentage, 'product_color' => (string)$product_color); 
 	$json_str[(string)$product_name] = $string;

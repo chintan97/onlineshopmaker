@@ -155,10 +155,20 @@
 		}
 		
 		var shopname;
+		var contact_email;
+		var contact_mobile;
+		var shop_address, shop_city, shop_state, shop_country, product_currency;
 		function last_check(){
 			var start=0;
 			var pattern=/^[A-Za-z0-9']+(\s{0,1}[A-Za-z0-9'])*$/;
 			shopname = document.getElementById('shopname').value;
+			contact_email = document.getElementById('contact_email').value;
+			contact_mobile = document.getElementById('contact_mobile').value;
+			shop_address = document.getElementById('shop_address').value;
+			shop_city = document.getElementById('shop_city').value;
+			shop_state = document.getElementById('shop_state').value;
+			shop_country = document.getElementById('shop_country').value;
+			product_currency = document.getElementById('product_currency').value;
 			if(shopname==''){
 				alert("Please Enter Shop Name");
 				document.getElementById("shopname").focus();
@@ -184,6 +194,36 @@
 			else if (isNaN(document.getElementById('product_type').value) || document.getElementById('product_type').value < 0 || !(document.getElementById('product_type').value % 1 === 0)){
 				alert("Number of products must be positive integer!");
 				document.getElementById("product_type").focus();
+				return false;
+			}
+			else if (shop_address == ''){
+				alert("Please enter shop address!");
+				document.getElementById("shop_address").focus();
+				return false;
+			}
+			else if (contact_email == ''){
+				alert("Please enter contact email!");
+				document.getElementById("contact_email").focus();
+				return false;
+			}
+			else if (contact_mobile == ''){
+				alert("Please enter contact mobile!");
+				document.getElementById("contact_mobile").focus();
+				return false;
+			}
+			else if (shop_city == ''){
+				alert("Please enter city!");
+				document.getElementById("shop_city").focus();
+				return false;
+			}
+			else if (shop_state == ''){
+				alert("Please enter state!");
+				document.getElementById("shop_state").focus();
+				return false;
+			}
+			else if (shop_country == ''){
+				alert("Please enter country!");
+				document.getElementById("shop_country").focus();
 				return false;
 			}
 			document.getElementById('first_div').style.display='none';
@@ -325,6 +365,13 @@
 					'<input type="hidden" id="product_cat" name="product_cat">'+
 					'<input type="hidden" id="product_subcat" name="product_subcat">'+
 					'<input type="hidden" id="temp_flag" name="temp_flag" value="0">'+
+					'<input type="hidden" id="shop_address" name="shop_address" value="'+shop_address+'">'+
+					'<input type="hidden" id="shop_city" name="shop_city" value="'+shop_city+'">'+
+					'<input type="hidden" id="shop_state" name="shop_state" value="'+shop_state+'">'+
+					'<input type="hidden" id="shop_country" name="shop_country" value="'+shop_country+'">'+
+					'<input type="hidden" id="contact_email" name="contact_email" value="'+contact_email+'">'+
+					'<input type="hidden" id="contact_mobile" name="contact_mobile" value="'+contact_mobile+'">'+
+					'<input type="hidden" id="product_currency" name="product_currency" value="'+product_currency+'">'+
 					'</form>';
 				if (start < count){
 					var button = document.createElement("BUTTON");
