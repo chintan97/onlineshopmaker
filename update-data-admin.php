@@ -15,6 +15,8 @@
 	$shop_name = $_SESSION["shop_name"];
 	$user_name = $_SESSION["username"];
 	$product_image = $_FILES["product_upload_image"];
+	$warranty_time = $_POST["warranty_time"];
+	$replacement_time = $_POST["replacement_time"];
 	$images_to_delete = json_decode($_POST["images_to_delete"], true);
 	$file_count = count($product_image["name"]);
 	$fimage_name = $product_image['name'][0];
@@ -67,6 +69,8 @@
 					$json_array[$shop_name][$category][$subcategory][$key]['product_offer_price'] = $product_offer_price;
 					$json_array[$shop_name][$category][$subcategory][$key]['product_offer_percentage'] = $product_offer_percentage;
 					$json_array[$shop_name][$category][$subcategory][$key]['product_color'] = $product_color;
+					$json_array[$shop_name][$category][$subcategory][$key]['warranty_time'] = $warranty_time;
+					$json_array[$shop_name][$category][$subcategory][$key]['replacement_time'] = $replacement_time;
 					$previous_images = $json_array[$shop_name][$category][$subcategory][$key]['product_image'];
 					foreach ($images_to_delete as $key123 => $value123) {
 						//echo array_search($value123, $previous_images);

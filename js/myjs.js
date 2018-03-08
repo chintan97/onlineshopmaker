@@ -361,6 +361,10 @@
 					'<input type="text" id="product_offer_price" onkeyup="get_offer_percentage(this.value)" name="product_offer_price"><label>Product offer price</label>'+
 					'<input type="text" id="product_offer_percentage" onkeyup="get_offer_price(this.value)" name="product_offer_percentage"><label>Product offer in percentage(%)</label>'+
 					'<input type="text" id="product_color" name="product_color"><label>Product color</label>'+
+					'<input type="checkbox" name="is_product_replace" id="is_product_replace" value="replacement">Allow replacement?<br>'+
+					'<input type="text" name="product_replace_time" id="product_replace_time" placeholder="Product replace period ex. 10 days"><br>'+
+					'<input type="checkbox" name="is_product_warranty" id="is_product_warranty" value="warranty">Allow Warranty?<br>'+
+					'<input type="text" name="product_warranty_time" id="product_warranty_time" placeholder="Product Warranty period ex. 1 year"><br>'+
 					'<input type="hidden" id="shop_name" name="shop_name" value="'+shopname+'">'+
 					'<input type="hidden" id="product_cat" name="product_cat">'+
 					'<input type="hidden" id="product_subcat" name="product_subcat">'+
@@ -372,6 +376,8 @@
 					'<input type="hidden" id="contact_email" name="contact_email" value="'+contact_email+'">'+
 					'<input type="hidden" id="contact_mobile" name="contact_mobile" value="'+contact_mobile+'">'+
 					'<input type="hidden" id="product_currency" name="product_currency" value="'+product_currency+'">'+
+					'<input type="hidden" id="product_replacement_allowed" name="product_replacement_allowed" value="0">'+
+					'<input type="hidden" id="product_warranty_allowed" name="product_warranty_allowed" value="0">'+
 					'</form>';
 				if (start < count){
 					var button = document.createElement("BUTTON");
@@ -452,6 +458,20 @@
 							var get_price = ((100 - product_offer_percentage)*product_price)/100;
 							document.getElementById('product_offer_price').value = get_price;
 						}
+						else if (document.getElementById('is_product_replace').checked){
+							if (document.getElementById('product_replace_time').value == ''){
+								alert('Please enter replacement time! You have allowed product replacement!');
+								document.getElementById('product_replace_time').focus();
+								return false;
+							}
+						}
+						else if (document.getElementById('is_product_warranty').checked){
+							if (document.getElementById('product_warranty_time').value == ''){
+								alert('Please enter warranty time! You have allowed product warranty!');
+								document.getElementById('product_warranty_time').focus();
+								return false;
+							}
+						}
 
 						for (i = 0; i < product_list.length; i++){
 							if (product_list[i] == pname){
@@ -459,6 +479,12 @@
 								document.getElementById('product_name').value = '';
 								return false;
 							}
+						}
+						if (document.getElementById('is_product_replace').checked){
+							document.getElementById('product_replacement_allowed').value = 1;
+						}
+						if (document.getElementById('is_product_warranty').checked){
+							document.getElementById('product_warranty_allowed').value = 1;
 						}
 						document.getElementById('product_cat').value = document.getElementById('Category').value;
 						document.getElementById('product_subcat').value = document.getElementById('SubCat').value;	
@@ -519,22 +545,25 @@
 			if(confirm('Are you sure want to submit data entered till now? YOU CANNOT REVERT IF YOU PRESS OK!')){
 				if (confirm('YOU CANNOT REVERT NOW. Do you want to submit entered data for this product? IF YOU PRESS OK, THIS PRODUCT DATA WILL BE SUBMITTED, ELSE ONLY PREVIOUS DATA WILL BE PRESERVED!')){
 					var pname = document.getElementById('product_name').value;
+					var product_offer_price = document.getElementById('product_offer_price').value;
+					var product_offer_percentage = document.getElementById('product_offer_percentage').value;
+					var product_price = document.getElementById('product_price').value;
 					if (pname==''){
 						alert('Please enter product name!');
 						document.getElementById('product_name').focus();
 						return false;
 					}
-					else if (document.getElementById('product_price').value=='' || isNaN(document.getElementById('product_price').value)){
+					else if (document.getElementById('product_price').value=='' || isNaN(document.getElementById('product_price').value) || document.getElementById('product_price').value < 0){
 						alert('Please enter product price!');
 						document.getElementById('product_price').focus();
 						return false;
 					}
-					else if (document.getElementById('product_stock').value=='' || isNaN(document.getElementById('product_stock').value)){
+					else if (document.getElementById('product_stock').value=='' || isNaN(document.getElementById('product_stock').value) || document.getElementById('product_stock').value < 0 || !(document.getElementById('product_stock').value % 1 === 0)){
 						alert('Please enter product stock!');
 						document.getElementById('product_stock').focus();
 						return false;
 					}
-					else if (document.getElementById('product_threshold').value=='' || isNaN(document.getElementById('product_threshold').value)){
+					else if (document.getElementById('product_threshold').value=='' || isNaN(document.getElementById('product_threshold').value) || document.getElementById('product_threshold').value < 0 || !(document.getElementById('product_threshold').value % 1 === 0)){
 						alert('Please enter product threshold!');
 						document.getElementById('product_threshold').focus();
 						return false;
@@ -549,12 +578,73 @@
 						document.getElementById('SubCat').focus();
 						return false;
 					}
+					else if (document.getElementById('product_image[]').value == ''){
+						alert('You must select at least one image!');
+						document.getElementById('product_image[]').focus();
+						return false;
+					}
+					else if (product_offer_price != '' && (isNaN(product_offer_price) || product_offer_price < 0)){
+						alert('Offer price must be a non-nagetive number!');
+						document.getElementById('product_offer_price').focus();
+						return false;
+					}
+					else if (product_offer_percentage != '' && (isNaN(product_offer_percentage) || product_offer_percentage < 0)){
+						alert('Offer percentage must be a non-nagetive number!');
+						document.getElementById('product_offer_percentage').focus();
+						return false;
+					}
+					else if (product_offer_price != '' || product_offer_percentage != ''){
+						var get_per = ((product_price - product_offer_price)*100)/(product_price);
+						if (!((product_offer_percentage - get_per) < 0.5 && (product_offer_percentage - get_per) > (0-0.5))){
+							alert('Offer price and percentage not matched with actual price!');
+							document.getElementById('product_offer_percentage').focus();
+							return false;
+						}
+					}
+					else if (product_offer_price > product_price){
+						alert('Offer price cannot be more than product price!');
+						document.getElementById('product_offer_price').focus();
+						return false;
+					}
+					else if (product_offer_percentage > 100){
+						alert('Offer percentage cannot be more than 100!');
+						document.getElementById('product_offer_percentage').focus();
+						return false;
+					}
+					else if (product_offer_price != '' && product_offer_percentage == ''){
+						var get_percentage = ((product_price - product_offer_price)*100)/(product_price);
+						document.getElementById('product_offer_percentage').value = get_percentage;
+					}
+					else if (product_offer_price == '' && product_offer_percentage != ''){
+						var get_price = ((100 - product_offer_percentage)*product_price)/100;
+						document.getElementById('product_offer_price').value = get_price;
+					}
+					else if (document.getElementById('is_product_replace').checked){
+						if (document.getElementById('product_replace_time').value == ''){
+							alert('Please enter replacement time! You have allowed product replacement!');
+							document.getElementById('product_replace_time').focus();
+							return false;
+						}
+					}
+					else if (document.getElementById('is_product_warranty').checked){
+						if (document.getElementById('product_warranty_time').value == ''){
+							alert('Please enter warranty time! You have allowed product warranty!');
+							document.getElementById('product_warranty_time').focus();
+							return false;
+						}
+					}
 					for (i = 0; i < product_list.length; i++){
 						if (product_list[i] == pname){
 							alert('Product name cannot be same, product name '+pname+' matched with product '+(i+1));
 							document.getElementById('product_name').value = '';
 							return false;
 						}
+					}
+					if (document.getElementById('is_product_replace').checked){
+						document.getElementById('product_replacement_allowed').value = 1;
+					}
+					if (document.getElementById('is_product_warranty').checked){
+						document.getElementById('product_warranty_allowed').value = 1;
 					}
 					document.getElementById('product_cat').value = document.getElementById('Category').value;
 					document.getElementById('product_subcat').value = document.getElementById('SubCat').value;	

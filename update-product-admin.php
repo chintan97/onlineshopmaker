@@ -422,8 +422,14 @@
 										echo "<br>Product subcategory: ".$list[$got_id][1];
 										echo "<br>product_name: <input type='text' id='product_name' name='product_name' value='".$got_name."'>";
 										foreach ($data_to_show as $key => $value) {
-											if ($key != "product_image" && $key != "product_id" && $key != "product_offer_price" && $key != "product_offer_percentage"){
+											if ($key != "product_image" && $key != "product_id" && $key != "product_offer_price" && $key != "product_offer_percentage" && $key != "warranty_time" && $key != "replacement_time"){
 												echo "<br>".$key.": <input type='text' id='".$key."' name='".$key."' value='".$value."'>";
+											}
+											else if ($key == "replacement_time"){
+												echo "<br>".$key."(Clear box to remove replacement facility): <input type='text' id='".$key."' name='".$key."' value='".$value."'>";
+											}
+											else if ($key == "warranty_time"){
+												echo "<br>".$key."(Clear box to remove warranty on product): <input type='text' id='".$key."' name='".$key."' value='".$value."'>";
 											}
 											else if ($key == "product_offer_price"){
 												echo "<br>".$key.": <input type='text' onkeyup='get_offer_percentage(this.value);' id='".$key."' name='".$key."' value='".$value."'>";

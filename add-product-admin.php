@@ -137,6 +137,22 @@
 				var get_price = ((100 - product_offer_percentage)*product_price)/100;
 				document.getElementById('product_offer_price').value = get_price;
 			}
+			else if (document.getElementById('is_product_replace').checked){
+				if (document.getElementById('product_replace_time').value == ''){
+					event.preventDefault();
+					alert('Please enter replacement time! You have allowed product replacement!');
+					document.getElementById('product_replace_time').focus();
+					return false;
+				}
+			}
+			else if (document.getElementById('is_product_warranty').checked){
+				if (document.getElementById('product_warranty_time').value == ''){
+					event.preventDefault();
+					alert('Please enter warranty time! You have allowed product warranty!');
+					document.getElementById('product_warranty_time').focus();
+					return false;
+				}
+			}
 			for (i = 0; i < product_names.length; i++){
 				if (product_names[i] == product_name){
 					event.preventDefault();
@@ -145,6 +161,12 @@
 					document.getElementById('product_name').focus();
 					return false;
 				}
+			}
+			if (document.getElementById('is_product_replace').checked){
+				document.getElementById('product_replacement_allowed').value = 1;
+			}
+			if (document.getElementById('is_product_warranty').checked){
+				document.getElementById('product_warranty_allowed').value = 1;
 			}
 			document.getElementById('product_cat').value = document.getElementById('Category').value;
 			document.getElementById('product_subcat').value = document.getElementById('SubCat').value;
@@ -208,9 +230,15 @@
 			<input type="text" id="product_offer_price" onkeyup="get_offer_percentage(this.value)" name="product_offer_price"><label>Product offer price</label>
 			<input type="text" id="product_offer_percentage" onkeyup="get_offer_price(this.value)" name="product_offer_percentage"><label>Product offer in percentage(%)</label>
 			<input type="text" id="product_color" name="product_color"><label>Product color</label>
+			<input type="checkbox" name="is_product_replace" id="is_product_replace" value="replacement">Allow replacement?<br>
+			<input type="text" name="product_replace_time" id="product_replace_time" placeholder="Product replace period ex. 10 days"><br>
+			<input type="checkbox" name="is_product_warranty" id="is_product_warranty" value="warranty">Allow Warranty?<br>
+			<input type="text" name="product_warranty_time" id="product_warranty_time" placeholder="Product Warranty period ex. 1 year"><br>
 			<input type="hidden" id="product_cat" name="product_cat">
 			<input type="hidden" id="product_subcat" name="product_subcat">
 			<input type="hidden" id="temp_flag" name="temp_flag" value="0">
+			<input type="hidden" id="product_replacement_allowed" name="product_replacement_allowed" value="0">
+			<input type="hidden" id="product_warranty_allowed" name="product_warranty_allowed" value="0">
 			<button onclick="check_data();">Submit</button>
 		</form>
 	</body>

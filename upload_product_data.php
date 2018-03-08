@@ -26,9 +26,20 @@
 	$contact_email = $_POST["contact_email"];
 	$contact_mobile = $_POST["contact_mobile"];
 	$product_currency = $_POST["product_currency"];
+	$warranty_allowed = (String)$_POST["product_warranty_allowed"];
+	$replacement_allowed = (String)$_POST["product_replacement_allowed"];
+	$warranty_time = $_POST["product_warranty_time"];
+	$replacement_time = $_POST["product_replace_time"];
 	$file_names = array();
 	$temp_flag = $_POST["temp_flag"];
 	$_SESSION["shop_name"] = $shop_name;
+
+	if ($warranty_allowed == "0"){
+		$warranty_time = "";
+	}
+	if ($replacement_allowed == "0"){
+		$replacement_time = "";
+	}
 
 	$user = $_SESSION["username"];
 	$file_count = count($product_image["name"]);
@@ -64,13 +75,13 @@
 		$file_read = fread($file_owner, filesize('user_folders/'.$user.'/owner_data.json'));
 		$read_data = json_decode($file_read, true);
 		$previous_array = $read_data[$user];
-		$temp_data = array('shop_address' => (String)$shop_address, 'shop_city' => (String)$shop_city, 'shop_state' => (String)$shop_state, 'shop_country' => (String)$shop_country, 'contact_email' => (String)$contact_email, 'contact_mobile' => (String)$contact_mobile, 'product_currency' => (String)$product_currency);
+		$temp_data = array('shop_address' => (String)$shop_address, 'shop_city' => (String)$shop_city, 'shop_state' => (String)$shop_state, 'shop_country' => (String)$shop_country, 'contact_email' => (String)$contact_email, 'contact_mobile' => (String)$contact_mobile, 'product_currency' => (String)$product_currency, 'shop_name' => (String)$shop_name);
 		$new_array = array_merge($previous_array, $temp_data);
 		$new_data[$user] = $new_array;
 		file_put_contents('user_folders/'.$user.'/owner_data.json', json_encode($new_data));
 		fclose($file_owner);
 	}
-	$string = array('product_price' => (string)$product_price, 'product_stock' => (string)$product_stock, 'product_threshold' => (string)$product_threshold, 'product_image' => $file_names, 'product_id' => (string)$product_id, 'product_brand' => (string)$product_brand, 'product_size' => $product_size, 'product_description' => (string)$product_description, 'product_gender' => (string)$product_gender, 'product_offer_price' => (string)$product_offer_price, 'product_offer_percentage' => (string)$product_offer_percentage, 'product_color' => (string)$product_color); 
+	$string = array('product_price' => (string)$product_price, 'product_stock' => (string)$product_stock, 'product_threshold' => (string)$product_threshold, 'product_image' => $file_names, 'product_id' => (string)$product_id, 'product_brand' => (string)$product_brand, 'product_size' => $product_size, 'product_description' => (string)$product_description, 'product_gender' => (string)$product_gender, 'product_offer_price' => (string)$product_offer_price, 'product_offer_percentage' => (string)$product_offer_percentage, 'product_color' => (string)$product_color, 'warranty_time' => (String)$warranty_time, 'replacement_time' => (String)$replacement_time); 
 	$json_str[(string)$product_name] = $string;
 
 

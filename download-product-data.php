@@ -16,7 +16,7 @@ else{
 	}
 	else{
 		$list = array();
-		$list_tags = array('category','subcategory','product name', 'product price', 'product stock', 'product threshold', 'product id', 'product brand', 'product size', 'product description', 'product gender', 'product offer price', 'product offer percentage', 'product color');
+		$list_tags = array('category','subcategory','product name', 'product price', 'product stock', 'product threshold', 'product id', 'product brand', 'product size', 'product description', 'product gender', 'product offer price', 'product offer percentage', 'product color', 'warranty period', 'replacement period');
 		array_push($list, $list_tags);
 
 		foreach ($json_array[$_SESSION['shop_name']] as $key=>$value) {

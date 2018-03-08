@@ -23,9 +23,21 @@
 		$product_cat = $_POST["product_cat"];
 		$product_subcat = $_POST["product_subcat"];
 		$product_image = $_FILES["product_image"];
+		$warranty_allowed = (String)$_POST["product_warranty_allowed"];
+		$replacement_allowed = (String)$_POST["product_replacement_allowed"];
+		$warranty_time = $_POST["product_warranty_time"];
+		$replacement_time = $_POST["product_replace_time"];
 		$file_names = array();
 		$temp_flag = $_POST["temp_flag"];
 		$file_count = count($product_image["name"]);
+
+		if ($warranty_allowed == "0"){
+			$warranty_time = "";
+		}
+		if ($replacement_allowed == "0"){
+			$replacement_time = "";
+		}
+
 		function getExtension($str)
 		{
 			$j = strrpos($str,".");
@@ -45,7 +57,7 @@
 			copy($_FILES['product_image']['tmp_name'][$i], $path);
 		}
 
-		$string = array('product_price' => (string)$product_price, 'product_stock' => (string)$product_stock, 'product_threshold' => (string)$product_threshold, 'product_image' => $file_names, 'product_id' => (string)$product_id, 'product_brand' => (string)$product_brand, 'product_size' => $product_size, 'product_description' => (string)$product_description, 'product_gender' => (string)$product_gender, 'product_offer_price' => (string)$product_offer_price, 'product_offer_percentage' => (string)$product_offer_percentage, 'product_color' => (string)$product_color);
+		$string = array('product_price' => (string)$product_price, 'product_stock' => (string)$product_stock, 'product_threshold' => (string)$product_threshold, 'product_image' => $file_names, 'product_id' => (string)$product_id, 'product_brand' => (string)$product_brand, 'product_size' => $product_size, 'product_description' => (string)$product_description, 'product_gender' => (string)$product_gender, 'product_offer_price' => (string)$product_offer_price, 'product_offer_percentage' => (string)$product_offer_percentage, 'product_color' => (string)$product_color, 'warranty_time' => (String)$warranty_time, 'replacement_time' => (String)$replacement_time);
 		$json_str[(string)$product_name] = $string;
 
 		$previous_data = $json_array[$shop_name];
