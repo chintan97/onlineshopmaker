@@ -73,9 +73,9 @@ $category = array_keys($json[$shopname]);
                 <ul class="menu">
                     <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
                     </li>
-                    <li><a href="register.html">Register</a>
+                    <li><a href="register.php">Register</a>
                     </li>
-                    <li><a href="contact.html">Contact</a>
+                    <li><a href="contact.php">Contact</a>
                     </li>
                     
                 </ul>
@@ -90,7 +90,7 @@ $category = array_keys($json[$shopname]);
                         <h4 class="modal-title" id="Login">Customer Login</h4>
                     </div>
                     <div class="modal-body">
-                        <form action="customer-orders.html" method="post">
+                        <form action="customer-orders.php" method="post">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="email-modal" placeholder="Email">
                             </div>
@@ -105,7 +105,7 @@ $category = array_keys($json[$shopname]);
                         </form>
 
                         <p class="text-center text-muted">Not registered yet?</p>
-                        <p class="text-center text-muted"><a href="register.html"><strong>Register now</strong></a>! It is easy and done in 1&nbsp;minute and gives you access to special discounts and much more!</p>
+                        <p class="text-center text-muted"><a href="register.php"><strong>Register now</strong></a>! It is easy and done in 1&nbsp;minute and gives you access to special discounts and much more!</p>
 
                     </div>
                 </div>
@@ -135,7 +135,7 @@ $category = array_keys($json[$shopname]);
                         <span class="sr-only">Toggle search</span>
                         <i class="fa fa-search"></i>
                     </button>
-                    <a class="btn btn-default navbar-toggle" href="basket.html">
+                    <a class="btn btn-default navbar-toggle" href="basket.php">
                         <i class="fa fa-shopping-cart"></i>  <span class="hidden-xs">cart</span>
                     </a>
                 </div>
@@ -160,7 +160,7 @@ $category = array_keys($json[$shopname]);
 									<h5>Other</h5>
 									<ul>';
 							for($j=4;$j<count($category);$j++){
-								echo '<li><a href="category.html">'.$category[$j].'</a></li>';
+								echo '<li><a href="category.php">'.$category[$j].'</a></li>';
 							}
 							echo '</ul>
 									</div>
@@ -190,12 +190,12 @@ $category = array_keys($json[$shopname]);
 									<ul>';
 										for($k=0;$k<count($json[$shopname][$cat][$subcat]);$k++){
 											if($k>3){
-												echo '<li><a href="category.html">More</a></li>';
+												echo '<li><a href="category.php">More</a></li>';
 												break;
 											}
 											else{
 												$subsubcat = array_keys($json[$shopname][$cat][$subcat])[$k];
-												echo '<li><a href="category.html">'.$subsubcat.'</a></li>';
+												echo '<li><a href="category.php">'.$subsubcat.'</a></li>';
 											}
 										}
 									echo '</ul>
@@ -223,7 +223,7 @@ $category = array_keys($json[$shopname]);
             <div class="navbar-buttons">
 
                 <div class="navbar-collapse collapse right" id="basket-overview">
-                    <a href="basket.html" class="btn btn-primary navbar-btn"><i class="fa fa-shopping-cart"></i><span class="hidden-sm">cart</span></a>
+                    <a href="basket.php" class="btn btn-primary navbar-btn"><i class="fa fa-shopping-cart"></i><span class="hidden-sm">cart</span></a>
                 </div>
                 <!--/.nav-collapse -->
 
@@ -364,7 +364,7 @@ $category = array_keys($json[$shopname]);
 															<div class="flip-container">
 																<div class="flipper">
 																	<div class="front">
-																		<a href="detail.html">
+																		<a href="detail.php">
 																		<img class="img-responsive" src="./images/'.$product_array['product_image'][0].'" alt="" >
 																		</a>
 																	</div>';
@@ -376,17 +376,17 @@ $category = array_keys($json[$shopname]);
 													}
 													echo 
 																	'<div class="back">
-																		<a href="detail.html">
+																		<a href="detail.php">
 																		<img class="img-responsive" src="./images/'.$product_array['product_image'][$n].'" alt="" >
 																		</a>
 																	</div>
 																</div>
 															</div>
-															<a href="detail.html" class="invisible">
+															<a href="detail.php" class="invisible">
 															<img src="./images/'.$product_array['product_image'][0].'" alt="" class="img-responsive">
 															</a>
 															<div class="text">
-																<h3><a href="detail.html">'.$product.'</a></h3>';
+																<h3><a href="detail.php">'.$product.'</a></h3>';
 													
 													if($product_array['product_offer_price'] != ""){ 
 														echo '<p class="price"><del>'.$product_array['product_price'].'</del>'.$product_array['product_offer_price'].'</p>';
@@ -471,13 +471,13 @@ $category = array_keys($json[$shopname]);
                         <ul>
 							<li><a href="#">Homepage</a>
                             </li>
-                            <li><a href="text.html">About us</a>
+                            <li><a href="text.php">About us</a>
                             </li>
-                            <li><a href="text.html">Terms and conditions</a>
+                            <li><a href="text.php">Terms and conditions</a>
                             </li>
-                            <li><a href="faq.html">FAQ</a>
+                            <li><a href="faq.php">FAQ</a>
                             </li>
-                            <li><a href="contact.html">Contact us</a>
+                            <li><a href="contact.php">Contact us</a>
                             </li>
                         </ul>
 
@@ -490,7 +490,7 @@ $category = array_keys($json[$shopname]);
                         <ul>
                             <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
                             </li>
-                            <li><a href="register.html">Regiter</a>
+                            <li><a href="register.php">Regiter</a>
                             </li>
                         </ul>
 						<hr class="hidden-md hidden-lg">
@@ -509,7 +509,7 @@ $category = array_keys($json[$shopname]);
                             <strong>Country</strong>
                         </p>
 
-                        <a href="contact.html">Go to contact page</a>
+                        <a href="contact.php">Go to contact page</a>
 
                         <hr class="hidden-md hidden-lg">
 
