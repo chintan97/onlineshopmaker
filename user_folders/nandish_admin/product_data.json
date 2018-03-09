@@ -1,0 +1,140 @@
+{
+	"apdishop24x7": {
+		"footwear": {
+			"sport shoes": {
+				"sporty shoes": {
+					"product_price": "2000",
+					"product_stock": "20",
+					"product_threshold": "2",
+					"product_image": ["sporty shoes_1.png"],
+					"product_id": "00003",
+					"product_brand": "",
+					"product_size": "",
+					"product_description": "",
+					"product_gender": "",
+					"product_offer_price": "1000",
+					"product_offer_percentage": "50.00",
+					"product_color": "",
+					"warranty_time":"6 months",
+					"replacement_time":"30 days"
+				}
+			},
+			"flip-flop": {
+				"flippy floppy": {
+					"product_price": "250",
+					"product_stock": "30",
+					"product_threshold": "10",
+					"product_image": ["flippy floppy_1.jpg"],
+					"product_id": "00004",
+					"product_brand": "",
+					"product_size": "",
+					"product_description": "",
+					"product_gender": "",
+					"product_offer_price": "225",
+					"product_offer_percentage": "10.00",
+					"product_color": "",
+					"warranty_time":"6 months",
+					"replacement_time":"30 days"
+				}
+			}
+		},
+		"books": {
+			"entrance exam": {
+				"gate book for mech": {
+					"product_price": "900",
+					"product_stock": "40",
+					"product_threshold": "10",
+					"product_image": ["gate book for mech_1.jpg"],
+					"product_id": "00005",
+					"product_brand": "",
+					"product_size": "",
+					"product_description": "",
+					"product_gender": "",
+					"product_offer_price": "720",
+					"product_offer_percentage": "20.00",
+					"product_color": "",
+					"warranty_time":"6 months",
+					"replacement_time":"30 days"
+				}
+			}
+		},
+		"electonics": {
+			"tv": {
+				"sony tv e3": {
+					"product_price": "90000",
+					"product_stock": "40",
+					"product_threshold": "10",
+					"product_image": ["sony tv e3_1.jpg"],
+					"product_id": "00006",
+					"product_brand": "",
+					"product_size": "",
+					"product_description": "",
+					"product_gender": "",
+					"product_offer_price": "",
+					"product_offer_percentage": "",
+					"product_color": "",
+					"warranty_time":"6 months",
+					"replacement_time":"30 days"
+				}
+			},
+			"mobile": {
+				"mobo e2": {
+					"product_price": "9000",
+					"product_stock": "40",
+					"product_threshold": "10",
+					"product_image": ["mobo e2_1.jpg"],
+					"product_id": "00007",
+					"product_brand": "",
+					"product_size": "",
+					"product_description": "",
+					"product_gender": "",
+					"product_offer_price": "",
+					"product_offer_percentage": "",
+					"product_color": "",
+					"warranty_time":"6 months",
+					"replacement_time":"10 days"
+				}
+			}
+		},
+		"home": {
+			"kitchen": {
+				"gas stove": {
+					"product_price": "8000",
+					"product_stock": "40",
+					"product_threshold": "10",
+					"product_image": ["gas stove_1.jpg"],
+					"product_id": "00008",
+					"product_brand": "",
+					"product_size": "",
+					"product_description": "",
+					"product_gender": "",
+					"product_offer_price": "4000",
+					"product_offer_percentage": "50.00",
+					"product_color": "",
+					"warranty_time":"12 months",
+					"replacement_time":"30 days"
+				}
+			}
+		},
+		"accesories": {
+			"wallet": {
+				"woodland wallet": {
+					"product_price": "700",
+					"product_stock": "50",
+					"product_threshold": "10",
+					"product_image": ["woodland wallet_1.jpg"],
+					"product_id": "00009",
+					"product_brand": "",
+					"product_size": "",
+					"product_description": "",
+					"product_gender": "",
+					"product_offer_price": "",
+					"product_offer_percentage": "",
+					"product_color": "",
+					"warranty_time":"3 months",
+					"replacement_time":"30 days"
+				}
+			}
+		}
+	}
+}
