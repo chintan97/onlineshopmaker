@@ -11,18 +11,18 @@ $category = array_keys($json[$shopname]);
 
 <div id="top">
         <div class="container">
-			<div class="col-md-6 offer" data-animate="fadeInDown">
+            <div class="col-md-6 offer" data-animate="fadeInDown">
                 <a id="offer_button" href="#" class="btn btn-success btn-sm" data-animate-hover="shake">Offer of the day</a>
-				<a id="offer_text" href="#"> 
+                <a id="offer_text" href="#"> 
             <?php 
-				if (isset($_SESSION['offer'])){
-					echo $_SESSION['offer'];
-				}
-				else {
-					echo 'No Offers For Now';
-				}
-			?>
-			</a>
+                if (isset($_SESSION['offer'])){
+                    echo $_SESSION['offer'];
+                }
+                else {
+                    echo 'No Offers For Now';
+                }
+            ?>
+            </a>
             </div>
             <div class="col-md-6" data-animate="fadeInDown">
                 <ul class="menu">

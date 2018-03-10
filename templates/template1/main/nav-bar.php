@@ -1,32 +1,56 @@
+<script type="text/javascript">
+	function show_results(str) {
+		if (str.length==0) { 
+		    document.getElementById("show_product").innerHTML="";
+		    document.getElementById("show_product").style.border="0px";
+		    return;
+		}
+		if (window.XMLHttpRequest) {
+		  // code for IE7+, Firefox, Chrome, Opera, Safari
+		  xmlhttp=new XMLHttpRequest();
+		} else {  // code for IE6, IE5
+		  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange=function() {
+		  if (this.readyState==4 && this.status==200) {
+		    document.getElementById("show_product").innerHTML=this.responseText;
+		    document.getElementById("show_product").style.border="1px solid #A5ACB2";
+		  }
+		}
+		xmlhttp.open("GET","search_product.php?q="+str,true);
+		xmlhttp.send();
+	}
+</script>
+
 <div class="navbar navbar-default yamm" role="navigation" id="navbar">
-        <div class="container">
-            <div class="navbar-header">
+    <div class="container">
+        <div class="navbar-header">
 
-                <a class="navbar-brand home" href="#" data-animate-hover="bounce">
-                    <h2 style="margin-top:6.5px;color:#3FA449;"><?php echo $shopname;?></h2><span class="sr-only"><?php echo $shopname.' - Homepage';?></span>
+            <a class="navbar-brand home" href="#" data-animate-hover="bounce">
+                <h2 style="margin-top:6.5px;color:#3FA449;"><?php echo $shopname;?></h2><span class="sr-only"><?php echo $shopname.' - Homepage';?></span>
+            </a>
+            <div class="navbar-buttons">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
+                    <span class="sr-only">Toggle navigation</span>
+                    <i class="fa fa-align-justify"></i>
+                </button>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search">
+                    <span class="sr-only">Toggle search</span>
+                    <i class="fa fa-search"></i>
+                </button>
+                <a class="btn btn-default navbar-toggle" href="basket.php">
+                    <i class="fa fa-shopping-cart"></i>  <span class="hidden-xs">cart</span>
                 </a>
-                <div class="navbar-buttons">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation">
-                        <span class="sr-only">Toggle navigation</span>
-                        <i class="fa fa-align-justify"></i>
-                    </button>
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#search">
-                        <span class="sr-only">Toggle search</span>
-                        <i class="fa fa-search"></i>
-                    </button>
-                    <a class="btn btn-default navbar-toggle" href="basket.php">
-                        <i class="fa fa-shopping-cart"></i>  <span class="hidden-xs">cart</span>
-                    </a>
-                </div>
             </div>
-            <!--/.navbar-header -->
+        </div>
+        <!--/.navbar-header -->
 
-            <div class="navbar-collapse collapse" id="navigation">
+        <div class="navbar-collapse collapse" id="navigation">
 
-                <ul class="nav navbar-nav navbar-left">
-                    <li class="active"><a href="#">Home</a>
-                    </li>
-					<?php
+            <ul class="nav navbar-nav navbar-left">
+                <li class="active"><a href="index.php">Home</a>
+                </li>
+				<?php
 					for($i=0;$i<count($category);$i++){
 						if($i>3){
 							echo 
@@ -94,44 +118,45 @@
                                         
                      
 					?>
-                </ul>
-
-            </div>
-            <!--/.nav-collapse -->
-
-            <div class="navbar-buttons">
-
-                <div class="navbar-collapse collapse right" id="basket-overview">
-                    <a href="basket.php" class="btn btn-primary navbar-btn"><i class="fa fa-shopping-cart"></i><span class="hidden-sm">cart</span></a>
-                </div>
-                <!--/.nav-collapse -->
-
-                <div class="navbar-collapse collapse right" id="search-not-mobile">
-                    <button type="button" class="btn navbar-btn btn-primary" data-toggle="collapse" data-target="#search">
-                        <span class="sr-only">Toggle search</span>
-                        <i class="fa fa-search"></i>
-                    </button>
-                </div>
-
-            </div>
-
-            <div class="collapse clearfix" id="search">
-
-                <form class="navbar-form" role="search">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                        <span class="input-group-btn">
-
-			<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
-
-		    </span>
-                    </div>
-                </form>
-
-            </div>
-            <!--/.nav-collapse -->
+            </ul>
 
         </div>
-        <!-- /.container -->
+        <!--/.nav-collapse -->
+
+        <div class="navbar-buttons">
+
+            <div class="navbar-collapse collapse right" id="basket-overview">
+                <a href="basket.php" class="btn btn-primary navbar-btn"><i class="fa fa-shopping-cart"></i><span class="hidden-sm">cart</span></a>
+            </div>
+            <!--/.nav-collapse -->
+
+            <div class="navbar-collapse collapse right" id="search-not-mobile">
+                <button type="button" class="btn navbar-btn btn-primary" data-toggle="collapse" data-target="#search">
+                    <span class="sr-only">Toggle search</span>
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <div class="collapse clearfix" id="search">
+
+            <form class="navbar-form" role="search">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="search_product" name="search_product" onkeyup="show_results(this.value);" placeholder="Search">
+                    <div id="show_product" style="text-align: left;"></div>
+                    <span class="input-group-btn">
+
+						<button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+
+		    		</span>
+                </div>
+            </form>
+
+        </div>
+        <!--/.nav-collapse -->
+
     </div>
-    <!-- /#navbar -->
+        <!-- /.container -->
+</div>
+<!-- /#navbar -->
