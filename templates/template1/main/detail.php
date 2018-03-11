@@ -8,6 +8,8 @@
                 foreach ($catdata as $subcatname => $subcatdata) {
                     foreach ($subcatdata as $proname1 => $prodata) {
                         if ($prodata['product_id'] == $product_id){
+                            $procat = $catname;
+                            $prosubcat = $subcatname;
                             $proname = $proname1;
                             $proprice = $prodata['product_price'];
                             $prostock = $prodata['product_stock'];
@@ -92,11 +94,11 @@
                     <ul class="breadcrumb">
                         <li><a href="#">Home</a>
                         </li>
-                        <li><a href="#">Ladies</a>
+                        <li><a href="#"><?php echo $procat; ?></a>
                         </li>
-                        <li><a href="#">Tops</a>
+                        <li><a href="#"><?php echo $prosubcat; ?></a>
                         </li>
-                        <li>White Blouse Armani</li>
+                        <li><?php echo $proname; ?></li>
                     </ul>
 
                 </div>
