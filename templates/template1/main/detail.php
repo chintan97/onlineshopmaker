@@ -3,9 +3,15 @@
         $product_id = $_GET['id'];
         $file_pro = file_get_contents('product_data.json');
         $data_pro = json_decode($file_pro, true);
+        $categories = [];
+        $brands = [];
+        $colors = [];
         foreach ($data_pro as $shname => $shdata) {
             foreach ($shdata as $catname => $catdata) {
+                $procount = 0;
+                $subcategories = [];
                 foreach ($catdata as $subcatname => $subcatdata) {
+                    array_push($subcategories, $subcatname);
                     foreach ($subcatdata as $proname1 => $prodata) {
                         if ($prodata['product_id'] == $product_id){
                             $procat = $catname;
@@ -23,10 +29,19 @@
                             $prowarranty = $prodata['warranty_time'];
                             $proreplacement = $prodata['replacement_time'];
                             $proimages = $prodata['product_image'];
-                            break;
+                            foreach ($subcatdata as $key123 => $value123) {
+                                if ($value123['product_brand'] != '' && !in_array(strtolower($value123['product_brand']), $brands)){
+                                    array_push($brands, strtolower($value123['product_brand']));
+                                }
+                                if ($value123['product_color'] != '' && !in_array(strtolower($value123['product_color']), $colors)){
+                                    array_push($colors, strtolower($value123['product_color']));
+                                }
+                            }
                         }
+                        $procount++;
                     }
                 }
+                array_push($categories, [$catname, $procount, $subcategories]);
             }
         }
     }
@@ -68,8 +83,6 @@
     <script src="js/respond.min.js"></script>
 
     <link rel="shortcut icon" href="favicon.png">
-
-
 
 </head>
 
@@ -114,45 +127,17 @@
 
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked category-menu">
-                                <li>
-                                    <a href="category.php">Men <span class="badge pull-right">42</span></a>
-                                    <ul>
-                                        <li><a href="category.php">T-shirts</a>
-                                        </li>
-                                        <li><a href="category.php">Shirts</a>
-                                        </li>
-                                        <li><a href="category.php">Pants</a>
-                                        </li>
-                                        <li><a href="category.php">Accessories</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="active">
-                                    <a href="category.php">Ladies  <span class="badge pull-right">123</span></a>
-                                    <ul>
-                                        <li><a href="category.php">T-shirts</a>
-                                        </li>
-                                        <li><a href="category.php">Skirts</a>
-                                        </li>
-                                        <li><a href="category.php">Pants</a>
-                                        </li>
-                                        <li><a href="category.php">Accessories</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="category.php">Kids  <span class="badge pull-right">11</span></a>
-                                    <ul>
-                                        <li><a href="category.php">T-shirts</a>
-                                        </li>
-                                        <li><a href="category.php">Skirts</a>
-                                        </li>
-                                        <li><a href="category.php">Pants</a>
-                                        </li>
-                                        <li><a href="category.php">Accessories</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                <?php 
+                                    foreach ($categories as $cat => $val) {
+                                        echo "<li>
+                                            <a href='category.php'>".$val[0]."<span class='badge pull-right'>".$val[1]."</span></a><ul>
+                                        ";
+                                        foreach ($val[2] as $subcat => $val1) {
+                                            echo "<li><a href='category.php'>".$val1."</a></li>";
+                                        }
+                                        echo "</ul></li>";
+                                    }
+                                ?>
 
                             </ul>
 
@@ -162,37 +147,33 @@
                     <div class="panel panel-default sidebar-menu">
 
                         <div class="panel-heading">
-                            <h3 class="panel-title">Brands <a class="btn btn-xs btn-danger pull-right" href="#"><i class="fa fa-times-circle"></i> Clear</a></h3>
+                            <h3 class="panel-title">Brands</h3>
                         </div>
 
                         <div class="panel-body">
 
                             <form>
                                 <div class="form-group">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox">Armani (10)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox">Versace (12)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox">Carlo Bruni (15)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox">Jack Honey (14)
-                                        </label>
-                                    </div>
+                                    <?php 
+                                        if (count($brands) > 0){
+                                            foreach ($brands as $key => $value) {
+                                                echo '<div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox">'.$value.'
+                                                        </label>
+                                                      </div>';
+                                            }
+                                        }
+                                        else {
+                                            echo "No brands mentioned under this category";
+                                        }
+                                    ?>
+
+                                    
                                 </div>
 
                                 <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
-
+                                <button type="reset" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</button>
                             </form>
 
                         </div>
@@ -201,42 +182,32 @@
                     <div class="panel panel-default sidebar-menu">
 
                         <div class="panel-heading">
-                            <h3 class="panel-title">Colours <a class="btn btn-xs btn-danger pull-right" href="#"><i class="fa fa-times-circle"></i> Clear</a></h3>
+                            <h3 class="panel-title">Colours </h3>
                         </div>
 
                         <div class="panel-body">
 
                             <form>
                                 <div class="form-group">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> <span class="colour white"></span> White (14)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> <span class="colour blue"></span> Blue (10)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> <span class="colour green"></span> Green (20)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> <span class="colour yellow"></span> Yellow (13)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> <span class="colour red"></span> Red (10)
-                                        </label>
-                                    </div>
+                                    <?php 
+                                        if (count($colors) > 0){
+                                            foreach ($colors as $key => $value) {
+                                                echo '<div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox"><span color="colour '.$value.'"></span>'.$value.'
+                                                        </label>
+                                                      </div>';
+                                            }
+                                        }
+                                        else {
+                                            echo "No colors mentioned under this category";
+                                        }
+                                    ?>
+
                                 </div>
 
                                 <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
-
+                                <button type="reset" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</button>
                             </form>
 
                         </div>
@@ -244,11 +215,6 @@
 
                     <!-- *** MENUS AND FILTERS END *** -->
 
-                    <div class="banner">
-                        <a href="#">
-                            <img src="img/banner.jpg" alt="sales 2014" class="img-responsive">
-                        </a>
-                    </div>
                 </div>
 
                 <div class="col-md-9">
@@ -383,181 +349,65 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3 col-sm-6">
-                            <div class="product same-height">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product2_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product2.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3>Fur coat</h3>
-                                    <p class="price">$143</p>
-                                </div>
-                            </div>
-                            <!-- /.product -->
-                        </div>
+                        <?php 
+                            foreach ($data_pro as $shname1 => $value) {
+                                foreach ($value as $catname1 => $value2) {
+                                    foreach ($value2 as $subcatname1 => $value3) {
+                                        if ($prosubcat == $subcatname1 && $procat == $catname1){
+                                            $pro_data = [];
+                                            foreach ($value3 as $proname2 => $value4) {
+                                                array_push($pro_data, [$proname2, $value4]);
+                                            }
+                                            $count = 0;
 
-                        <div class="col-md-3 col-sm-6">
-                            <div class="product same-height">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product1.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product1_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product1.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3>Fur coat</h3>
-                                    <p class="price">$143</p>
-                                </div>
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="product same-height">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product3.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product3_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product3.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3>Fur coat</h3>
-                                    <p class="price">$143</p>
-
-                                </div>
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                    </div>
-
-                    <div class="row same-height-row">
-                        <div class="col-md-3 col-sm-6">
-                            <div class="box same-height">
-                                <h3>Products viewed recently</h3>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="product same-height">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product2_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product2.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3>Fur coat</h3>
-                                    <p class="price">$143</p>
-                                </div>
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="product same-height">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product1.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product1_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product1.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3>Fur coat</h3>
-                                    <p class="price">$143</p>
-                                </div>
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="product same-height">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product3.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product3_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product3.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3>Fur coat</h3>
-                                    <p class="price">$143</p>
-
-                                </div>
-                            </div>
-                            <!-- /.product -->
-                        </div>
+                                            while ($count < 3){
+                                                if (isset($pro_data[$count])){
+                                                    echo '<div class="col-md-3 col-sm-6">
+                                                        <div class="product same-height">
+                                                            <div class="flip-container">
+                                                                <div class="flipper">
+                                                                    <div class="front">
+                                                                        <a href="detail.php?pro='.$pro_data[$count][0].'&id='.$pro_data[$count][1]["product_id"].'">
+                                                                            <img src="images/'.$pro_data[$count][1]["product_image"][0].'" alt="Image not available" class="img-responsive">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="back">
+                                                                        <a href="detail.php?pro='.$pro_data[$count][0].'&id='.$pro_data[$count][1]["product_id"].'">';
+                                                                            if (isset($pro_data[$count][1]['product_image'][1])){
+                                                                                echo '<img src="images/'.$pro_data[$count][1]["product_image"][1].'" alt="Image not available" class="img-responsive">';
+                                                                            }
+                                                                            else {
+                                                                                echo '<img src="images/'.$pro_data[$count][1]["product_image"][0].'" alt="Image not available" class="img-responsive">';
+                                                                            }
+                                                                        echo '</a>
+                                                                    </div>
+                                                            </div>
+                                                        </div>
+                                                            <a href="detail.php?pro='.$pro_data[$count][0].'&id='.$pro_data[$count][1]["product_id"].'" class="invisible">
+                                                                <img src="images/'.$pro_data[$count][1]["product_image"][0].'" alt="Image not available" class="img-responsive">
+                                                            </a>
+                                                            <div class="text">
+                                                                <h3>'.$pro_data[$count][0].'</h3>';
+                                                                if ($pro_data[$count][1]["product_offer_price"] != ""){
+                                                                    echo '<p class="price">'.$currency.$pro_data[$count][1]["product_offer_price"].'<del style="font-size:15px;">'.$currency.$pro_data[$count][1]["product_price"].'</del><br><span style="font-size:15px; color:blue">'.$pro_data[$count][1]["product_offer_percentage"].'% off</span></p>';
+                                                                }
+                                                                else{
+                                                                    echo '<p class="price">'.$currency.$pro_data[$count][1]["product_price"].'</p>';
+                                                                }
+                                                            echo '</div>
+                                                        </div>
+                                                    </div>';
+                                                    $count++;
+                                                }
+                                                else {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ?>
 
                     </div>
 

@@ -98,7 +98,8 @@
 											}
 											else{
 												$subsubcat = array_keys($json[$shopname][$cat][$subcat])[$k];
-												echo '<li><a href="category.php">'.$subsubcat.'</a></li>';
+												$subsubcat_id = $json[$shopname][$cat][$subcat][$subsubcat]['product_id'];
+												echo '<li><a href="detail.php?pro='.$subsubcat.'&id='.$subsubcat_id.'">'.$subsubcat.'</a></li>';
 											}
 										}
 									echo '</ul>

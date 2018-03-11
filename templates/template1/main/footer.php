@@ -84,7 +84,7 @@
 <div id="copyright">
     <div class="container">
         <div class="col-md-6">
-            <p class="pull-left">©onlineshopmaker</p>
+            <p class="pull-left">&copy; onlineshopmaker</p>
         </div>
         <div class="col-md-6">
             <p class="pull-right">Template by <a href="http://onlineshopmaker.dx.am">Onlineshopmaker</a>
