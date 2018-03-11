@@ -36,8 +36,6 @@
                 <h4>Where to find us</h4>
 
                     <?php
-                        $read_file = file_get_contents("owner_data.json");
-                        $read_data = json_decode($read_file, true);
                         foreach ($read_data as $key => $value) {
                             $owner = $key;
                         }

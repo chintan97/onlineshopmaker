@@ -71,7 +71,7 @@
 							for($i=0;$i<count($files);$i++){
 								if($i==4){break;}
 								else{
-									echo '<div class="item"><img class="img-responsive" src="./images/'.$files[$i].'"></div>';
+									echo '<div class="item"><img style="margin-left:auto; margin-right:auto; margin-top:auto; display:block;" class="img-responsive" src="./images/'.$files[$i].'"></div>';
 								}
 							}
 						?>
@@ -184,10 +184,10 @@
 																<h3><a href="detail.php">'.$product.'</a></h3>';
 													
 													if($product_array['product_offer_price'] != ""){ 
-														echo '<p class="price"><del>'.$product_array['product_price'].'</del>'.$product_array['product_offer_price'].'</p>';
+														echo '<p class="price"><del>'.$currency.$product_array['product_price'].'</del>'.$currency.$product_array['product_offer_price'].'</p>';
 													}
 													else{
-														echo '<p class="price">'.$product_array['product_price'].'</p>';
+														echo '<p class="price">'.$currency.$product_array['product_price'].'</p>';
 													}
 													echo '</div>';
 													if ($product_array['product_offer_price'] != ""){ 

@@ -85,25 +85,25 @@
         }
 
         function check_login(){
-            var login_email = document.getElementById('login_email').value;
-            var login_password = document.getElementById('login_password').value;
+            var login_email = document.getElementById('login_email1').value;
+            var login_password = document.getElementById('login_password1').value;
             var email_pattern = /^\w+\@[a-zA-Z_.]+\.\w{2,5}$/;
             if (login_email == ''){
                 event.preventDefault();
                 alert("Please enter Email!");
-                document.getElementById('login_email').focus();
+                document.getElementById('login_email1').focus();
                 return false;
             }
             else if (login_password == ''){
                 event.preventDefault();
                 alert("Please enter password!");
-                document.getElementById('login_password').focus();
+                document.getElementById('login_password1').focus();
                 return false;
             }
             else if (email_pattern.test(login_email) == false){
                 event.preventDefault();
                 alert("Email not valid!");
-                document.getElementById('login_email').focus();
+                document.getElementById('login_email1').focus();
                 return false;
             }
             document.login_form.submit();
@@ -174,19 +174,19 @@
                         <h1>Login</h1>
 
                         <p class="lead">Already our customer?</p>
-                        <p class="text-muted">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies
-                            mi vitae est. Mauris placerat eleifend leo.</p>
+                        <p>If you are already registered with our website, please login from here.</p>
+                        <p class="text-muted">If you have any questions, please feel free to <a href="contact.php">contact us</a>, our customer service center is working for you 24/7.</p>
 
                         <hr>
 
                         <form action="login_customer.php" name="login_form" method="post">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="text" class="form-control" name="login_email" id="login_email">
+                                <input type="text" class="form-control" name="login_email1" id="login_email1">
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" class="form-control" name="login_password" id="login_password">
+                                <input type="password" class="form-control" name="login_password1" id="login_password1">
                             </div>
                             <div class="text-center">
                                 <button type="submit" onclick="check_login();" class="btn btn-primary"><i class="fa fa-sign-in"></i> Log in</button>

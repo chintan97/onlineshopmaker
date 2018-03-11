@@ -2,11 +2,21 @@
 session_start();
 $str = file_get_contents('product_data.json');
 $json = json_decode($str, true);
-//print_r($json);
 $shopname = array_keys($json)[0];
 $category = array_keys($json[$shopname]);
-//print_r($category);
-
+$read_file = file_get_contents("owner_data.json");
+$read_data = json_decode($read_file, true);
+$user = array_keys($read_data)[0];
+$currency = $read_data[$user]['product_currency'];
+if($currency == 'rupee'){
+    $currency = '&#8377;';
+}
+else if($currency == 'dollar'){
+    $currency = '$';
+}
+else{
+    $currency = '£';
+}
 ?>
 
 <div id="top">
