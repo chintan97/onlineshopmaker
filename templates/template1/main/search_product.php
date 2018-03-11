@@ -22,10 +22,10 @@ if (isset($_GET["q"])){
     	for ($i=0; $i<count($products); $i++){
     		if (stristr($products[$i][0], $q)){
     			if ($hint == ""){
-    				$hint = "<a href='temp_file.php?pro=".$products[$i][0]."&id=".$products[$i][1]."'>".$products[$i][0]."</a>";
+    				$hint = "<a href='detail.php?pro=".$products[$i][0]."&id=".$products[$i][1]."'>".$products[$i][0]."</a>";
     			}
     			else{
-    				$hint = $hint."<br><a href='temp_file.php?pro=".$products[$i][0]."&id=".$products[$i][1]."'>".$products[$i][0]."</a>";
+    				$hint = $hint."<br><a href='detail.php?pro=".$products[$i][0]."&id=".$products[$i][1]."'>".$products[$i][0]."</a>";
     			}
     			$max_count++;
     		}

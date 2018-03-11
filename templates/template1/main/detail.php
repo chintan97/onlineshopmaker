@@ -1,4 +1,34 @@
-<?php require("top-bar.php"); ?>
+<?php require("top-bar.php");
+    if (isset($_GET['id'])){ 
+        $product_id = $_GET['id'];
+        $file_pro = file_get_contents('product_data.json');
+        $data_pro = json_decode($file_pro, true);
+        foreach ($data_pro as $shname => $shdata) {
+            foreach ($shdata as $catname => $catdata) {
+                foreach ($catdata as $subcatname => $subcatdata) {
+                    foreach ($subcatdata as $proname1 => $prodata) {
+                        if ($prodata['product_id'] == $product_id){
+                            $proname = $proname1;
+                            $proprice = $prodata['product_price'];
+                            $prostock = $prodata['product_stock'];
+                            $probrand = $prodata['product_brand'];
+                            $prosize = $prodata['product_size'];
+                            $prodescription = $prodata['product_description'];
+                            $progender = $prodata['product_gender'];
+                            $proofferprice = $prodata['product_offer_price'];
+                            $proofferpercentage = $prodata['product_offer_percentage'];
+                            $procolor = $prodata['product_color'];
+                            $prowarranty = $prodata['warranty_time'];
+                            $proreplacement = $prodata['replacement_time'];
+                            $proimages = $prodata['product_image'];
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -224,28 +254,44 @@
                     <div class="row" id="productMain">
                         <div class="col-sm-6">
                             <div id="mainImage">
-                                <img src="img/detailbig1.jpg" alt="" class="img-responsive">
+                                <?php echo "<img src='images/".$proimages[0]."' alt='Image not found' class='img-responsive'>"; ?>
                             </div>
 
-                            <div class="ribbon sale">
-                                <div class="theribbon">SALE</div>
-                                <div class="ribbon-background"></div>
-                            </div>
-                            <!-- /.ribbon -->
-
-                            <div class="ribbon new">
-                                <div class="theribbon">NEW</div>
-                                <div class="ribbon-background"></div>
-                            </div>
-                            <!-- /.ribbon -->
-
+                            <?php
+                                if ($proofferprice != ""){
+                                    echo "<div class='ribbon sale'>
+                                        <div class='theribbon'>SALE</div>
+                                        <div class='ribbon-background'></div>
+                                        </div>";
+                                }
+                            ?>
                         </div>
                         <div class="col-sm-6">
                             <div class="box">
-                                <h1 class="text-center">White Blouse Armani</h1>
+                                <h1 class="text-center"><?php echo $proname; ?></h1>
                                 <p class="goToDescription"><a href="#details" class="scroll-to">Scroll to product details, material & care and sizing</a>
                                 </p>
-                                <p class="price">$124.00</p>
+                                <?php 
+                                    if ($proofferprice != ""){
+                                        echo "<p class='price'>".$currency.$proofferprice." <del style='font-size:25px;'>".$currency.$proprice."</del><br><span style='font-size:20px; color:blue'>".$proofferpercentage."% off</span></p>";
+                                        //echo "<p class='price'>".."</p>";
+                                    }
+                                    else {
+                                        echo "<p class='price'>".$currency.$proprice."</p>";
+                                    }
+                                ?>
+
+                                <?php
+                                    if ($prostock == 0){
+                                        echo "<p class='price' style='color:#ff0000; font-size:25px;'>Out of stock</p>";
+                                    }
+                                    else if ($prostock < 5){
+                                        echo "<p class='price' style='color:#ff0000; font-size:25px;'>Hurry, only ".$prostock." left in stock</p>";
+                                    }
+                                    else{
+                                        echo "<p class='price' style='color:#009900; font-size:25px;'>In stock</p>";
+                                    }
+                                ?>
 
                                 <p class="text-center buttons">
                                     <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a> 
@@ -256,21 +302,19 @@
                             </div>
 
                             <div class="row" id="thumbs">
-                                <div class="col-xs-4">
-                                    <a href="img/detailbig1.jpg" class="thumb">
-                                        <img src="img/detailsquare.jpg" alt="" class="img-responsive">
-                                    </a>
-                                </div>
-                                <div class="col-xs-4">
-                                    <a href="img/detailbig2.jpg" class="thumb">
-                                        <img src="img/detailsquare2.jpg" alt="" class="img-responsive">
-                                    </a>
-                                </div>
-                                <div class="col-xs-4">
-                                    <a href="img/detailbig3.jpg" class="thumb">
-                                        <img src="img/detailsquare3.jpg" alt="" class="img-responsive">
-                                    </a>
-                                </div>
+                                <?php
+                                    foreach ($proimages as $key => $value) {
+                                        echo "
+                                            <div class='col-xs-4'>
+                                                <a href='images/".$value."' class='thumb'>
+                                                 <img src='images/".$value."' alt='image not available' class='img-responsive'>
+                                                </a> 
+                                            </div>
+                                        ";
+                                    }
+                                ?>
+
+                                
                             </div>
                         </div>
 
@@ -280,22 +324,43 @@
                     <div class="box" id="details">
                         <p>
                             <h4>Product details</h4>
-                            <p>White lace top, woven, has a round neck, short sleeves, has knitted lining attached</p>
-                            <h4>Material & care</h4>
-                            <ul>
-                                <li>Polyester</li>
-                                <li>Machine wash</li>
-                            </ul>
-                            <h4>Size & Fit</h4>
-                            <ul>
-                                <li>Regular fit</li>
-                                <li>The model (height 5'8" and chest 33") is wearing a size S</li>
-                            </ul>
+                            <p><?php if ($prodescription != ""){
+                                    echo $prodescription;
+                                }
+                                else{
+                                    echo "No description for this product.";
+                                } 
+                            ?></p>
+                            <?php 
+                                if ($probrand != ""){
+                                    echo "<h4>Brand</h4>";
+                                    echo $probrand;
+                                }
+                                if ($prosize != ""){
+                                    echo "<h4>Size</h4>";
+                                    echo $prosize;
+                                }
+                                if ($procolor != ""){
+                                    echo "<h4>Color</h4>";
+                                    echo $procolor;
+                                }
 
-                            <blockquote>
-                                <p><em>Define style this season with Armani's new range of trendy tops, crafted with intricate details. Create a chic statement look by teaming this lace number with skinny jeans and pumps.</em>
-                                </p>
-                            </blockquote>
+                                echo "<h4>Warranty</h4>";
+                                if ($prowarranty != ""){
+                                    echo $prowarranty." warranty";
+                                }
+                                else{
+                                    echo "No warranty mentioned.";
+                                }
+
+                                echo "<h4>Replacement</h4>";
+                                if ($proreplacement != ""){
+                                    echo "Replacement within ".$proreplacement;
+                                }
+                                else{
+                                    echo "No replacement for this product.";
+                                }
+                            ?>
 
                             <hr>
                             <div class="social">
