@@ -107,9 +107,9 @@
                     <ul class="breadcrumb">
                         <li><a href="#">Home</a>
                         </li>
-                        <li><a href="#"><?php echo $procat; ?></a>
+                        <li><a href="category.php?cat=<?php echo $procat ?>&subcat="><?php echo $procat; ?></a>
                         </li>
-                        <li><a href="#"><?php echo $prosubcat; ?></a>
+                        <li><a href="category.php?cat=<?php echo $procat ?>&subcat=<?php echo $prosubcat ?>"><?php echo $prosubcat; ?></a>
                         </li>
                         <li><?php echo $proname; ?></li>
                     </ul>
@@ -130,10 +130,10 @@
                                 <?php 
                                     foreach ($categories as $cat => $val) {
                                         echo "<li>
-                                            <a href='category.php'>".$val[0]."<span class='badge pull-right'>".$val[1]."</span></a><ul>
+                                            <a href='category.php?cat=".$val[0]."&subcat='>".$val[0]."<span class='badge pull-right'>".$val[1]."</span></a><ul>
                                         ";
                                         foreach ($val[2] as $subcat => $val1) {
-                                            echo "<li><a href='category.php'>".$val1."</a></li>";
+                                            echo "<li><a href='category.php?cat=".$val[0]."&subcat=".$val1."'>".$val1."</a></li>";
                                         }
                                         echo "</ul></li>";
                                     }
@@ -194,7 +194,7 @@
                                             foreach ($colors as $key => $value) {
                                                 echo '<div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox"><span color="colour '.$value.'"></span>'.$value.'
+                                                            <input type="checkbox"><span class="colour '.$value.'"></span> '.$value.'
                                                         </label>
                                                       </div>';
                                             }
@@ -365,8 +365,14 @@
                                                     echo '<div class="col-md-3 col-sm-6">
                                                         <div class="product same-height">
                                                             <div class="flip-container">
-                                                                <div class="flipper">
-                                                                    <div class="front">
+                                                                <div class="flipper">';
+                                                                    if ($pro_data[$count][1]['product_offer_price'] != ""){
+                                                                        echo "<div class='ribbon sale'>
+                                                                        <div class='theribbon'>SALE</div>
+                                                                        <div class='ribbon-background'></div>
+                                                                        </div>";
+                                                                    }
+                                                                    echo '<div class="front">
                                                                         <a href="detail.php?pro='.$pro_data[$count][0].'&id='.$pro_data[$count][1]["product_id"].'">
                                                                             <img src="images/'.$pro_data[$count][1]["product_image"][0].'" alt="Image not available" class="img-responsive">
                                                                         </a>
@@ -388,6 +394,15 @@
                                                             </a>
                                                             <div class="text">
                                                                 <h3>'.$pro_data[$count][0].'</h3>';
+                                                                if ($prostock == 0){
+                                                                   echo "<p class='price' style='color:#ff0000; font-size:20px;'>Out of stock</p>";
+                                                                }
+                                                                else if ($prostock < 5){
+                                                                    echo "<p class='price' style='color:#ff0000; font-size:20px;'>Hurry, only ".$prostock." left in stock</p>";
+                                                                }
+                                                                else{
+                                                                    echo "<p class='price' style='color:#009900; font-size:20px;'>In stock</p>";
+                                                                }
                                                                 if ($pro_data[$count][1]["product_offer_price"] != ""){
                                                                     echo '<p class="price">'.$currency.$pro_data[$count][1]["product_offer_price"].'<del style="font-size:15px;">'.$currency.$pro_data[$count][1]["product_price"].'</del><br><span style="font-size:15px; color:blue">'.$pro_data[$count][1]["product_offer_percentage"].'% off</span></p>';
                                                                 }

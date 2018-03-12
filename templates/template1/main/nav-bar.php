@@ -63,7 +63,7 @@
 									<h5>Other</h5>
 									<ul>';
 							for($j=4;$j<count($category);$j++){
-								echo '<li><a href="category.php">'.$category[$j].'</a></li>';
+								echo '<li><a href="category.php?cat='.$category[$j].'&subcat=">'.$category[$j].'</a></li>';
 							}
 							echo '</ul>
 									</div>
@@ -89,7 +89,7 @@
 								$subcat = array_keys($json[$shopname][$cat])[$j];
 								echo 
 								'<div class="col-sm-3">
-									<h5>'.$subcat.'</h5>
+									<a href="category.php?cat='.$cat.'&subcat='.$subcat.'"><h5>'.$subcat.'</h5></a>
 									<ul>';
 										for($k=0;$k<count($json[$shopname][$cat][$subcat]);$k++){
 											if($k>3){

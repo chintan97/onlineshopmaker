@@ -1,4 +1,46 @@
-<?php require("top-bar.php"); ?>
+<?php require("top-bar.php");
+	if (isset($_GET['cat'])){
+		$cat_get = $_GET['cat'];
+		$subcat_get = $_GET['subcat'];
+	}
+	$file_pro = file_get_contents('product_data.json');
+    $data_pro = json_decode($file_pro, true);
+    $categories = [];
+    $brands = [];
+    $colors = [];
+    $data_show = [];  // Products data here, format: [product name, product data]
+	foreach ($data_pro as $shname => $shdata) {
+	  	foreach ($shdata as $catname => $catdata) {
+	   		$procount = 0;
+	   		$subcategories = [];
+	   		foreach ($catdata as $subcatname => $subcatdata) {
+	   			array_push($subcategories, $subcatname);
+	   			foreach ($subcatdata as $proname1 => $prodata) {
+	   				$procount++;
+	   				if ($subcat_get == '' && $catname == $cat_get){
+	   					array_push($data_show, [$proname1, $prodata]);
+	   					if ($prodata['product_brand'] != '' && !in_array(strtolower($prodata['product_brand']), $brands)){
+	   						array_push($brands, strtolower($prodata['product_brand']));
+	   					}
+	   					if ($prodata['product_color'] != '' && !in_array(strtolower($prodata['product_color']), $colors)){
+	   						array_push($colors, strtolower($prodata['product_color']));
+	   					}
+	   				}
+	   				else if ($subcat_get != '' && $subcatname == $subcat_get){
+	   					array_push($data_show, [$proname1, $prodata]);
+	   					if ($prodata['product_brand'] != '' && !in_array(strtolower($prodata['product_brand']), $brands)){
+	   						array_push($brands, strtolower($prodata['product_brand']));
+	   					}
+	   					if ($prodata['product_color'] != '' && !in_array(strtolower($prodata['product_color']), $colors)){
+	   						array_push($colors, strtolower($prodata['product_color']));
+	   					}
+	   				}
+	   			}
+	   		}
+	   		array_push($categories, [$catname, $procount, $subcategories]);
+	   	}
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -62,7 +104,19 @@
                     <ul class="breadcrumb">
                         <li><a href="#">Home</a>
                         </li>
-                        <li>Ladies</li>
+                        <li>
+                        	<?php if ($subcat_get == ''){
+                        			echo $cat_get; 
+                        		}
+                        		else{
+                        			echo '<a href="category.php?cat='.$cat_get.'&subcat=">'.$cat_get.'</a>';
+                        		}
+                        	?>
+                        </li>
+                        <?php if ($subcat_get != ''){
+                        	echo '<li>'.$subcat_get.'</li>';
+                        } ?>
+                        
                     </ul>
                 </div>
 
@@ -77,147 +131,98 @@
 
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked category-menu">
-                                <li>
-                                    <a href="category.php">Men <span class="badge pull-right">42</span></a>
-                                    <ul>
-                                        <li><a href="category.php">T-shirts</a>
-                                        </li>
-                                        <li><a href="category.php">Shirts</a>
-                                        </li>
-                                        <li><a href="category.php">Pants</a>
-                                        </li>
-                                        <li><a href="category.php">Accessories</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li class="active">
-                                    <a href="category.php">Ladies  <span class="badge pull-right">123</span></a>
-                                    <ul>
-                                        <li><a href="category.php">T-shirts</a>
-                                        </li>
-                                        <li><a href="category.php">Skirts</a>
-                                        </li>
-                                        <li><a href="category.php">Pants</a>
-                                        </li>
-                                        <li><a href="category.php">Accessories</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="category.php">Kids  <span class="badge pull-right">11</span></a>
-                                    <ul>
-                                        <li><a href="category.php">T-shirts</a>
-                                        </li>
-                                        <li><a href="category.php">Skirts</a>
-                                        </li>
-                                        <li><a href="category.php">Pants</a>
-                                        </li>
-                                        <li><a href="category.php">Accessories</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                <?php 
+                                    foreach ($categories as $cat => $val) {
+                                        echo "<li>
+                                            <a href='category.php?cat=".$val[0]."&subcat='>".$val[0]."<span class='badge pull-right'>".$val[1]."</span></a><ul>
+                                        ";
+                                        foreach ($val[2] as $subcat => $val1) {
+                                            echo "<li><a href='category.php?cat=".$val[0]."&subcat=".$val1."'>".$val1."</a></li>";
+                                        }
+                                        echo "</ul></li>";
+                                    }
+                                ?>
 
                             </ul>
 
                         </div>
+
                     </div>
 
                     <div class="panel panel-default sidebar-menu">
 
                         <div class="panel-heading">
-                            <h3 class="panel-title">Brands <a class="btn btn-xs btn-danger pull-right" href="#"><i class="fa fa-times-circle"></i> Clear</a></h3>
+                            <h3 class="panel-title">Brands </h3>
                         </div>
 
                         <div class="panel-body">
 
-                            <form>
+                        	<form>
                                 <div class="form-group">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox">Armani (10)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox">Versace (12)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox">Carlo Bruni (15)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox">Jack Honey (14)
-                                        </label>
-                                    </div>
+                                    <?php 
+                                        if (count($brands) > 0){
+                                            foreach ($brands as $key => $value) {
+                                                echo '<div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox">'.$value.'
+                                                        </label>
+                                                      </div>';
+                                            }
+                                        }
+                                        else {
+                                            echo "No brands mentioned under this category";
+                                        }
+                                    ?>
+
+                                    
                                 </div>
 
                                 <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
-
+                                <button type="reset" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</button>
                             </form>
-
                         </div>
                     </div>
 
                     <div class="panel panel-default sidebar-menu">
 
                         <div class="panel-heading">
-                            <h3 class="panel-title">Colours <a class="btn btn-xs btn-danger pull-right" href="#"><i class="fa fa-times-circle"></i> Clear</a></h3>
+                            <h3 class="panel-title">Colours </h3>
                         </div>
 
                         <div class="panel-body">
 
-                            <form>
+                        	<form>
                                 <div class="form-group">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> <span class="colour white"></span> White (14)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> <span class="colour blue"></span> Blue (10)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> <span class="colour green"></span> Green (20)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> <span class="colour yellow"></span> Yellow (13)
-                                        </label>
-                                    </div>
-                                    <div class="checkbox">
-                                        <label>
-                                            <input type="checkbox"> <span class="colour red"></span> Red (10)
-                                        </label>
-                                    </div>
+                                    <?php 
+                                        if (count($colors) > 0){
+                                            foreach ($colors as $key => $value) {
+                                                echo '<div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox"><span class="colour '.$value.'"></span> '.$value.'
+                                                        </label>
+                                                      </div>';
+                                            }
+                                        }
+                                        else {
+                                            echo "No colors mentioned under this category";
+                                        }
+                                    ?>
+
                                 </div>
 
                                 <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
-
+                                <button type="reset" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</button>
                             </form>
-
                         </div>
                     </div>
 
                     <!-- *** MENUS AND FILTERS END *** -->
-
-                    <div class="banner">
-                        <a href="#">
-                            <img src="img/banner.jpg" alt="sales 2014" class="img-responsive">
-                        </a>
-                    </div>
                 </div>
 
                 <div class="col-md-9">
                     <div class="box">
-                        <h1>Ladies</h1>
-                        <p>In our Ladies department we offer wide selection of the best products we have found and carefully selected worldwide.</p>
+                        <h1><?php echo ucfirst($cat_get); ?></h1>
+                        <p>In our <?php echo $cat_get; ?> department we offer wide selection of the best products we have found and carefully selected.</p>
                     </div>
 
                     <div class="box info-bar">
@@ -252,241 +257,70 @@
 
                     <div class="row products">
 
-                        <div class="col-md-4 col-sm-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product1.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product1_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product1.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><a href="detail.php">Fur coat with very but very very long name</a></h3>
-                                    <p class="price">$143.00</p>
-                                    <p class="buttons">
-                                        <a href="detail.php" class="btn btn-default">View detail</a>
-                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
-                                </div>
-                                <!-- /.text -->
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                        <div class="col-md-4 col-sm-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product2_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product2.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><a href="detail.php">White Blouse Armani</a></h3>
-                                    <p class="price"><del>$280</del> $143.00</p>
-                                    <p class="buttons">
-                                        <a href="detail.php" class="btn btn-default">View detail</a>
-                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
-                                </div>
-                                <!-- /.text -->
-
-                                <div class="ribbon sale">
-                                    <div class="theribbon">SALE</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-
-                                <div class="ribbon new">
-                                    <div class="theribbon">NEW</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-
-                                <div class="ribbon gift">
-                                    <div class="theribbon">GIFT</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                        <div class="col-md-4 col-sm-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product3.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product3_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product3.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><a href="detail.php">Black Blouse Versace</a></h3>
-                                    <p class="price">$143.00</p>
-                                    <p class="buttons">
-                                        <a href="detail.php" class="btn btn-default">View detail</a>
-                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
-
-                                </div>
-                                <!-- /.text -->
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                        <div class="col-md-4 col-sm-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product3.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product3_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product3.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><a href="detail.php">Black Blouse Versace</a></h3>
-                                    <p class="price">$143.00</p>
-                                    <p class="buttons">
-                                        <a href="detail.php" class="btn btn-default">View detail</a>
-                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
-
-                                </div>
-                                <!-- /.text -->
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                        <div class="col-md-4 col-sm-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product2_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product2.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><a href="detail.php">White Blouse Versace</a></h3>
-                                    <p class="price">$143.00</p>
-                                    <p class="buttons">
-                                        <a href="detail.php" class="btn btn-default">View detail</a>
-                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
-
-                                </div>
-                                <!-- /.text -->
-
-                                <div class="ribbon new">
-                                    <div class="theribbon">NEW</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                        <div class="col-md-4 col-sm-6">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product1.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product1_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product1.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><a href="detail.php">Fur coat</a></h3>
-                                    <p class="price">$143.00</p>
-                                    <p class="buttons">
-                                        <a href="detail.php" class="btn btn-default">View detail</a>
-                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
-
-                                </div>
-                                <!-- /.text -->
-
-                                <div class="ribbon gift">
-                                    <div class="theribbon">GIFT</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-
-                            </div>
-                            <!-- /.product -->
-                        </div>
+                    	<?php 
+                    		foreach ($data_show as $key_data => $value_data) {
+                    		
+                    		echo '<div class="col-md-4 col-sm-6">
+	                            <div class="product">
+	                                <div class="flip-container">
+	                                    <div class="flipper">';
+	                                    		if ($value_data[1]['product_offer_price'] != ""){
+                                 				   echo "<div class='ribbon sale'>
+                                        			<div class='theribbon'>SALE</div>
+                                        			<div class='ribbon-background'></div>
+                                        			</div>";
+                                				}
+	                                        echo '<div class="front">
+	                                            <a href="detail.php?pro='.$value_data[0].'&id='.$value_data[1]["product_id"].'">
+	                                                <img src="images/'.$value_data[1]["product_image"][0].'" alt="Image not available" class="img-responsive">
+	                                            </a>
+	                                        </div>
+	                                        <div class="back">
+	                                            <a href="detail.php?pro='.$value_data[0].'&id='.$value_data[1]["product_id"].'">';
+	                                                if (isset($value_data[1]['product_image'][1])){
+	                                                    echo '<img src="images/'.$value_data[1]["product_image"][1].'" alt="Image not available" class="img-responsive">';
+	                                                }
+	                                                else {
+	                                                    echo '<img src="images/'.$value_data[1]["product_image"][0].'" alt="Image not available" class="img-responsive">';
+	                                                }
+	                                                echo '</a>
+	                                        </div>
+	                                    </div>
+	                                </div>
+	                                <a href="detail.php?pro='.$value_data[0].'&id='.$value_data[1]["product_id"].'" class="invisible">
+	                                    <img src="images/'.$value_data[1]["product_image"][0].'" alt="Image not available" class="img-responsive">
+	                                </a>
+	                                <div class="text">
+	                                	<h3><a href="detail.php?pro='.$value_data[0].'&id='.$value_data[1]["product_id"].'">'.$value_data[0].'</a></h3>';
+	 		                                    if ($value_data[1]["product_offer_price"] != ""){
+	                                                echo '<p class="price">'.$currency.$value_data[1]["product_offer_price"].'<del style="font-size:15px;">'.$currency.$value_data[1]["product_price"].'</del><br><span style="font-size:15px; color:blue">'.$value_data[1]["product_offer_percentage"].'% off</span></p>';
+	                                            }
+	                                            else{
+	                                                echo '<p class="price">'.$currency.$value_data[1]["product_price"].'</p>';
+	                                            }
+	                                    if ($value_data[1]['product_stock'] == 0){
+	                                    	echo '<p class="price" style="color:#ff0000; font-size:20px;">Out of stock</p>';
+	                                    }
+	                                    else if ($value_data[1]['product_stock'] < 5){
+                                     	   echo "<p class='price' style='color:#ff0000; font-size:20px;'>Hurry, only ".$value_data[1]['product_stock']." left in stock</p>";
+                                    	}
+                                    	else{
+                                        	echo "<p class='price' style='color:#009900; font-size:20px;'>In stock</p>";
+                                    	}
+	                                    echo '<p class="buttons">
+	                                        <a href="detail.php?pro='.$value_data[0].'&id='.$value_data[1]["product_id"].'" class="btn btn-default">View detail</a>
+	                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+	                                    </p>
+	                                </div>
+	                            </div>
+                       		 </div>';
+							}
+                    	?>
                         <!-- /.col-md-4 -->
                     </div>
                     <!-- /.products -->
 
                     <div class="pages">
-
-                        <p class="loadMore">
-                            <a href="#" class="btn btn-primary btn-lg"><i class="fa fa-chevron-down"></i> Load more</a>
-                        </p>
 
                         <ul class="pagination">
                             <li><a href="#">&laquo;</a>
