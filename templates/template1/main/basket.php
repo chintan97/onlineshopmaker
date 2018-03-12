@@ -1,4 +1,14 @@
-<?php require("top-bar.php"); ?>
+<?php require("top-bar.php"); 
+    if (count($_SESSION['cart']) > 0){
+        $file_open = file_get_contents('product_data.json');
+        $file_data = json_decode($file_open, true);
+        $buy_data = [];
+        foreach ($_SESSION['cart'] as $cart_key => $cart_value) {
+            $temp_data = $file_data[$shopname][$cart_value[0]][$cart_value[1]][$cart_value[2]];
+            array_push($buy_data, [$temp_data['product_image'][0], $cart_value[2], $temp_data['product_price'], ($temp_data['product_price'] - $temp_data['product_offer_price']), $temp_data['product_offer_price']]);
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -73,7 +83,7 @@
                         <form method="post" action="checkout1.php">
 
                             <h1>Shopping cart</h1>
-                            <p class="text-muted">You currently have 3 item(s) in your cart.</p>
+                            <p class="text-muted">You currently have <?php echo count($_SESSION['cart']) ?> item(s) in your cart. (Update basket after changing quantity)</p>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -86,45 +96,39 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <a href="#">
-                                                    <img src="img/detailsquare.jpg" alt="White Blouse Armani">
-                                                </a>
-                                            </td>
-                                            <td><a href="#">White Blouse Armani</a>
-                                            </td>
-                                            <td>
-                                                <input type="number" value="2" class="form-control">
-                                            </td>
-                                            <td>$123.00</td>
-                                            <td>$0.00</td>
-                                            <td>$246.00</td>
-                                            <td><a href="#"><i class="fa fa-trash-o"></i></a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <a href="#">
-                                                    <img src="img/basketsquare.jpg" alt="Black Blouse Armani">
-                                                </a>
-                                            </td>
-                                            <td><a href="#">Black Blouse Armani</a>
-                                            </td>
-                                            <td>
-                                                <input type="number" value="1" class="form-control">
-                                            </td>
-                                            <td>$200.00</td>
-                                            <td>$0.00</td>
-                                            <td>$200.00</td>
-                                            <td><a href="#"><i class="fa fa-trash-o"></i></a>
-                                            </td>
-                                        </tr>
+                                        <?php
+                                            $total = 0;
+                                            foreach ($buy_data as $buy_key => $buy_value) {
+                                                echo '<tr>
+                                                    <td>
+                                                        <img src="images/'.$buy_value[0].'" alt="Image not available">
+                                                    </td>
+                                                    <td>'.$buy_value[1].'
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" value="1" class="form-control">
+                                                    </td>
+                                                    <td>'.$currency.$buy_value[2].'</td>';
+                                                    if ($buy_value[2] == $buy_value[3]){
+                                                        echo '<td>'.$currency.'0</td>';
+                                                        echo '<td>'.$currency.$buy_value[2].'</td>';
+                                                        $total += $buy_value[2];
+                                                    }
+                                                    else{
+                                                        echo '<td>'.$currency.$buy_value[3].'</td>
+                                                        <td>'.$currency.$buy_value[4].'</td>';
+                                                        $total += $buy_value[4];
+                                                    }
+                                                    echo '<td><a href="#"><i class="fa fa-trash-o"></i></a>
+                                                    </td>
+                                                </tr>';
+                                            }
+                                        ?>
                                     </tbody>
                                     <tfoot>
                                         <tr>
                                             <th colspan="5">Total</th>
-                                            <th colspan="2">$446.00</th>
+                                            <th colspan="2"><?php echo $currency.$total; ?></th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -137,7 +141,7 @@
                                     <a href="category.php" class="btn btn-default"><i class="fa fa-chevron-left"></i> Continue shopping</a>
                                 </div>
                                 <div class="pull-right">
-                                    <button class="btn btn-default"><i class="fa fa-refresh"></i> Update basket</button>
+                                    <a href="basket.php" class="btn btn-default"><i class="fa fa-refresh"></i> Update basket</a>
                                     <button type="submit" class="btn btn-primary">Proceed to checkout <i class="fa fa-chevron-right"></i>
                                     </button>
                                 </div>
@@ -275,27 +279,6 @@
                             </table>
                         </div>
 
-                    </div>
-
-
-                    <div class="box">
-                        <div class="box-header">
-                            <h4>Coupon code</h4>
-                        </div>
-                        <p class="text-muted">If you have a coupon code, please enter it in the box below.</p>
-                        <form>
-                            <div class="input-group">
-
-                                <input type="text" class="form-control">
-
-                                <span class="input-group-btn">
-
-					<button class="btn btn-primary" type="button"><i class="fa fa-gift"></i></button>
-
-				    </span>
-                            </div>
-                            <!-- /input-group -->
-                        </form>
                     </div>
 
                 </div>

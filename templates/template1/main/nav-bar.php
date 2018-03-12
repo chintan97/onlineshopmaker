@@ -127,7 +127,17 @@
         <div class="navbar-buttons">
 
             <div class="navbar-collapse collapse right" id="basket-overview">
-                <a href="basket.php" class="btn btn-primary navbar-btn"><i class="fa fa-shopping-cart"></i><span class="hidden-sm">cart</span></a>
+                <a href="basket.php" class="btn btn-primary navbar-btn"><i class="fa fa-shopping-cart"></i><span class="hidden-sm">
+                	<?php
+                		if (isset($_SESSION['cart'])){
+                			echo "cart(".count($_SESSION['cart']).")";
+                		}
+                		else {
+                			$_SESSION['cart'] = [];
+                			echo "cart(0)";
+                		}
+                	?>
+                </span></a>
             </div>
             <!--/.nav-collapse -->
 

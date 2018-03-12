@@ -18,7 +18,7 @@
 	   			foreach ($subcatdata as $proname1 => $prodata) {
 	   				$procount++;
 	   				if ($subcat_get == '' && $catname == $cat_get){
-	   					array_push($data_show, [$proname1, $prodata]);
+	   					array_push($data_show, [$proname1, $prodata, $subcatname]);
 	   					if ($prodata['product_brand'] != '' && !in_array(strtolower($prodata['product_brand']), $brands)){
 	   						array_push($brands, strtolower($prodata['product_brand']));
 	   					}
@@ -27,7 +27,7 @@
 	   					}
 	   				}
 	   				else if ($subcat_get != '' && $subcatname == $subcat_get){
-	   					array_push($data_show, [$proname1, $prodata]);
+	   					array_push($data_show, [$proname1, $prodata, $subcatname]);
 	   					if ($prodata['product_brand'] != '' && !in_array(strtolower($prodata['product_brand']), $brands)){
 	   						array_push($brands, strtolower($prodata['product_brand']));
 	   					}
@@ -308,9 +308,24 @@
                                         	echo "<p class='price' style='color:#009900; font-size:20px;'>In stock</p>";
                                     	}
 	                                    echo '<p class="buttons">
-	                                        <a href="detail.php?pro='.$value_data[0].'&id='.$value_data[1]["product_id"].'" class="btn btn-default">View detail</a>
-	                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-	                                    </p>
+	                                        <a href="detail.php?pro='.$value_data[0].'&id='.$value_data[1]["product_id"].'" class="btn btn-default">View detail</a>';
+	                                        if (!isset($_SESSION["cart"])){
+	                                        	echo '<a href="add_to_cart.php?pro='.$value_data[0].'&id='.$value_data[1]["product_id"].'&cat='.$cat_get.'&subcat='.$value_data[2].'" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>';
+	                                    	}
+	                                    	else {
+	                                    		$flag = 0;
+	                                    		foreach ($_SESSION["cart"] as $cart_key => $cart_value) {
+	                                    			if ($value_data[1]["product_id"] == $cart_value[3]){
+	                                    				echo '<a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Proceed to checkout</a>';
+	                                    				$flag = 1;
+	                                    				break;
+	                                    			}
+	                                    		}
+	                                    		if ($flag == 0){
+	                                    			echo '<a href="add_to_cart.php?pro='.$value_data[0].'&id='.$value_data[1]["product_id"].'&cat='.$cat_get.'&subcat='.$value_data[2].'" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>';
+	                                    		}
+	                                    	}
+	                                    echo '</p>
 	                                </div>
 	                            </div>
                        		 </div>';
