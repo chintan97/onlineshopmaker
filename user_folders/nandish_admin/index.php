@@ -67,13 +67,13 @@
 							
 						<?php
 						
-							$files = array_diff(scandir('./images',1),array('..','.','imagechange.php'));
+							$files = array_diff(scandir('./images/main_page/',1),array('..','.','imagechange.php'));
 							$count_img = 0;
 							foreach($files as $f){
 								if($count_img == 4){break;}
 								else{
 									$count_img++;
-									echo '<div class="item"><img class="img-responsive" src="./images/'.$f.'"></div>';
+									echo '<div class="item"><img class="img-responsive" src="./images/main_page/'.$f.'"></div>';
 								}
 							}
 							$count_img = 0;
@@ -163,7 +163,7 @@
 																<div class="flipper">
 																	<div class="front">
 																		<a href="detail.php">
-																		<img class="img-responsive" src="./images/'.$product_array['product_image'][0].'" alt="" >
+																		<img class="img-responsive" src="./images/product_show/'.$product_array['product_image'][0].'" alt="" >
 																		</a>
 																	</div>';
 													if (count($product_array['product_image']) > 1){
@@ -175,13 +175,13 @@
 													echo 
 																	'<div class="back">
 																		<a href="detail.php">
-																		<img class="img-responsive" src="./images/'.$product_array['product_image'][$n].'" alt="" >
+																		<img class="img-responsive" src="./images/product_show/'.$product_array['product_image'][$n].'" alt="" >
 																		</a>
 																	</div>
 																</div>
 															</div>
 															<a href="detail.php" class="invisible">
-															<img src="./images/'.$product_array['product_image'][0].'" alt="" class="img-responsive">
+															<img src="./images/product_show/'.$product_array['product_image'][0].'" alt="" class="img-responsive">
 															</a>
 															<div class="text">
 																<h3><a href="detail.php">'.$product.'</a></h3>';
@@ -243,7 +243,7 @@
 									echo 
 									'<div class="item">
 										<a href="#">
-										<img src="./images/'.$f.'" alt="Best Products" class="img-responsive">
+										<img src="./images/main_page/'.$f.'" alt="Best Products" class="img-responsive">
 										</a>
 									</div>';
 								}
