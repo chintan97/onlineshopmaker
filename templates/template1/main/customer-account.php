@@ -231,7 +231,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="street">Street</label>
+                                        <label for="street">Address</label>
                                         <input type="text" class="form-control" id="street" name="street" value="<?php 
                                             if (isset($my_data1['root'][$_SESSION['reg_email']]['street'])){
                                                 echo $my_data1['root'][$_SESSION['reg_email']]['street'];

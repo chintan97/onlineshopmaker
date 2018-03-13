@@ -1,6 +1,6 @@
 <?php
 	   $files = array_diff(scandir(getcwd(),1),array('..','.'));
-	   $white_image = 'blank2.jpg';
+	   $white_image = 'blank.jpg';
 	   foreach ($files as $f) {
 		if($f != 'imagechange.php' && $f != 'blank2.jpg'){
 		   $photo_to_paste=$f;
@@ -19,6 +19,9 @@
 			   imagejpeg($im, $f ,100);
 			   imagedestroy($im);
 			   imagedestroy($dst_image);
+		   }
+		   else if(imagesx($im2) == 1200 || imagesy($im2) == 563){
+		   		
 		   }
 		   else{
 				imagecopy($im, $im2, (imagesx($im)/2)-(imagesx($im2)/2), (imagesy($im)/2)-(imagesy($im2)/2), 0, 0, imagesx($im2), imagesy($im2));

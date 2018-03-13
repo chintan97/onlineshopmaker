@@ -12,7 +12,12 @@ if (isset($_POST['login_email'])){
 			if ($password == $login_password){
 				$_SESSION['reg_name'] = $read_data['root'][$login_email]['name'];
 				$_SESSION['reg_email'] = $login_email;
-				header("location:customer-orders.php");
+				if (isset($_SESSION['redirect'])){
+					header("location:checkout1.php");
+				}
+				else{
+					header("location:customer-orders.php");
+				}
 			}
 			else{
 				echo "<script>alert('Email and password not matched, please try again!');
@@ -46,7 +51,12 @@ else if (isset($_POST['login_email1'])){
 			if ($password == $login_password){
 				$_SESSION['reg_name'] = $read_data['root'][$login_email]['name'];
 				$_SESSION['reg_email'] = $login_email;
-				header("location:customer-orders.php");
+				if (isset($_SESSION['redirect'])){
+					header("location:checkout1.php");
+				}
+				else {
+					header("location:customer-orders.php");
+				}
 			}
 			else{
 				echo "<script>alert('Email and password not matched, please try again!');

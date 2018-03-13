@@ -1,4 +1,35 @@
-<?php require("top-bar.php"); ?>
+<?php require("top-bar.php");
+    if (!isset($_SESSION['reg_email'])){
+        echo "<script>window.location.href='index.php';</script>";
+    }
+    if (isset($_POST['firstname'])){
+        $firstname = $_POST['firstname'];
+        $lastname = $_POST['lastname'];
+        $email = $_POST['email'];
+        $company = $_POST['company'];
+        $street = $_POST['street'];
+        $city = $_POST['city'];
+        $zip = $_POST['zip'];
+        $state = $_POST['state'];
+        $country = $_POST['country'];
+        $phone = $_POST['phone'];
+        $file_open = fopen('user_folder/user_data.json', 'a+');
+        $file_read_data = fread($file_open, filesize('user_folder/user_data.json'));
+        $file_data = json_decode($file_read_data, true);
+        $file_data['root'][$_SESSION['reg_email']]['firstname'] = $firstname;
+        $file_data['root'][$_SESSION['reg_email']]['lastname'] = $lastname;
+        $file_data['root'][$_SESSION['reg_email']]['contact_email'] = $email;
+        $file_data['root'][$_SESSION['reg_email']]['company'] = $company;
+        $file_data['root'][$_SESSION['reg_email']]['street'] = $street;
+        $file_data['root'][$_SESSION['reg_email']]['city'] = $city;
+        $file_data['root'][$_SESSION['reg_email']]['zip'] = $zip;
+        $file_data['root'][$_SESSION['reg_email']]['state'] = $state;
+        $file_data['root'][$_SESSION['reg_email']]['country'] = $country;
+        $file_data['root'][$_SESSION['reg_email']]['contact_phone'] = $phone;
+        file_put_contents('user_folder/user_data.json', json_encode($file_data));
+        fclose($file_open);
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -132,7 +163,7 @@
 
                             <div class="box-footer">
                                 <div class="pull-left">
-                                    <a href="basket.php" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Addresses</a>
+                                    <a href="checkout1.php" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Addresses</a>
                                 </div>
                                 <div class="pull-right">
                                     <button type="submit" class="btn btn-primary">Continue to Payment Method<i class="fa fa-chevron-right"></i>
@@ -159,20 +190,8 @@
                             <table class="table">
                                 <tbody>
                                     <tr>
-                                        <td>Order subtotal</td>
-                                        <th>$446.00</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Shipping and handling</td>
-                                        <th>$10.00</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Tax</td>
-                                        <th>$0.00</th>
-                                    </tr>
-                                    <tr class="total">
-                                        <td>Total</td>
-                                        <th>$456.00</th>
+                                        <td>Order total</td>
+                                        <th><?php echo $currency.$_SESSION['grand_total']; ?></th>
                                     </tr>
                                 </tbody>
                             </table>

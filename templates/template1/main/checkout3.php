@@ -1,4 +1,8 @@
-<?php require("top-bar.php"); ?>
+<?php require("top-bar.php"); 
+    if (!isset($_SESSION['reg_email'])){
+        echo '<script>window.location.href="index.php";</script>';
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -159,20 +163,8 @@
                             <table class="table">
                                 <tbody>
                                     <tr>
-                                        <td>Order subtotal</td>
-                                        <th>$446.00</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Shipping and handling</td>
-                                        <th>$10.00</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Tax</td>
-                                        <th>$0.00</th>
-                                    </tr>
-                                    <tr class="total">
-                                        <td>Total</td>
-                                        <th>$456.00</th>
+                                        <td>Order total</td>
+                                        <th><?php echo $currency.$_SESSION['grand_total']; ?></th>
                                     </tr>
                                 </tbody>
                             </table>

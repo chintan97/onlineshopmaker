@@ -5,11 +5,11 @@
         $buy_data = [];
         foreach ($_SESSION['cart'] as $cart_key => $cart_value) {
             $temp_data = $file_data[$shopname][$cart_value[0]][$cart_value[1]][$cart_value[2]];
-            array_push($buy_data, [$temp_data['product_image'][0], $cart_value[2], $temp_data['product_price'], ($temp_data['product_price'] - $temp_data['product_offer_price']), $temp_data['product_offer_price']]);
+            array_push($buy_data, [$temp_data['product_image'][0], $cart_value[2], $temp_data['product_price'], ($temp_data['product_price'] - $temp_data['product_offer_price']), $temp_data['product_offer_price'], $cart_value[3], $cart_value[4]]);
         }
     }
     else{
-        echo "<script>alert('You have not added any products to cart!')
+        echo "<script>alert('You have not added any products to cart!');
         window.history.back();</script>";
     }
 ?>
@@ -51,11 +51,43 @@
 
     <link rel="shortcut icon" href="favicon.png">
 
-
-
 </head>
 
 <body>
+    <script type="text/javascript">
+        var product_data = new Array();
+        <?php foreach ($buy_data as $key2 => $value2) { ?>
+            var temp = []; // [pro_id, pro_name, pro_price, pro_discount, pro_total, quantity, currency]
+            temp.push('<?php echo $value2[5]; ?>');
+            temp.push('<?php echo $value2[1]; ?>');
+            temp.push('<?php echo $value2[2]; ?>');
+            if (<?php echo $value2[2]; ?> == <?php echo $value2[3] ?>){
+                temp.push('0');
+                temp.push('<?php echo $value2[2]; ?>');
+            }
+            else{
+                temp.push('<?php echo $value2[3]; ?>');
+                temp.push('<?php echo $value2[4]; ?>');
+            }
+            temp.push('1');
+            temp.push('<?php echo $currency ?>');
+            product_data.push(temp);
+        <?php } ?>
+        console.log(product_data);
+        function update_table(qua, ind){
+            console.log(ind);
+            var val = product_data[ind][4];
+            var grand_total = 0;
+            document.getElementById('product_total['+ind+']').textContent = val*qua;
+            product_data[ind][5] = qua;
+            for (i=0; i<product_data.length; i++){
+                grand_total = grand_total + parseInt(document.getElementById('product_total['+i+']').textContent);
+            }
+            document.getElementById('grand_total').textContent = grand_total;
+            document.getElementById('total_to_submit').value = grand_total;
+            document.getElementById('product_quantity_sum').textContent = qua;
+        }
+    </script>
     <!-- *** TOPBAR ***
  _________________________________________________________ -->
 
@@ -87,7 +119,7 @@
                         <form method="post" action="checkout1.php">
 
                             <h1>Shopping cart</h1>
-                            <p class="text-muted">You currently have <?php echo count($_SESSION['cart']) ?> item(s) in your cart. (Update basket after changing quantity)</p>
+                            <p class="text-muted">You currently have <?php echo count($_SESSION['cart']) ?> item(s) in your cart. (Leaving this page without checkout will distroy quantity savings)</p>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -96,6 +128,7 @@
                                             <th>Quantity</th>
                                             <th>Unit price</th>
                                             <th>Discount</th>
+                                            <th>Summary</th>
                                             <th colspan="2">Total</th>
                                         </tr>
                                     </thead>
@@ -110,20 +143,22 @@
                                                     <td>'.$buy_value[1].'
                                                     </td>
                                                     <td>
-                                                        <input type="number" value="1" class="form-control">
+                                                        <input type="number" id="product_quantity['.$buy_key.']" name="product_quantity['.$buy_key.']" value="'.$buy_value[6].'" min="1" class="form-control" onchange="update_table(this.value, '.$buy_key.');">
                                                     </td>
-                                                    <td>'.$currency.$buy_value[2].'</td>';
+                                                    <td>'.$currency.'<label id="product_price['.$buy_key.']">'.$buy_value[2].'</label></td>';
                                                     if ($buy_value[2] == $buy_value[3]){
-                                                        echo '<td>'.$currency.'0</td>';
-                                                        echo '<td>'.$currency.$buy_value[2].'</td>';
-                                                        $total += $buy_value[2];
+                                                        echo '<td>'.$currency.'<label id="product_discount['.$buy_key.']">0</label></td>';
+                                                        echo '<td><label id="product_quantity_sum">'.$buy_value[6].'</label> x '.$buy_value[2].'</td>';
+                                                        echo '<td>'.$currency.'<label id="product_total['.$buy_key.']">'.($buy_value[2]*$buy_value[6]).'</label></td>';
+                                                        $total += ($buy_value[2]*$buy_value[6]);
                                                     }
                                                     else{
-                                                        echo '<td>'.$currency.$buy_value[3].'</td>
-                                                        <td>'.$currency.$buy_value[4].'</td>';
-                                                        $total += $buy_value[4];
+                                                        echo '<td>'.$currency.'<label id="product_discount['.$buy_key.']">'.$buy_value[3].'</label></td>';
+                                                        echo '<td><label id="product_quantity_sum">'.$buy_value[6].'</label> x '.$buy_value[4].'</td>';
+                                                        echo '<td>'.$currency.'<label id="product_total['.$buy_key.']">'.($buy_value[4]*$buy_value[6]).'</label></td>';
+                                                        $total += ($buy_value[4]*$buy_value[6]);
                                                     }
-                                                    echo '<td><a href="#"><i class="fa fa-trash-o"></i></a>
+                                                    echo '<td><a href="delete_from_cart.php?ind='.$buy_key.'"><i class="fa fa-trash-o"></i></a>
                                                     </td>
                                                 </tr>';
                                             }
@@ -132,7 +167,10 @@
                                     <tfoot>
                                         <tr>
                                             <th colspan="5">Total</th>
-                                            <th colspan="2"><?php echo $currency.$total; ?></th>
+                                            <th></th>
+                                            <th colspan="2"><?php echo $currency.'<label id="grand_total">'.$total.'</label>'; ?>
+                                                <input type="hidden" name="total_to_submit" id="total_to_submit" value="<?php echo $total; ?>">
+                                            </th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -141,11 +179,7 @@
                             <!-- /.table-responsive -->
 
                             <div class="box-footer">
-                                <div class="pull-left">
-                                    <a href="category.php" class="btn btn-default"><i class="fa fa-chevron-left"></i> Continue shopping</a>
-                                </div>
                                 <div class="pull-right">
-                                    <a href="basket.php" class="btn btn-default"><i class="fa fa-refresh"></i> Update basket</a>
                                     <button type="submit" class="btn btn-primary">Proceed to checkout <i class="fa fa-chevron-right"></i>
                                     </button>
                                 </div>
@@ -155,138 +189,6 @@
 
                     </div>
                     <!-- /.box -->
-
-
-                    <div class="row same-height-row">
-                        <div class="col-md-3 col-sm-6">
-                            <div class="box same-height">
-                                <h3>You may also like these products</h3>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="product same-height">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product2_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product2.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3>Fur coat</h3>
-                                    <p class="price">$143</p>
-                                </div>
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="product same-height">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product1.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product1_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product1.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3>Fur coat</h3>
-                                    <p class="price">$143</p>
-                                </div>
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-
-                        <div class="col-md-3 col-sm-6">
-                            <div class="product same-height">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product3.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product3_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product3.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3>Fur coat</h3>
-                                    <p class="price">$143</p>
-
-                                </div>
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                    </div>
-
-
-                </div>
-                <!-- /.col-md-9 -->
-
-                <div class="col-md-3">
-                    <div class="box" id="order-summary">
-                        <div class="box-header">
-                            <h3>Order summary</h3>
-                        </div>
-                        <p class="text-muted">Shipping and additional costs are calculated based on the values you have entered.</p>
-
-                        <div class="table-responsive">
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td>Order subtotal</td>
-                                        <th>$446.00</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Shipping and handling</td>
-                                        <th>$10.00</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Tax</td>
-                                        <th>$0.00</th>
-                                    </tr>
-                                    <tr class="total">
-                                        <td>Total</td>
-                                        <th>$456.00</th>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                    </div>
-
-                </div>
-                <!-- /.col-md-3 -->
 
             </div>
             <!-- /.container -->

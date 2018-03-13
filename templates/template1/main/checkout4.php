@@ -1,4 +1,15 @@
-<?php require("top-bar.php"); ?>
+<?php require("top-bar.php");
+    if (!isset($_SESSION['reg_email'])){
+        echo '<script>window.location.href="index.php";</script>';
+    } 
+    $file_open = file_get_contents('product_data.json');
+    $file_data = json_decode($file_open, true);
+    $buy_data = [];
+    foreach ($_SESSION['cart'] as $cart_key => $cart_value) {
+        $temp_data = $file_data[$shopname][$cart_value[0]][$cart_value[1]][$cart_value[2]];
+        array_push($buy_data, [$temp_data['product_image'][0], $cart_value[2], $temp_data['product_price'], ($temp_data['product_price'] - $temp_data['product_offer_price']), $temp_data['product_offer_price'], $cart_value[3], $cart_value[4]]);
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -91,41 +102,43 @@
                                                 <th>Quantity</th>
                                                 <th>Unit price</th>
                                                 <th>Discount</th>
+                                                <th>Summary</th>
                                                 <th>Total</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>
-                                                    <a href="#">
-                                                        <img src="img/detailsquare.jpg" alt="White Blouse Armani">
-                                                    </a>
-                                                </td>
-                                                <td><a href="#">White Blouse Armani</a>
-                                                </td>
-                                                <td>2</td>
-                                                <td>$123.00</td>
-                                                <td>$0.00</td>
-                                                <td>$246.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <a href="#">
-                                                        <img src="img/basketsquare.jpg" alt="Black Blouse Armani">
-                                                    </a>
-                                                </td>
-                                                <td><a href="#">Black Blouse Armani</a>
-                                                </td>
-                                                <td>1</td>
-                                                <td>$200.00</td>
-                                                <td>$0.00</td>
-                                                <td>$200.00</td>
-                                            </tr>
+                                            <?php
+
+                                            foreach ($buy_data as $buy_key => $buy_value) {
+                                                echo '<tr>
+                                                    <td>
+                                                        <img src="images/'.$buy_value[0].'" alt="Image not available">
+                                                    </td>
+                                                    <td>'.$buy_value[1].'
+                                                    </td>
+                                                    <td>'.$buy_value[6].'
+                                                    </td>
+                                                    <td>'.$currency.$buy_value[2].'</td>';
+                                                    if ($buy_value[2] == $buy_value[3]){
+                                                        echo '<td>'.$currency.'0</td>';
+                                                        echo '<td>'.$buy_value[6].' x '.$buy_value[2].'</td>';
+                                                        echo '<td>'.$currency.($buy_value[2]*$buy_value[6]).'</td>';
+                                                    }
+                                                    else{
+                                                        echo '<td>'.$currency.$buy_value[3].'</td>';
+                                                        echo '<td>'.$buy_value[6].' x '.$buy_value[4].'</td>';
+                                                        echo '<td>'.$currency.($buy_value[4]*$buy_value[6]).'</td>';
+                                                    }
+                                                echo '</tr>';
+                                            }
+
+                                            ?>
                                         </tbody>
                                         <tfoot>
                                             <tr>
                                                 <th colspan="5">Total</th>
-                                                <th>$446.00</th>
+                                                <th></th>
+                                                <th><?php echo $currency.$_SESSION['grand_total']; ?></th>
                                             </tr>
                                         </tfoot>
                                     </table>
@@ -164,20 +177,8 @@
                             <table class="table">
                                 <tbody>
                                     <tr>
-                                        <td>Order subtotal</td>
-                                        <th>$446.00</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Shipping and handling</td>
-                                        <th>$10.00</th>
-                                    </tr>
-                                    <tr>
-                                        <td>Tax</td>
-                                        <th>$0.00</th>
-                                    </tr>
-                                    <tr class="total">
-                                        <td>Total</td>
-                                        <th>$456.00</th>
+                                        <td>Order total</td>
+                                        <th><?php echo $currency.$_SESSION['grand_total']; ?></th>
                                     </tr>
                                 </tbody>
                             </table>
