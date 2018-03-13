@@ -8,6 +8,10 @@
             array_push($buy_data, [$temp_data['product_image'][0], $cart_value[2], $temp_data['product_price'], ($temp_data['product_price'] - $temp_data['product_offer_price']), $temp_data['product_offer_price']]);
         }
     }
+    else{
+        echo "<script>alert('You have not added any products to cart!')
+        window.history.back();</script>";
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">

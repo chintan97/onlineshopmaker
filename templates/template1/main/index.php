@@ -159,7 +159,7 @@
 															<div class="flip-container">
 																<div class="flipper">
 																	<div class="front">
-																		<a href="detail.php">
+																		<a href="detail.php?pro='.$product.'&id='.$product_array['product_id'].'">
 																		<img class="img-responsive" src="./images/'.$product_array['product_image'][0].'" alt="" >
 																		</a>
 																	</div>';
@@ -171,17 +171,17 @@
 													}
 													echo 
 																	'<div class="back">
-																		<a href="detail.php">
+																		<a href="detail.php?pro='.$product.'&id='.$product_array['product_id'].'">
 																		<img class="img-responsive" src="./images/'.$product_array['product_image'][$n].'" alt="" >
 																		</a>
 																	</div>
 																</div>
 															</div>
-															<a href="detail.php" class="invisible">
+															<a href="detail.php?pro='.$product.'&id='.$product_array['product_id'].'" class="invisible">
 															<img src="./images/'.$product_array['product_image'][0].'" alt="" class="img-responsive">
 															</a>
 															<div class="text">
-																<h3><a href="detail.php">'.$product.'</a></h3>';
+																<h3><a href="detail.php?pro='.$product.'&id='.$product_array['product_id'].'">'.$product.'</a></h3>';
 													
 													if($product_array['product_offer_price'] != ""){ 
 														echo '<p class="price"><del>'.$currency.$product_array['product_price'].'</del>'.$currency.$product_array['product_offer_price'].'</p>';
