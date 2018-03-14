@@ -262,23 +262,40 @@
                                 ?>
 
                                 <p class="text-center buttons">
-                                    <?php if (!isset($_SESSION['cart'])){
-                                            echo '<a href="add_to_cart.php?pro='.$proname.'&id='.$product_id.'&cat='.$procat.'&subcat='.$prosubcat.'" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a>';
+                                    <?php   if (!isset($_SESSION['cart'])){
+                                            echo ' <a href="add_to_cart.php?pro='.$proname.'&id='.$product_id.'&cat='.$procat.'&subcat='.$prosubcat.'" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a>';
                                             }
                                             else{
                                                 $flag = 0;
                                                 foreach ($_SESSION['cart'] as $cart_key => $cart_value) {
                                                     if ($product_id == $cart_value[3]){
-                                                        echo '<a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Proceed to checkout</a>';
+                                                        echo ' <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Proceed to checkout</a>';
                                                         $flag = 1;
                                                         break;
                                                     }
                                                 }
                                                 if ($flag == 0){
-                                                    echo '<a href="add_to_cart.php?pro='.$proname.'&id='.$product_id.'&cat='.$procat.'&subcat='.$prosubcat.'" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a>';
+                                                    echo ' <a href="add_to_cart.php?pro='.$proname.'&id='.$product_id.'&cat='.$procat.'&subcat='.$prosubcat.'" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a>';
                                                 }
-                                        } ?>
-                                    <a href="basket.php" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist</a>
+                                            }
+                                            if (!isset($_SESSION['wishlist'])){
+                                            echo ' <a href="add_to_wishlist.php?pro='.$proname.'&id='.$product_id.'&cat='.$procat.'&subcat='.$prosubcat.'" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist</a>';
+                                            }
+                                            else{
+                                                $flag = 0;
+                                                foreach ($_SESSION['wishlist'] as $wishlist_key => $wishlist_value) {
+                                                    if ($product_id == $wishlist_value[3]){
+                                                        echo ' <a href="#" class="btn btn-default"><i class="fa fa-heart"></i> Already in wishlist</a>';
+                                                        $flag = 1;
+                                                        break;
+                                                    }
+                                                }
+                                                if ($flag == 0){
+                                                    echo ' <a href="add_to_wishlist.php?pro='.$proname.'&id='.$product_id.'&cat='.$procat.'&subcat='.$prosubcat.'" class="btn btn-default"><i class="fa fa-heart"></i> Add to wishlist</a>';
+                                                }
+                                            }  
+                                    ?>
+                                    
                                 </p>
 
 

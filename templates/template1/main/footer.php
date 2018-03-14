@@ -23,10 +23,18 @@
                 <h4>User section</h4>
 
                     <ul>
-                        <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
-                        </li>
-                        <li><a href="register.php">Regiter</a>
-                        </li>
+                        <?php 
+                            if (isset($_SESSION['reg_email'])){
+                                echo '<li><a href="customer-orders.php">My account</a></li>';
+                                echo '<li><a href="logout.php">Logout</a></li>';
+                            }
+                            else {
+                                echo '<li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+                                    </li>
+                                    <li><a href="register.php">Regiter</a>
+                                    </li>';
+                            }
+                        ?>
                     </ul>
                 <hr class="hidden-md hidden-lg">
             </div>

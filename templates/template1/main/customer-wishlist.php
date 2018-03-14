@@ -1,4 +1,19 @@
-<?php require("top-bar.php"); ?>
+<?php require("top-bar.php"); 
+	if (!isset($_SESSION['reg_email'])){
+		$_SESSION['redirect'] = 'customer-wishlist';
+		echo "<script>alert('You need to sign in first!');
+		window.location.href='register.php';</script>";
+	}
+	else{
+		$product_file = file_get_contents('product_data.json');
+		$product_data = json_decode($product_file, true);
+		$show_data = [];  // [0=cat, 1=subcat, 2=name, 3=id, 4=image, 5=price, 6=offer_price, 7=offer_percentage, 8=stock]
+		foreach ($_SESSION['wishlist'] as $wishlist_key => $wishlist_value) {
+			$temp_data = $product_data[$shopname][$wishlist_value[0]][$wishlist_value[1]][$wishlist_value[2]];
+			array_push($show_data, [$wishlist_value[0], $wishlist_value[1], $wishlist_value[2], $wishlist_value[3], $temp_data['product_image'], $temp_data['product_price'], $temp_data['product_offer_price'], $temp_data['product_offer_percentage'], $temp_data['product_stock']]);
+		}
+	}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -80,10 +95,10 @@
                         <div class="panel-body">
 
                             <ul class="nav nav-pills nav-stacked">
-                                <li class="active">
+                                <li>
                                     <a href="customer-orders.php"><i class="fa fa-list"></i> My orders</a>
                                 </li>
-                                <li>
+                                <li class="active">
                                     <a href="customer-wishlist.php"><i class="fa fa-heart"></i> My wishlist</a>
                                 </li>
                                 <li>
@@ -103,329 +118,88 @@
 
                 <div class="col-md-9" id="wishlist">
 
-                    <ul class="breadcrumb">
-                        <li><a href="#">Home</a>
-                        </li>
-                        <li>Ladies</li>
-                    </ul>
-
                     <div class="box">
                         <h1>My wishlist</h1>
-                        <p class="lead">Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                        <p class="lead">Items you have added in wishlist are shown here.</p>
                     </div>
 
                     <div class="row products">
 
-                        <div class="col-md-3 col-sm-4">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product1.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product1_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product1.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><a href="detail.php">Fur coat with very but very very long name</a></h3>
-                                    <p class="price">$143.00</p>
-                                    <p class="buttons">
-                                        <a href="detail.php" class="btn btn-default">View detail</a>
-                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
-                                </div>
-                                <!-- /.text -->
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                        <div class="col-md-3 col-sm-4">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product2_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product2.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><a href="detail.php">White Blouse Armani</a></h3>
-                                    <p class="price"><del>$280</del> $143.00</p>
-                                    <p class="buttons">
-                                        <a href="detail.php" class="btn btn-default">View detail</a>
-                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
-                                </div>
-                                <!-- /.text -->
-
-                                <div class="ribbon sale">
-                                    <div class="theribbon">SALE</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-
-                                <div class="ribbon new">
-                                    <div class="theribbon">NEW</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-
-                                <div class="ribbon gift">
-                                    <div class="theribbon">GIFT</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                        <div class="col-md-3 col-sm-4">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product3.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product3_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product3.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><a href="detail.php">Black Blouse Versace</a></h3>
-                                    <p class="price">$143.00</p>
-                                    <p class="buttons">
-                                        <a href="detail.php" class="btn btn-default">View detail</a>
-                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
-
-                                </div>
-                                <!-- /.text -->
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                        <div class="col-md-3 col-sm-4">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product3.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product3_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product3.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><a href="detail.php">Black Blouse Versace</a></h3>
-                                    <p class="price">$143.00</p>
-                                    <p class="buttons">
-                                        <a href="detail.php" class="btn btn-default">View detail</a>
-                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
-
-                                </div>
-                                <!-- /.text -->
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                        <div class="col-md-3 col-sm-4">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product2_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product2.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><a href="detail.php">White Blouse Versace</a></h3>
-                                    <p class="price">$143.00</p>
-                                    <p class="buttons">
-                                        <a href="detail.php" class="btn btn-default">View detail</a>
-                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
-
-                                </div>
-                                <!-- /.text -->
-
-                                <div class="ribbon new">
-                                    <div class="theribbon">NEW</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                        <div class="col-md-3 col-sm-4">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product1.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product1_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product1.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><a href="detail.php">Fur coat</a></h3>
-                                    <p class="price">$143.00</p>
-                                    <p class="buttons">
-                                        <a href="detail.php" class="btn btn-default">View detail</a>
-                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
-
-                                </div>
-                                <!-- /.text -->
-
-                                <div class="ribbon gift">
-                                    <div class="theribbon">GIFT</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-
-                            </div>
-                            <!-- /.product -->
-                        </div>
-                        <!-- /.col-md-4 -->
-
-                        <div class="col-md-3 col-sm-4">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product2_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product2.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><a href="detail.php">White Blouse Armani</a></h3>
-                                    <p class="price"><del>$280</del> $143.00</p>
-                                    <p class="buttons">
-                                        <a href="detail.php" class="btn btn-default">View detail</a>
-                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
-                                </div>
-                                <!-- /.text -->
-
-                                <div class="ribbon sale">
-                                    <div class="theribbon">SALE</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-
-                                <div class="ribbon new">
-                                    <div class="theribbon">NEW</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-
-                                <div class="ribbon gift">
-                                    <div class="theribbon">GIFT</div>
-                                    <div class="ribbon-background"></div>
-                                </div>
-                                <!-- /.ribbon -->
-                            </div>
-                            <!-- /.product -->
-                        </div>
-
-                        <div class="col-md-3 col-sm-4">
-                            <div class="product">
-                                <div class="flip-container">
-                                    <div class="flipper">
-                                        <div class="front">
-                                            <a href="detail.php">
-                                                <img src="img/product3.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                        <div class="back">
-                                            <a href="detail.php">
-                                                <img src="img/product3_2.jpg" alt="" class="img-responsive">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="detail.php" class="invisible">
-                                    <img src="img/product3.jpg" alt="" class="img-responsive">
-                                </a>
-                                <div class="text">
-                                    <h3><a href="detail.php">Black Blouse Versace</a></h3>
-                                    <p class="price">$143.00</p>
-                                    <p class="buttons">
-                                        <a href="detail.php" class="btn btn-default">View detail</a>
-                                        <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-                                    </p>
-
-                                </div>
-                                <!-- /.text -->
-                            </div>
-                            <!-- /.product -->
-                        </div>
+                    	<?php
+                    		foreach ($show_data as $key => $value) {
+                    			echo '<div class="col-md-3 col-sm-4">
+			                            <div class="product">
+			                                <div class="flip-container">
+			                                    <div class="flipper">';
+			                                    	if ($value[6] != ""){
+					                                    echo "<div class='ribbon sale'>
+					                                        <div class='theribbon'>SALE</div>
+					                                        <div class='ribbon-background'></div>
+					                                        </div>";
+					                                }
+			                                        echo '<div class="front">
+			                                            <a href="detail.php?pro='.$value[2].'&id='.$value[3].'">
+			                                                <img src="images/'.$value[4][0].'" alt="Image not available" class="img-responsive">
+			                                            </a>
+			                                        </div>
+			                                        <div class="back">
+			                                            <a href="detail.php?pro='.$value[2].'&id='.$value[3].'">';
+			                                            	if (isset($value[4][1])){
+			                                            		echo '<img src="images/'.$value[4][1].'" alt="Image not available" class="img-responsive">';
+			                                            	}
+			                                            	else{
+			                                            		echo '<img src="images/'.$value[4][0].'" alt="Image not available" class="img-responsive">';
+			                                            	}
+			                                            echo '</a>
+			                                        </div>
+			                                    </div>
+			                                </div>
+			                                <a href="detail.php?pro='.$value[2].'&id='.$value[3].'" class="invisible">
+			                                    <img src="images/'.$value[4][0].'" alt="Image not available" class="img-responsive">
+			                                </a>
+			                                <div class="text">
+			                                    <h3><a href="detail.php?pro='.$value[2].'&id='.$value[3].'">'.$value[2].'</a></h3>';
+			                                    if ($value[6] != ""){
+			                                    	echo '<p class="price">'.$currency.$value[6].' <del style="font-size:15px;">'.$currency.$value[5].'</del><br><span style="font-size:15px; color:blue">'.$value[7].'% off</span></p>';
+			                                    }
+			                                    else {
+			                                    	echo '<p class="price">'.$currency.$value[5].'</p>';
+			                                    }
+			                                    if ($value[8] == 0){
+			                                    	echo "<p class='price' style='color:#ff0000; font-size:15px;'>Out of stock</p>";	
+			                                    }
+			                                    else if ($value[8] < 5){
+                                     			    echo "<p class='price' style='color:#ff0000; font-size:15px;'>Hurry, only ".$value[8]." left in stock</p>";
+                                    			}
+                                    			else{
+                                        			echo "<p class='price' style='color:#009900; font-size:15px;'>In stock</p>";
+                                    			}
+			                                    echo '<p class="buttons">
+			                                        <a href="detail.php?pro='.$value[2].'&id='.$value[3].'" class="btn btn-default">View detail</a>';
+													if (!isset($_SESSION['cart'])){
+			                                            echo ' <a href="add_to_cart.php?pro='.$value[2].'&id='.$value[3].'&cat='.$value[0].'&subcat='.$value[1].'" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a>';
+			                                            }
+			                                            else{
+			                                                $flag = 0;
+			                                                foreach ($_SESSION['cart'] as $cart_key => $cart_value) {
+			                                                    if ($value[3] == $cart_value[3]){
+			                                                        echo ' <a href="basket.php" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Checkout</a>';
+			                                                        $flag = 1;
+			                                                        break;
+			                                                    }
+			                                                }
+			                                                if ($flag == 0){
+			                                                    echo ' <a href="add_to_cart.php?pro='.$value[2].'&id='.$value[3].'&cat='.$value[0].'&subcat='.$value[1].'" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Add to cart</a>';
+			                                                }
+			                                            }
+			                                    echo '
+			                                    <a href="remove_from_wishlist.php?ind='.$key.'" class="btn btn-primary"><i class="fa fa-heart"></i> Remove</a>
+			                                    </p>
+			                                </div>
+			                            </div>
+			                        </div>';
+                    		}
+                    	?>
 
                     </div>
                     <!-- /.products -->

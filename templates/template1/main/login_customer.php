@@ -12,8 +12,19 @@ if (isset($_POST['login_email'])){
 			if ($password == $login_password){
 				$_SESSION['reg_name'] = $read_data['root'][$login_email]['name'];
 				$_SESSION['reg_email'] = $login_email;
+				if (isset($read_data['root'][$login_email]['wishlist'])){
+					$_SESSION['wishlist'] = $read_data['root'][$login_email]['wishlist'];
+				}
 				if (isset($_SESSION['redirect'])){
-					header("location:checkout1.php");
+					if ($_SESSION['redirect'] == 'add_to_wishlist'){
+						header("location:add_to_wishlist.php");
+					}
+					else if ($_SESSION['redirect'] == 'checkout1'){
+						header("location:checkout1.php");
+					}
+					else if ($_SESSION['redirect'] == 'customer-wishlist'){
+						header("location:customer-wishlist.php");
+					}
 				}
 				else{
 					header("location:customer-orders.php");
@@ -51,8 +62,19 @@ else if (isset($_POST['login_email1'])){
 			if ($password == $login_password){
 				$_SESSION['reg_name'] = $read_data['root'][$login_email]['name'];
 				$_SESSION['reg_email'] = $login_email;
+				if (isset($read_data['root'][$login_email]['wishlist'])){
+					$_SESSION['wishlist'] = $read_data['root'][$login_email]['wishlist'];
+				}
 				if (isset($_SESSION['redirect'])){
-					header("location:checkout1.php");
+					if ($_SESSION['redirect'] == 'add_to_wishlist'){
+						header("location:add_to_wishlist.php");
+					}
+					else if ($_SESSION['redirect'] == 'checkout1'){
+						header("location:checkout1.php");
+					}
+					else if ($_SESSION['redirect'] == 'customer-wishlist'){
+						header("location:customer-wishlist.php");
+					}
 				}
 				else {
 					header("location:customer-orders.php");

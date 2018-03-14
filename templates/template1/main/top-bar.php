@@ -36,12 +36,20 @@ else{
             </div>
             <div class="col-md-6" data-animate="fadeInDown">
                 <ul class="menu">
-                    <li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
-                    </li>
-                    <li><a href="register.php">Register</a>
-                    </li>
-                    <li><a href="contact.php">Contact</a>
-                    </li>
+                    <?php
+                        if (isset($_SESSION['reg_email'])){
+                            echo '<li><a href="customer-orders.php">My account</a></li>';
+                            echo '<li><a href="logout.php">Logout</a></li>';
+                        }
+                        else {
+                            echo '<li><a href="#" data-toggle="modal" data-target="#login-modal">Login</a>
+                                    </li>
+                                    <li><a href="register.php">Register</a>
+                                    </li>
+                                    <li><a href="contact.php">Contact</a>
+                                    </li>';
+                        } 
+                    ?>
                     
                 </ul>
             </div>
