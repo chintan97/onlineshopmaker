@@ -352,6 +352,7 @@
 					'<input type="text" id="product_price" name="product_price" required/><label>Product price<font Size="5" Color="red">*</font></label>'+
 					'<input type="text" id="product_stock" name="product_stock" required/><label>Product stock<font Size="5" Color="red">*</font></label>'+
 					'<input type="text" id="product_threshold" name="product_threshold" required/><label>Product threshold (it will notify when stock reaches threshold)<font Size="5" Color="red">*</font></label>'+
+					'<input type="number" min="1" value="2" id="product_max_quantity" name="product_max_quantity" required/><label>Maximum quantity allowed in cart<font Size="5" Color="red">*</font></label>'+
 					'<input type="file" id="product_image[]" name="product_image[]" accept="image/*" required multiple/><label>Product image (You can select multiple images)<font Size="5" Color="red">*</font></label>'+
 					'<input type="hidden" id="product_id" name="product_id" value="'+(pad.substring(0, 5-count_temp.length)+count_temp)+'">'+
 					'<input type="text" id="product_brand" name="product_brand"><label>Product brand</label>'+
@@ -390,6 +391,11 @@
 						if (pname==''){
 							alert('Please enter product name!');
 							document.getElementById('product_name').focus();
+							return false;
+						}
+						else if (document.getElementById('product_max_quantity').value=='' || isNaN(document.getElementById('product_max_quantity').value) || document.getElementById('product_max_quantity').value <= 0){
+							alert('Please enter valid maximum quantity!');
+							document.getElementById('product_max_quantity').focus();
 							return false;
 						}
 						else if (document.getElementById('product_price').value=='' || isNaN(document.getElementById('product_price').value) || document.getElementById('product_price').value < 0){
@@ -556,6 +562,11 @@
 					else if (document.getElementById('product_price').value=='' || isNaN(document.getElementById('product_price').value) || document.getElementById('product_price').value < 0){
 						alert('Please enter product price!');
 						document.getElementById('product_price').focus();
+						return false;
+					}
+					else if (document.getElementById('product_max_quantity').value=='' || isNaN(document.getElementById('product_max_quantity').value) || document.getElementById('product_max_quantity').value <= 0){
+						alert('Please enter valid maximum quantity!');
+						document.getElementById('product_max_quantity').focus();
 						return false;
 					}
 					else if (document.getElementById('product_stock').value=='' || isNaN(document.getElementById('product_stock').value) || document.getElementById('product_stock').value < 0 || !(document.getElementById('product_stock').value % 1 === 0)){

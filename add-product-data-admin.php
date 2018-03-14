@@ -21,6 +21,7 @@
 		$product_offer_percentage = $_POST["product_offer_percentage"];
 		$product_color = $_POST["product_color"];
 		$product_cat = $_POST["product_cat"];
+		$product_max_quantity = $_POST["product_max_quantity"];
 		$product_subcat = $_POST["product_subcat"];
 		$product_image = $_FILES["product_image"];
 		$warranty_allowed = (String)$_POST["product_warranty_allowed"];
@@ -57,7 +58,7 @@
 			copy($_FILES['product_image']['tmp_name'][$i], $path);
 		}
 
-		$string = array('product_price' => (string)$product_price, 'product_stock' => (string)$product_stock, 'product_threshold' => (string)$product_threshold, 'product_image' => $file_names, 'product_id' => (string)$product_id, 'product_brand' => (string)$product_brand, 'product_size' => $product_size, 'product_description' => (string)$product_description, 'product_gender' => (string)$product_gender, 'product_offer_price' => (string)$product_offer_price, 'product_offer_percentage' => (string)$product_offer_percentage, 'product_color' => (string)$product_color, 'warranty_time' => (String)$warranty_time, 'replacement_time' => (String)$replacement_time);
+		$string = array('product_price' => (string)$product_price, 'product_stock' => (string)$product_stock, 'product_threshold' => (string)$product_threshold, 'product_image' => $file_names, 'product_id' => (string)$product_id, 'product_brand' => (string)$product_brand, 'product_size' => $product_size, 'product_description' => (string)$product_description, 'product_gender' => (string)$product_gender, 'product_offer_price' => (string)$product_offer_price, 'product_offer_percentage' => (string)$product_offer_percentage, 'product_color' => (string)$product_color, 'warranty_time' => (String)$warranty_time, 'replacement_time' => (String)$replacement_time, 'product_max_quantity' => (String)$product_max_quantity);
 		$json_str[(string)$product_name] = $string;
 
 		$previous_data = $json_array[$shop_name];

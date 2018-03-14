@@ -139,6 +139,7 @@
 			var pro_name = document.getElementById("product_name").value;
 			var pro_price = document.getElementById("product_price").value;
 			var pro_stock = document.getElementById("product_stock").value;
+			var product_max_quantity = document.getElementById("product_max_quantity").value;
 			var pro_threshold = document.getElementById("product_threshold").value;
 			var product_offer_price = document.getElementById("product_offer_price").value;
 			var product_offer_percentage = document.getElementById("product_offer_percentage").value;
@@ -154,6 +155,12 @@
 				document.getElementById('product_price').focus();
 				return false;
 			}
+			else if (product_max_quantity == '' || isNaN(product_max_quantity) || product_max_quantity <= 0 || !(product_max_quantity % 1 === 0)){
+    			event.preventDefault();
+    			alert("Please enter valid maximum quantity!");
+    			document.getElementById('product_max_quantity').focus();
+    			return false;
+    		}
 			else if (pro_stock=='' || isNaN(pro_stock) || pro_stock < 0 || !(pro_stock % 1 === 0)){
 				event.preventDefault();
 				alert("You can not leave product_stock empty or it must be positive integer!");
@@ -422,11 +429,14 @@
 										echo "<br>Product subcategory: ".$list[$got_id][1];
 										echo "<br>product_name: <input type='text' id='product_name' name='product_name' value='".$got_name."'>";
 										foreach ($data_to_show as $key => $value) {
-											if ($key != "product_image" && $key != "product_id" && $key != "product_offer_price" && $key != "product_offer_percentage" && $key != "warranty_time" && $key != "replacement_time"){
+											if ($key != "product_image" && $key != "product_id" && $key != "product_offer_price" && $key != "product_offer_percentage" && $key != "warranty_time" && $key != "replacement_time" && $key != "product_max_quantity"){
 												echo "<br>".$key.": <input type='text' id='".$key."' name='".$key."' value='".$value."'>";
 											}
 											else if ($key == "replacement_time"){
 												echo "<br>".$key."(Clear box to remove replacement facility): <input type='text' id='".$key."' name='".$key."' value='".$value."'>";
+											}
+											else if ($key == "product_max_quantity"){
+												echo "<br>".$key.": <input type='number' min='1' value='".$value."' id='product_max_quantity' name='product_max_quantity'>";
 											}
 											else if ($key == "warranty_time"){
 												echo "<br>".$key."(Clear box to remove warranty on product): <input type='text' id='".$key."' name='".$key."' value='".$value."'>";

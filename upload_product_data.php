@@ -28,6 +28,7 @@
 	$product_currency = $_POST["product_currency"];
 	$warranty_allowed = (String)$_POST["product_warranty_allowed"];
 	$replacement_allowed = (String)$_POST["product_replacement_allowed"];
+	$product_max_quantity = $_POST["product_max_quantity"];
 	$warranty_time = $_POST["product_warranty_time"];
 	$replacement_time = $_POST["product_replace_time"];
 	$file_names = array();
@@ -81,7 +82,7 @@
 		file_put_contents('user_folders/'.$user.'/owner_data.json', json_encode($new_data));
 		fclose($file_owner);
 	}
-	$string = array('product_price' => (string)$product_price, 'product_stock' => (string)$product_stock, 'product_threshold' => (string)$product_threshold, 'product_image' => $file_names, 'product_id' => (string)$product_id, 'product_brand' => (string)$product_brand, 'product_size' => $product_size, 'product_description' => (string)$product_description, 'product_gender' => (string)$product_gender, 'product_offer_price' => (string)$product_offer_price, 'product_offer_percentage' => (string)$product_offer_percentage, 'product_color' => (string)$product_color, 'warranty_time' => (String)$warranty_time, 'replacement_time' => (String)$replacement_time); 
+	$string = array('product_price' => (string)$product_price, 'product_stock' => (string)$product_stock, 'product_threshold' => (string)$product_threshold, 'product_image' => $file_names, 'product_id' => (string)$product_id, 'product_brand' => (string)$product_brand, 'product_size' => $product_size, 'product_description' => (string)$product_description, 'product_gender' => (string)$product_gender, 'product_offer_price' => (string)$product_offer_price, 'product_offer_percentage' => (string)$product_offer_percentage, 'product_color' => (string)$product_color, 'warranty_time' => (String)$warranty_time, 'replacement_time' => (String)$replacement_time, 'product_max_quantity' => (String)$product_max_quantity); 
 	$json_str[(string)$product_name] = $string;
 
 

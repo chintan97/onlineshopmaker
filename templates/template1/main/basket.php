@@ -5,7 +5,7 @@
         $buy_data = [];
         foreach ($_SESSION['cart'] as $cart_key => $cart_value) {
             $temp_data = $file_data[$shopname][$cart_value[0]][$cart_value[1]][$cart_value[2]];
-            array_push($buy_data, [$temp_data['product_image'][0], $cart_value[2], $temp_data['product_price'], ($temp_data['product_price'] - $temp_data['product_offer_price']), $temp_data['product_offer_price'], $cart_value[3], $cart_value[4]]);
+            array_push($buy_data, [$temp_data['product_image'][0], $cart_value[2], $temp_data['product_price'], ($temp_data['product_price'] - $temp_data['product_offer_price']), $temp_data['product_offer_price'], $cart_value[3], $cart_value[4], $temp_data['product_max_quantity']]);
         }
     }
     else{
@@ -71,6 +71,7 @@
             }
             temp.push('1');
             temp.push('<?php echo $currency ?>');
+            temp.push('<?php echo $value2[7] ?>');
             product_data.push(temp);
         <?php } ?>
         console.log(product_data);
@@ -78,14 +79,16 @@
             console.log(ind);
             var val = product_data[ind][4];
             var grand_total = 0;
-            document.getElementById('product_total['+ind+']').textContent = val*qua;
-            product_data[ind][5] = qua;
-            for (i=0; i<product_data.length; i++){
-                grand_total = grand_total + parseInt(document.getElementById('product_total['+i+']').textContent);
+            if (qua <= product_data[ind][7] && qua > 0){
+                document.getElementById('product_total['+ind+']').textContent = val*qua;
+                product_data[ind][5] = qua;
+                for (i=0; i<product_data.length; i++){
+                    grand_total = grand_total + parseInt(document.getElementById('product_total['+i+']').textContent);
+                }
+                document.getElementById('grand_total').textContent = grand_total;
+                document.getElementById('total_to_submit').value = grand_total;
+                document.getElementById('product_quantity_sum['+ind+']').textContent = qua;
             }
-            document.getElementById('grand_total').textContent = grand_total;
-            document.getElementById('total_to_submit').value = grand_total;
-            document.getElementById('product_quantity_sum').textContent = qua;
         }
     </script>
     <!-- *** TOPBAR ***
@@ -143,18 +146,18 @@
                                                     <td>'.$buy_value[1].'
                                                     </td>
                                                     <td>
-                                                        <input type="number" id="product_quantity['.$buy_key.']" name="product_quantity['.$buy_key.']" value="'.$buy_value[6].'" min="1" class="form-control" onchange="update_table(this.value, '.$buy_key.');">
+                                                        <input type="number" id="product_quantity['.$buy_key.']" name="product_quantity['.$buy_key.']" value="'.$buy_value[6].'" min="1" max="'.$buy_value[7].'" class="form-control" onchange="update_table(this.value, '.$buy_key.');">
                                                     </td>
                                                     <td>'.$currency.'<label id="product_price['.$buy_key.']">'.$buy_value[2].'</label></td>';
                                                     if ($buy_value[2] == $buy_value[3]){
                                                         echo '<td>'.$currency.'<label id="product_discount['.$buy_key.']">0</label></td>';
-                                                        echo '<td><label id="product_quantity_sum">'.$buy_value[6].'</label> x '.$buy_value[2].'</td>';
+                                                        echo '<td><label id="product_quantity_sum['.$buy_key.']">'.$buy_value[6].'</label> x '.$buy_value[2].'</td>';
                                                         echo '<td>'.$currency.'<label id="product_total['.$buy_key.']">'.($buy_value[2]*$buy_value[6]).'</label></td>';
                                                         $total += ($buy_value[2]*$buy_value[6]);
                                                     }
                                                     else{
                                                         echo '<td>'.$currency.'<label id="product_discount['.$buy_key.']">'.$buy_value[3].'</label></td>';
-                                                        echo '<td><label id="product_quantity_sum">'.$buy_value[6].'</label> x '.$buy_value[4].'</td>';
+                                                        echo '<td><label id="product_quantity_sum['.$buy_key.']">'.$buy_value[6].'</label> x '.$buy_value[4].'</td>';
                                                         echo '<td>'.$currency.'<label id="product_total['.$buy_key.']">'.($buy_value[4]*$buy_value[6]).'</label></td>';
                                                         $total += ($buy_value[4]*$buy_value[6]);
                                                     }

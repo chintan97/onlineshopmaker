@@ -49,6 +49,7 @@
     		var product_price = document.getElementById('product_price').value;
     		var product_stock = document.getElementById('product_stock').value;
     		var product_threshold = document.getElementById('product_threshold').value;
+    		var product_max_quantity = document.getElementById('product_max_quantity').value;
     		var product_cat = document.getElementById('Category').value;
     		var product_subcat = document.getElementById('SubCat').value;
     		var product_image = document.getElementById('product_image[]').value;
@@ -70,6 +71,12 @@
     			event.preventDefault();
     			alert("Product stock cannot be empty or it must be a positive integer!");
     			document.getElementById('product_stock').focus();
+    			return false;
+    		}
+    		else if (product_max_quantity == '' || isNaN(product_max_quantity) || product_max_quantity <= 0 || !(product_max_quantity % 1 === 0)){
+    			event.preventDefault();
+    			alert("Please enter valid maximum quantity!");
+    			document.getElementById('product_max_quantity').focus();
     			return false;
     		}
     		else if (product_threshold == '' || isNaN(product_threshold) || product_threshold < 0 || !(product_threshold % 1 === 0)){
@@ -221,6 +228,7 @@
 			<input type="text" id="product_price" name="product_price" required/><label>Product price<font Size="5" Color="red">*</font></label>
 			<input type="text" id="product_stock" name="product_stock" required/><label>Product stock<font Size="5" Color="red">*</font></label>
 			<input type="text" id="product_threshold" name="product_threshold" required/><label>Product threshold (it will notify when stock reaches threshold)<font Size="5" Color="red">*</font></label>
+			<input type="number" min="1" value="2" id="product_max_quantity" name="product_max_quantity" required/><label>Maximum quantity allowed in cart<font Size="5" Color="red">*</font></label>
 			<input type="file" id="product_image[]" name="product_image[]" accept="image/*" required multiple/><label>Product image (You can selsct multiple images)<font Size="5" Color="red">*</font></label>
 			<input type="hidden" id="product_id" name="product_id" value="<?php echo str_pad($max_id, 5, '0', STR_PAD_LEFT); ?>">
 			<input type="text" id="product_brand" name="product_brand"><label>Product brand</label>
