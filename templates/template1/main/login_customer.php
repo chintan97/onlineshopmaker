@@ -25,6 +25,9 @@ if (isset($_POST['login_email'])){
 					else if ($_SESSION['redirect'] == 'customer-wishlist'){
 						header("location:customer-wishlist.php");
 					}
+					else if ($_SESSION['redirect'] == 'customer-orders'){
+						header("location:customer-orders.php");
+					}
 				}
 				else{
 					header("location:customer-orders.php");
@@ -74,6 +77,9 @@ else if (isset($_POST['login_email1'])){
 					}
 					else if ($_SESSION['redirect'] == 'customer-wishlist'){
 						header("location:customer-wishlist.php");
+					}
+					else if ($_SESSION['redirect'] == 'customer-orders'){
+						header("location:customer-orders.php");
 					}
 				}
 				else {

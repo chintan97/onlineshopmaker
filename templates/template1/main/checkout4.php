@@ -7,8 +7,9 @@
     $buy_data = [];
     foreach ($_SESSION['cart'] as $cart_key => $cart_value) {
         $temp_data = $file_data[$shopname][$cart_value[0]][$cart_value[1]][$cart_value[2]];
-        array_push($buy_data, [$temp_data['product_image'][0], $cart_value[2], $temp_data['product_price'], ($temp_data['product_price'] - $temp_data['product_offer_price']), $temp_data['product_offer_price'], $cart_value[3], $cart_value[4]]);
+        array_push($buy_data, [$temp_data['product_image'][0], $cart_value[2], $temp_data['product_price'], ($temp_data['product_price'] - $temp_data['product_offer_price']), $temp_data['product_offer_price'], $cart_value[3], $cart_value[4], $cart_value[0], $cart_value[1]]);
     }
+    $_SESSION['buy_data'] = $buy_data;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -153,8 +154,8 @@
                                     <a href="checkout3.php" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Payment method</a>
                                 </div>
                                 <div class="pull-right">
-                                    <button type="submit" class="btn btn-primary">Place an order<i class="fa fa-chevron-right"></i>
-                                    </button>
+                                    <a href="place-order.php?shop=<?php echo $shopname; ?>" class="btn btn-primary">Place an order<i class="fa fa-chevron-right"></i>
+                                    </a>
                                 </div>
                             </div>
                         </form>

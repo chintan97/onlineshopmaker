@@ -1,4 +1,27 @@
-<?php require("top-bar.php"); ?>
+<?php require("top-bar.php"); 
+    if (!isset($_SESSION['reg_email'])){
+        $_SESSION['redirect'] = 'customer-orders';
+        echo "<script>alert('You need to sign in to view your orders!');
+        window.location.href='register.php';</script>";
+    }
+    else {
+        if (isset($_GET['order_id'])){
+            $order_id = $_GET['order_id'];
+            $order_file = fopen('orders.json', 'a+');
+            $order_file_read = fread($order_file, filesize('orders.json'));
+            $order_file_data = json_decode($order_file_read, true);
+            $order_data = $order_file_data[$shopname][$order_id];
+            $show_data = []; // [0=product name, 1=product id, 2=quantity, 3=sold price, 4=subtotal, 5=status]
+            foreach ($order_data['order_detail'] as $key => $value) {
+                array_push($show_data, [$value['product_name'], $value['product_id'], $value['product_quantity'], $value['sold_price'], $value['subtotal'], $value['status']]);
+            }
+            $other_data = [$order_data['name'], $order_data['address'], $order_data['city'], $order_data['zip'], $order_data['state'], $order_data['country'], $order_data['total_amount'], $order_data['date'], $order_data['time']];
+        }
+        else {
+            echo '<script>window.location.href="customer-orders.php";</script>';
+        }
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -65,7 +88,7 @@
                         </li>
                         <li><a href="#">My orders</a>
                         </li>
-                        <li>Order # 1735</li>
+                        <li>Order # <?php echo $_GET['order_id']; ?></li>
                     </ul>
 
                 </div>
@@ -105,9 +128,9 @@
 
                 <div class="col-md-9" id="customer-order">
                     <div class="box">
-                        <h1>Order #1735</h1>
+                        <h1>Order #<?php echo $_GET['order_id']; ?></h1>
 
-                        <p class="lead">Order #1735 was placed on <strong>22/06/2013</strong> and is currently <strong>Being prepared</strong>.</p>
+                        <p class="lead">Order #<?php echo $_GET['order_id']; ?> was placed on <strong><?php echo $other_data[7]; ?></strong> at <strong><?php echo $other_data[8]; ?> (IST)</strong>.</p>
                         <p class="text-muted">If you have any questions, please feel free to <a href="contact.php">contact us</a>, our customer service center is working for you 24/7.</p>
 
                         <hr>
@@ -119,54 +142,29 @@
                                         <th colspan="2">Product</th>
                                         <th>Quantity</th>
                                         <th>Unit price</th>
-                                        <th>Discount</th>
                                         <th>Total</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <a href="#">
-                                                <img src="img/detailsquare.jpg" alt="White Blouse Armani">
-                                            </a>
-                                        </td>
-                                        <td><a href="#">White Blouse Armani</a>
-                                        </td>
-                                        <td>2</td>
-                                        <td>$123.00</td>
-                                        <td>$0.00</td>
-                                        <td>$246.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="#">
-                                                <img src="img/basketsquare.jpg" alt="Black Blouse Armani">
-                                            </a>
-                                        </td>
-                                        <td><a href="#">Black Blouse Armani</a>
-                                        </td>
-                                        <td>1</td>
-                                        <td>$200.00</td>
-                                        <td>$0.00</td>
-                                        <td>$200.00</td>
-                                    </tr>
+                                    <?php
+                                        foreach ($show_data as $key => $value) {
+                                              echo '<tr>
+                                                    <td>'.($key+1).'</td>
+                                                    <td><a href="detail.php?pro='.$value[0].'&id='.$value[1].'">'.$value[0].'</a>
+                                                    </td>
+                                                    <td>'.$value[2].'</td>
+                                                    <td>'.$currency.$value[3].'</td>
+                                                    <td>'.$currency.$value[4].'</td>
+                                                    <td>'.$value[5].'</td>
+                                                </tr>';
+                                          }  
+                                    ?>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="5" class="text-right">Order subtotal</th>
-                                        <th>$446.00</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="5" class="text-right">Shipping and handling</th>
-                                        <th>$10.00</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="5" class="text-right">Tax</th>
-                                        <th>$0.00</th>
-                                    </tr>
-                                    <tr>
-                                        <th colspan="5" class="text-right">Total</th>
-                                        <th>$456.00</th>
+                                        <th colspan="5" class="text-right">Order total</th>
+                                        <th><strong><?php echo $currency.$other_data[6]; ?></strong></th>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -175,23 +173,17 @@
                         <!-- /.table-responsive -->
 
                         <div class="row addresses">
-                            <div class="col-md-6">
-                                <h2>Invoice address</h2>
-                                <p>John Brown
-                                    <br>13/25 New Avenue
-                                    <br>New Heaven
-                                    <br>45Y 73J
-                                    <br>England
-                                    <br>Great Britain</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h2>Shipping address</h2>
-                                <p>John Brown
-                                    <br>13/25 New Avenue
-                                    <br>New Heaven
-                                    <br>45Y 73J
-                                    <br>England
-                                    <br>Great Britain</p>
+                            <div class="col-md-12">
+                                <h2>Shipping details</h2>
+                                <?php
+                                    echo '<p><strong>'.$other_data[0].'</strong>
+                                    <br>'.$other_data[1].'
+                                    <br>'.$other_data[2].'
+                                    <br>'.$other_data[3].'
+                                    <br>'.$other_data[4].'
+                                    <br>'.$other_data[5].'
+                                    </p>'; 
+                                ?>
                             </div>
                         </div>
 
