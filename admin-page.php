@@ -83,6 +83,9 @@ if(!isset($_SESSION["username"])){
   		else if (choice == "add-products"){
   			document.getElementById("mainContent").innerHTML='<iframe width=100% height=100% src="add-product-admin.php">iframe is not supported, try Chrome browser</iframe>';
   		}
+		else if(choice == "view-orders"){
+			document.getElementById("mainContent").innerHTML='<iframe width=100% height=100% src="view-orders-admin.php">iframe is not supported, try Chrome browser</iframe>';
+		}
   	}
   </script>
 </head>
@@ -94,7 +97,7 @@ if(!isset($_SESSION["username"])){
 		<button onclick="load_pages('update-products');">Update product data</button><br><br>
 		<button onclick="load_pages('delete-products');">Delete product</button><br><br>
 		<button onclick="load_pages('add-products');">Add product</button><br><br>
-		<button onclick="#">View orders</button><br><br>
+		<button onclick="load_pages('view-orders');">View orders</button><br><br>
 	</div>
 	<div class="hr">
 		<hr width="1" size="610">

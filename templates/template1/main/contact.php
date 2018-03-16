@@ -239,26 +239,39 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyCnN1vzotvPpQp18QJW8gWpbWaCHpzP-5w"></script>
 
-    <script>
-        function initialize() {
+    <!--script>
+		function getLocation(){
+			if (navigator.geolocation) {
+				navigator.geolocation.getCurrentPosition(showPosition);
+			}
+			else{
+				alert("Location not supported");
+			}
+		}
+
+		function showPosition(position) {
+			initialize(position.coords.latitude,position.coords.longitude);
+		}
+	
+        function initialize(lat,lang) {
             var mapOptions = {
                 zoom: 15,
-                center: new google.maps.LatLng(23.239165,72.6385493),
+                center: new google.maps.LatLng(lat,lang),
                 mapTypeId: google.maps.MapTypeId.ROAD,
                 scrollwheel: false
             }
             var map = new google.maps.Map(document.getElementById('map'),
                 mapOptions);
 
-            var myLatLng = new google.maps.LatLng(23.239165,72.6385493);
+            var myLatLng = new google.maps.LatLng(lat,lang);
             var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map
             });
         }
 
-        google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
+        google.maps.event.addDomListener(window, 'load', getLocation);
+    </script-->
 
 
 </body>
