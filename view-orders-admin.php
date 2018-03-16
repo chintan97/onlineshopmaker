@@ -104,11 +104,11 @@
 		}
 		</style>
 		<script type="text/javascript">
-			function proceed(key){
-				window.location.href= 'update-orders-admin.php?proceed='+key;
+			function proceed(key,index){
+				window.location.href= 'update-orders-admin.php?proceed='+key+'&id='+index;
 			}
-			function cancel(key){
-				window.location.href= 'update-orders-admin.php?cancel='+key;
+			function cancel(key,index){
+				window.location.href= 'update-orders-admin.php?cancel='+key+'&id='+index;
 			}
 		</script>
 			
@@ -146,17 +146,22 @@
 									  </thead>
 									<tbody>';
 								foreach($orders as $key => $value){
-									$order_detail = $value['order_detail'][0];
-									 echo '<tr>
+									$order_detail_list = $value['order_detail'];
+									echo '<tr>
                                                 <th># '.$key.'</th>
-												<td>Product ID : '.$order_detail['product_id'].'<br>
+												<td>';
+									for($i=0;$i<count($order_detail_list);$i++){
+										$order_detail = $order_detail_list[$i];
+										 			echo 'Product ID : '.$order_detail['product_id'].'<br>
 													Product name : '.$order_detail['product_name'].'<br>
 													Product category : '.$order_detail['product_category'].'<br>
 													Product subcategory : '.$order_detail['product_subcategory'].'<br>
 													Product price : '.$order_detail['sold_price'].'<br>
 													Product quantity : '.$order_detail['product_quantity'].'<br>
-													Total : '.$order_detail['subtotal'].'
-												</td>';
+													Total : '.$order_detail['subtotal'].'<br>----------------<br>';
+												
+									}
+									echo '</td>';
 									echo '<td>Name : '.$value['name'].'<br>
 											  Email : '.$value['email'].'<br>
 											  Phone : '.$value['phone'].'<br>
@@ -172,22 +177,39 @@
 										  .$value['date'].'<br>'
 										  .$value['time'].
 										  '</td>';
-									if($order_detail['status'] == 'order cancelled'){
-										echo '<td><span class="label label-danger">'.$order_detail['status'].'</span></td>';
-										echo '<td>Order Closed</td>';
-										
+									echo '<td>';
+									for($i=0;$i<count($order_detail_list);$i++){
+										$order_detail = $order_detail_list[$i];
+										if($order_detail['status'] == 'order cancelled'){
+										echo '<span class="label label-danger">'.$order_detail['status'].'</span><br>----------------<br><br><br><br><br><br><br><br>';
+										}
+										else if($order_detail['status'] == 'order shipped'){
+										echo '<span class="label label-success">'.$order_detail['status'].'</span><br>----------------<br><br><br><br><br><br><br><br>';
+										}
+										else{
+										echo '<span class="label label-info">'.$order_detail['status'].'</span><br>----------------<br><br><br><br><br><br><br><br>';
+										}
 									}
-									else if($order_detail['status'] == 'order shipped'){
-										echo '<td><span class="label label-success">'.$order_detail['status'].'</span></td>';
-										echo '<td>Order Shipped</td>';
+									echo '</td>';
+									echo '<td>';
+									for($i=0;$i<count($order_detail_list);$i++){
+										$order_detail = $order_detail_list[$i];
+										if($order_detail['status'] == 'order cancelled'){
+											echo 'Order Closed<br>----------------<br><br><br><br><br><br><br>';
+											
+											
+										}
+										else if($order_detail['status'] == 'order shipped'){
+											echo 'Order Shipped<br>----------------<br><br><br><br><br><br><br>';
+											
+										}
+										else{
+											echo '<a class="btn btn-okay" onclick="'.'proceed('.$key.','.$i.');'.'"><i class="fa fa-times-check"></i> Proceed</a><br><br><a class="btn btn-danger" onclick="'.'cancel('.$key.','.$i.');'.'"><i class="fa fa-times-circle"></i> Cancel</a>
+											<br>----------------<br><br><br><br><br>';
+											
+										}
 									}
-									else{
-										echo '<td><span class="label label-info">'.$order_detail['status'].'</span></td>';
-										echo '<td><a class="btn btn-okay" onclick="proceed('.$key.');"><i class="fa fa-times-check"></i> Proceed</a><br><br>
-											  <a class="btn btn-danger" onclick="cancel('.$key.');"><i class="fa fa-times-circle"></i> Cancel</a>
-											  </td>';
-
-									}
+									echo '</td>';
 									echo '</tr>';
 									
 								}
