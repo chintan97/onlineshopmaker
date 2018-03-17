@@ -86,6 +86,9 @@ if(!isset($_SESSION["username"])){
 		else if(choice == "view-orders"){
 			document.getElementById("mainContent").innerHTML='<iframe width=100% height=100% src="view-orders-admin.php">iframe is not supported, try Chrome browser</iframe>';
 		}
+		else if(choice == "change-password-admin"){
+			document.getElementById("mainContent").innerHTML='<iframe width=100% height=100% src="change-password-admin.php">iframe is not supported, try Chrome browser</iframe>';
+		}
   	}
   </script>
 </head>
@@ -103,8 +106,8 @@ if(!isset($_SESSION["username"])){
 		<hr width="1" size="610">
 	</div>
 	<div class="topBar" id="topBar">
-		<button onclick="#">Change Password</button>
-		<button onclick="#">Logout</button>
+		<button onclick="load_pages('change-password-admin');">Change Password</button>
+		<button><a href="logout.php" style="text-decoration: none; color: #FFFFFF">Logout</a></button>
 		<button class="badge1" data-badge="0">Notifications</button>
 		<hr>
 	</div>
