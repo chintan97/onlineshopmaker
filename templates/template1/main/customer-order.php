@@ -131,7 +131,7 @@
                         <h1>Order #<?php echo $_GET['order_id']; ?></h1>
 
                         <p class="lead">Order #<?php echo $_GET['order_id']; ?> was placed on <strong><?php echo $other_data[7]; ?></strong> at <strong><?php echo $other_data[8]; ?> (IST)</strong>.</p>
-                        <p class="text-muted">If you have any questions, please feel free to <a href="contact.php">contact us</a>, our customer service center is working for you 24/7.</p>
+                        <p class="text-muted">If you have any questions, please feel free to <a href="contact.php">contact us</a>, our customer service center is working for you 24/7. Order total shown here will not change if you cancel order.</p>
 
                         <hr>
 
@@ -144,6 +144,7 @@
                                         <th>Unit price</th>
                                         <th>Total</th>
                                         <th>Status</th>
+                                        <th>Cancel</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -156,7 +157,22 @@
                                                     <td>'.$value[2].'</td>
                                                     <td>'.$currency.$value[3].'</td>
                                                     <td>'.$currency.$value[4].'</td>
-                                                    <td>'.$value[5].'</td>
+                                                    <td>';
+                                                    if ($value[5] == 'cancelled (user)'){
+                                                        echo 'cancelled';
+                                                    }
+                                                    else {
+                                                        echo $value[5];
+                                                    }
+                                                    echo '</td>
+                                                    <td>';
+                                                    if ($value[5] == 'order received'){
+                                                        echo '<a href="delete-order.php?id='.$order_id.'&ind='.$key.'&root='.$shopname.'"><i class="fa fa-trash-o"></i></a>';
+                                                    }
+                                                    else {
+                                                        echo 'You can not cancel now!';
+                                                    }
+                                                    echo '</td>
                                                 </tr>';
                                           }  
                                     ?>

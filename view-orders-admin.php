@@ -183,6 +183,9 @@
 										if($order_detail['status'] == 'order cancelled'){
 										echo '<span class="label label-danger">'.$order_detail['status'].'</span><br>----------------<br><br><br><br><br><br><br><br>';
 										}
+										if($order_detail['status'] == 'cancelled (user)'){
+										echo '<span class="label label-danger">'.$order_detail['status'].'</span><br>----------------<br><br><br><br><br><br><br><br>';
+										}
 										else if($order_detail['status'] == 'order shipped'){
 										echo '<span class="label label-success">'.$order_detail['status'].'</span><br>----------------<br><br><br><br><br><br><br><br>';
 										}
@@ -196,6 +199,11 @@
 										$order_detail = $order_detail_list[$i];
 										if($order_detail['status'] == 'order cancelled'){
 											echo 'Order Closed<br>----------------<br><br><br><br><br><br><br>';
+											
+											
+										}
+										else if($order_detail['status'] == 'cancelled (user)'){
+											echo 'Order cancelled by user<br>----------------<br><br><br><br><br><br><br>';
 											
 											
 										}

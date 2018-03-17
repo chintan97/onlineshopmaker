@@ -30,6 +30,31 @@ if (filesize('user_folders/'.$_SESSION["username"].'/product_data.json') > 0){
 			<link rel="stylesheet" href="css/style.css" />
 			<link rel="stylesheet" href="css/style-xlarge.css" />
 		</noscript>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCnN1vzotvPpQp18QJW8gWpbWaCHpzP-5w&libraries=places&callback=initAutocomplete" defer></script>
+		<script>
+
+		      function initAutocomplete() {
+		        autocomplete = new google.maps.places.Autocomplete((document.getElementById('autocomplete')),{types: ['geocode']});
+				
+		      }
+			  function geolocate() {
+		        if (navigator.geolocation) {
+		          navigator.geolocation.getCurrentPosition(function(position) {
+		            var geolocation = {
+		              lat: position.coords.latitude,
+		              lng: position.coords.longitude
+		            };
+		            var circle = new google.maps.Circle({
+		              center: geolocation,
+		              radius: position.coords.accuracy
+		            });
+		            autocomplete.setBounds(circle.getBounds());
+		          });
+		        }
+				
+		      }
+		      
+		</script>
 	</head>
 	<body>
 
@@ -91,21 +116,11 @@ if (filesize('user_folders/'.$_SESSION["username"].'/product_data.json') > 0){
 									</td>
 								</tr>
 								<tr>
-									<td>city</td>
+									<td>Nearest location (Atleast city must be selected)</td>
 									<td>
-										<input type="text" name="shop_city" id="shop_city" required/>
-									</td>
-								</tr>
-								<tr>
-									<td>state</td>
-									<td>
-										<input type="text" name="shop_state" id="shop_state" required/>
-									</td>
-								</tr>
-								<tr>
-									<td>country</td>
-									<td>
-										<input type="text" name="shop_country" id="shop_country" required/>
+										<div id="locationField">
+										<input id="autocomplete" name="autocomplete" placeholder="Start typing and select nearest location" type="text" size="50"></input>
+										</div>
 									</td>
 								</tr>
 								<tr>

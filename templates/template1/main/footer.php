@@ -51,10 +51,17 @@
 
                     <p>
                         <strong><?php echo $read_data[$owner]['shop_address']; ?></strong>
-                        <br><?php echo $read_data[$owner]['shop_city']; ?> 
-                        <br><?php echo $read_data[$owner]['shop_state']; ?> 
-                        <br>
-                        <strong><?php echo $read_data[$owner]['shop_country']; ?> </strong>
+                        <?php 
+                            $split_nearest_location = explode(',', $read_data[$owner]['shop_nearest_location']);
+                            foreach ($split_nearest_location as $key => $value) {
+                                if ($key != (count($split_nearest_location) - 1)){
+                                    echo '<br>'.$value;
+                                }
+                                else {
+                                    echo '<br><strong>'.$value.'</strong>'; // Country name
+                                }
+                            }
+                        ?>  
                     </p>
 
                     <a href="contact.php">Go to contact page</a>

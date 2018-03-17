@@ -20,9 +20,7 @@
 	$product_image = $_FILES["product_image"];
 	$shop_name = $_POST["shop_name"];
 	$shop_address = $_POST["shop_address"];
-	$shop_city = $_POST["shop_city"];
-	$shop_state = $_POST["shop_state"];
-	$shop_country = $_POST["shop_country"];
+	$shop_nearest_location = $_POST["shop_nearest_location"];
 	$contact_email = $_POST["contact_email"];
 	$contact_mobile = $_POST["contact_mobile"];
 	$product_currency = $_POST["product_currency"];
@@ -76,7 +74,7 @@
 		$file_read = fread($file_owner, filesize('user_folders/'.$user.'/owner_data.json'));
 		$read_data = json_decode($file_read, true);
 		$previous_array = $read_data[$user];
-		$temp_data = array('shop_address' => (String)$shop_address, 'shop_city' => (String)$shop_city, 'shop_state' => (String)$shop_state, 'shop_country' => (String)$shop_country, 'contact_email' => (String)$contact_email, 'contact_mobile' => (String)$contact_mobile, 'product_currency' => (String)$product_currency, 'shop_name' => (String)$shop_name);
+		$temp_data = array('shop_address' => (String)$shop_address, 'shop_nearest_location' => (String)$shop_nearest_location, 'contact_email' => (String)$contact_email, 'contact_mobile' => (String)$contact_mobile, 'product_currency' => (String)$product_currency, 'shop_name' => (String)$shop_name);
 		$new_array = array_merge($previous_array, $temp_data);
 		$new_data[$user] = $new_array;
 		file_put_contents('user_folders/'.$user.'/owner_data.json', json_encode($new_data));

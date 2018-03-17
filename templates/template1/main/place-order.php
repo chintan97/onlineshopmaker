@@ -24,7 +24,7 @@
 			else {
 				$price = $value[4];
 			}
-			array_push($get_order_data, ['product_category' => (String)$value[7], 'product_subcategory' => (String)$value[8], 'product_name' => (String)$value[1], 'product_id' => (String)$value[5], 'product_quantity' => (String)$value[6], 'sold_price' => (String)$price, 'subtotal' => (String)((int)$value[6] * (int)$price), 'status' => 'order recieved']);
+			array_push($get_order_data, ['product_category' => (String)$value[7], 'product_subcategory' => (String)$value[8], 'product_name' => (String)$value[1], 'product_id' => (String)$value[5], 'product_quantity' => (String)$value[6], 'sold_price' => (String)$price, 'subtotal' => (String)((int)$value[6] * (int)$price), 'status' => 'order received']);
 		}
 		$order['order_detail'] = $get_order_data;
 		$make_order = array_merge($order, $fetch_user_data);
