@@ -110,21 +110,44 @@
 			function cancel(key,index){
 				window.location.href= 'update-orders-admin.php?cancel='+key+'&id='+index;
 			}
+			function load(type){
+				if(type == 'new'){
+					document.getElementById('ship_table').style.display='none';
+					document.getElementById('cancel_table').style.display='none';
+					document.getElementById('new_table').style.display='block';
+					
+				}
+				else if(type == 'ship'){
+					document.getElementById('cancel_table').style.display='none';
+					document.getElementById('new_table').style.display='none';
+					document.getElementById('ship_table').style.display='block';
+					
+
+				}
+				else{
+					document.getElementById('new_table').style.display='none';
+					document.getElementById('ship_table').style.display='none';
+					document.getElementById('cancel_table').style.display='block';
+				}
+			}
 		</script>
 			
 	</head>
 	<body>
-		
-			
-		
 		<div class="col-md-9" id="customer-orders">
 			<div class="box">
-				<h2>Orders</h2>
-				<div class="table-responsive">
+				<h2 align="center">Orders</h2>
+				<div id="new_table" class="table-responsive">
+					<div id="buttons_1" align="center" >
+						<a id="new_button" class="button" onclick="load('new');">New Orders</a>
+						<a id="ship_button" class="button alt" onclick="load('ship');">Shipped Orders</a>
+						<a id="cancel_button" class="button alt" onclick="load('cancel');">Cancelled Orders</a>
+					</div>
+					<br>
 					<table class="table table-hover">
 						<?php 
 							if (file_exists('orders.json') == 0){
-								echo "<h3>You have no orders.</h3>";
+								echo "<h3 align='center'>You have no orders.</h3>";
 							}
 							else {
 								$file_name = 'orders.json';
@@ -215,6 +238,184 @@
 											echo '<a class="btn btn-okay" onclick="'.'proceed('.$key.','.$i.');'.'"><i class="fa fa-times-check"></i> Proceed</a><br><br><a class="btn btn-danger" onclick="'.'cancel('.$key.','.$i.');'.'"><i class="fa fa-times-circle"></i> Cancel</a>
 											<br>----------------<br><br><br><br><br>';
 											
+										}
+									}
+									echo '</td>';
+									echo '</tr>';
+									
+								}
+									  
+									
+									   echo '</tbody>';
+							}
+						?>
+						
+					</table>
+                </div>
+                <div id="ship_table" class="table-responsive" style="display:none">
+                	<div id="buttons_2" align="center" >
+						<a id="new_button" class="button alt" onclick="load('new');">New Orders</a>
+						<a id="ship_button" class="button" onclick="load('ship');">Shipped Orders</a>
+						<a id="cancel_button" class="button alt" onclick="load('cancel');">Cancelled Orders</a>
+					</div>
+					<br>
+					<table class="table table-hover">
+						<?php 
+							if (file_exists('shipped_orders.json') == 0){
+								echo "<h3 align='center'>You have no orders.</h3>";
+							}
+							else {
+								$file_name = 'shipped_orders.json';
+								$str = file_get_contents($file_name);
+								$json = json_decode($str, true);
+								$root = array_keys($json)[0];
+								$orders = $json[$root];
+								
+								echo '<thead>
+										<tr>
+											<th>Order ID</th>
+											<th>Product</th>
+											<th>User</th>
+											<th>Date/Time</th>
+											<th>Status</th>
+										</tr>
+									  </thead>
+									<tbody>';
+								foreach($orders as $key => $value){
+									$order_detail_list = $value['order_detail'];
+									echo '<tr>
+                                                <th># '.$key.'</th>
+												<td>';
+									for($i=0;$i<count($order_detail_list);$i++){
+										$order_detail = $order_detail_list[$i];
+										 			echo 'Product ID : '.$order_detail['product_id'].'<br>
+													Product name : '.$order_detail['product_name'].'<br>
+													Product category : '.$order_detail['product_category'].'<br>
+													Product subcategory : '.$order_detail['product_subcategory'].'<br>
+													Product price : '.$order_detail['sold_price'].'<br>
+													Product quantity : '.$order_detail['product_quantity'].'<br>
+													Total : '.$order_detail['subtotal'].'<br>----------------<br>';
+												
+									}
+									echo '</td>';
+									echo '<td>Name : '.$value['name'].'<br>
+											  Email : '.$value['email'].'<br>
+											  Phone : '.$value['phone'].'<br>
+											  ------Address------
+														<div>'.$value['address'].',<br>
+											             '.$value['city'].',<br> 
+														 '.$value['zip'].',<br> 
+														 '.$value['state'].',<br> 
+														 '.$value['country'].'.
+									
+										  </div></td>';
+									echo '<td>'
+										  .$value['date'].'<br>'
+										  .$value['time'].
+										  '</td>';
+									echo '<td>';
+									for($i=0;$i<count($order_detail_list);$i++){
+										$order_detail = $order_detail_list[$i];
+										if($order_detail['status'] == 'order cancelled'){
+										echo '<span class="label label-danger">'.$order_detail['status'].'</span><br>----------------<br><br><br><br><br><br><br><br>';
+										}
+										if($order_detail['status'] == 'cancelled (user)'){
+										echo '<span class="label label-danger">'.$order_detail['status'].'</span><br>----------------<br><br><br><br><br><br><br><br>';
+										}
+										else if($order_detail['status'] == 'order shipped'){
+										echo '<span class="label label-success">'.$order_detail['status'].'</span><br>----------------<br><br><br><br><br><br><br><br>';
+										}
+										else{
+										echo '<span class="label label-info">'.$order_detail['status'].'</span><br>----------------<br><br><br><br><br><br><br><br>';
+										}
+									}
+									echo '</td>';
+									echo '</tr>';
+									
+								}
+									  
+									
+									   echo '</tbody>';
+							}
+						?>
+						
+					</table>
+                </div>
+                <div id="cancel_table" class="table-responsive" style="display:none">
+                	<div id="buttons_3" align="center">
+						<a id="new_button" class="button alt" onclick="load('new');">New Orders</a>
+						<a id="ship_button" class="button alt" onclick="load('ship');">Shipped Orders</a>
+						<a id="cancel_button" class="button" onclick="load('cancel');">Cancelled Orders</a>
+					</div>
+					<br>
+					<table class="table table-hover">
+						<?php 
+							if (file_exists('cancelled_orders.json') == 0){
+								echo "<h3 align='center'>You have no orders.</h3>";
+							}
+							else {
+								$file_name = 'cancelled_orders.json';
+								$str = file_get_contents($file_name);
+								$json = json_decode($str, true);
+								$root = array_keys($json)[0];
+								$orders = $json[$root];
+								
+								echo '<thead>
+										<tr>
+											<th>Order ID</th>
+											<th>Product</th>
+											<th>User</th>
+											<th>Date/Time</th>
+											<th>Status</th>
+										</tr>
+									  </thead>
+									<tbody>';
+								foreach($orders as $key => $value){
+									$order_detail_list = $value['order_detail'];
+									echo '<tr>
+                                                <th># '.$key.'</th>
+												<td>';
+									for($i=0;$i<count($order_detail_list);$i++){
+										$order_detail = $order_detail_list[$i];
+										 			echo 'Product ID : '.$order_detail['product_id'].'<br>
+													Product name : '.$order_detail['product_name'].'<br>
+													Product category : '.$order_detail['product_category'].'<br>
+													Product subcategory : '.$order_detail['product_subcategory'].'<br>
+													Product price : '.$order_detail['sold_price'].'<br>
+													Product quantity : '.$order_detail['product_quantity'].'<br>
+													Total : '.$order_detail['subtotal'].'<br>----------------<br>';
+												
+									}
+									echo '</td>';
+									echo '<td>Name : '.$value['name'].'<br>
+											  Email : '.$value['email'].'<br>
+											  Phone : '.$value['phone'].'<br>
+											  ------Address------
+														<div>'.$value['address'].',<br>
+											             '.$value['city'].',<br> 
+														 '.$value['zip'].',<br> 
+														 '.$value['state'].',<br> 
+														 '.$value['country'].'.
+									
+										  </div></td>';
+									echo '<td>'
+										  .$value['date'].'<br>'
+										  .$value['time'].
+										  '</td>';
+									echo '<td>';
+									for($i=0;$i<count($order_detail_list);$i++){
+										$order_detail = $order_detail_list[$i];
+										if($order_detail['status'] == 'order cancelled'){
+										echo '<span class="label label-danger">'.$order_detail['status'].'</span><br>----------------<br><br><br><br><br><br><br><br>';
+										}
+										else if($order_detail['status'] == 'cancelled (user)'){
+										echo '<span class="label label-danger">'.$order_detail['status'].'</span><br>----------------<br><br><br><br><br><br><br><br>';
+										}
+										else if($order_detail['status'] == 'order shipped'){
+										echo '<span class="label label-success">'.$order_detail['status'].'</span><br>----------------<br><br><br><br><br><br><br><br>';
+										}
+										else{
+										echo '<span class="label label-info">'.$order_detail['status'].'</span><br>----------------<br><br><br><br><br><br><br><br>';
 										}
 									}
 									echo '</td>';
