@@ -7,8 +7,11 @@ if(!isset($_SESSION["username"])){
 	</script>';
 }
 //$fl = fopen('user_folders/'.$_SESSION["username"].'/product_data.json', 'r');
-if (filesize('user_folders/'.$_SESSION["username"].'/product_data.json') > 0){
+if (filesize('user_folders/'.$_SESSION["username"].'/product_data.json') > 0 && !file_exists('user_folders/'.$_SESSION['username'].'/index.php')){
 	header('location:template.php');
+}
+else if (file_exists('user_folders/'.$_SESSION['username'].'/index.php')){
+	header("location:admin-page.php");
 }
 ?>
 <!DOCTYPE html>
