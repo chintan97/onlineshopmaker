@@ -50,11 +50,11 @@
 
     <!-- *** NAVBAR ***
  _________________________________________________________ -->
- 	<?php require("nav-bar.php"); ?>
+    <?php require("nav-bar.php"); ?>
 
     <!-- *** NAVBAR END *** -->
-	
-	
+    
+    
 
 
     <div id="all">
@@ -64,17 +64,17 @@
             <div class="container">
                 <div class="col-md-12">
                     <div id="main-slider">
-							
-						<?php
-						
-							$files = array_diff(scandir('./images',1),array('..','.'));
-							for($i=0;$i<count($files);$i++){
-								if($i==4){break;}
-								else{
-									echo '<div class="item"><img style="margin-left:auto; margin-right:auto; margin-top:auto; display:block;" class="img-responsive" src="./images/'.$files[$i].'"></div>';
-								}
-							}
-						?>
+                            
+                        <?php
+                        
+                            $files = array_diff(scandir('./images',1),array('..','.'));
+                            for($i=0;$i<count($files);$i++){
+                                if($i==4){break;}
+                                else{
+                                    echo '<div class="item"><img src="./images/'.$files[$i].'"></div>';
+                                }
+                            }
+                        ?>
                         
                     </div>
                     <!-- /#main-slider -->
@@ -141,80 +141,80 @@
 
                 <div class="container">
                     <div class="product-slider">
-						<?php
-								$count=0;
-								for($i=0;$i<count($category);$i++){	
-									$cat = $category[$i];
-									for($j=0;$j<count($json[$shopname][$cat]);$j++){
-										$subcat = array_keys($json[$shopname][$cat])[$j];
-										for($k=0;$k<count($json[$shopname][$cat][$subcat]);$k++){
-											$product = array_keys($json[$shopname][$cat][$subcat])[$k];
-											$count++;
-											$product_array = $json[$shopname][$cat][$subcat][$product];
-											if ($count == 10){goto a;}
-											else{
-												echo 
-													'<div class="item">
-														<div class="product">
-															<div class="flip-container">
-																<div class="flipper">
-																	<div class="front">
-																		<a href="detail.php?pro='.$product.'&id='.$product_array['product_id'].'">
-																		<img class="img-responsive" src="./images/'.$product_array['product_image'][0].'" alt="" >
-																		</a>
-																	</div>';
-													if (count($product_array['product_image']) > 1){
-														$n=1;
-													}
-													else{
-														$n=0;
-													}
-													echo 
-																	'<div class="back">
-																		<a href="detail.php?pro='.$product.'&id='.$product_array['product_id'].'">
-																		<img class="img-responsive" src="./images/'.$product_array['product_image'][$n].'" alt="" >
-																		</a>
-																	</div>
-																</div>
-															</div>
-															<a href="detail.php?pro='.$product.'&id='.$product_array['product_id'].'" class="invisible">
-															<img src="./images/'.$product_array['product_image'][0].'" alt="" class="img-responsive">
-															</a>
-															<div class="text">
-																<h3><a href="detail.php?pro='.$product.'&id='.$product_array['product_id'].'">'.$product.'</a></h3>';
-													
-													if($product_array['product_offer_price'] != ""){ 
-														echo '<p class="price"><del>'.$currency.$product_array['product_price'].'</del>'.$currency.$product_array['product_offer_price'].'</p>';
-													}
-													else{
-														echo '<p class="price">'.$currency.$product_array['product_price'].'</p>';
-													}
-													echo '</div>';
-													if ($product_array['product_offer_price'] != ""){ 
-														echo
-																'<div class="ribbon sale">
-																	<div class="theribbon">SALE</div>
-																	<div class="ribbon-background"></div>
-																</div>';
-																
-													}
-													echo '
-														</div>
-													</div>';
-											}
-										
-											
-										}
-										
-										
-									}
-								
-							
-							}
-							a:;
-						?>
-						</div>
-						</div>
+                        <?php
+                                $count=0;
+                                for($i=0;$i<count($category);$i++){ 
+                                    $cat = $category[$i];
+                                    for($j=0;$j<count($json[$shopname][$cat]);$j++){
+                                        $subcat = array_keys($json[$shopname][$cat])[$j];
+                                        for($k=0;$k<count($json[$shopname][$cat][$subcat]);$k++){
+                                            $product = array_keys($json[$shopname][$cat][$subcat])[$k];
+                                            $count++;
+                                            $product_array = $json[$shopname][$cat][$subcat][$product];
+                                            if ($count == 10){goto a;}
+                                            else{
+                                                echo 
+                                                    '<div class="item" >
+                                                        <div class="product" >
+                                                            <div class="flip-container" >
+                                                                <div class="flipper">
+                                                                    <div class="front">
+                                                                        <a href="detail.php?pro='.$product.'&id='.$product_array['product_id'].'">
+                                                                        <img style="width: 160px; height: 220px; margin-left:10px; margin-top:10px;" class="img-responsive" src="./images/'.$product_array['product_image'][0].'" alt="" >
+                                                                        </a>
+                                                                    </div>';
+                                                    if (count($product_array['product_image']) > 1){
+                                                        $n=1;
+                                                    }
+                                                    else{
+                                                        $n=0;
+                                                    }
+                                                    echo 
+                                                                    '<div class="back">
+                                                                        <a href="detail.php?pro='.$product.'&id='.$product_array['product_id'].'">
+                                                                        <img style="width: 160px; height: 220px; margin-left:10px margin-top:10px;" class="img-responsive" src="./images/'.$product_array['product_image'][$n].'" alt="" >
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            
+                                                            </a>
+                                                            <div class="text">
+                                                                <h3><a href="detail.php?pro='.$product.'&id='.$product_array['product_id'].'">'.$product.'</a></h3>';
+                                                    
+                                                    if($product_array['product_offer_price'] != ""){ 
+                                                        echo '<p class="price"><del>'.$currency.$product_array['product_price'].'</del>'.$currency.$product_array['product_offer_price'].'</p>';
+                                                    }
+                                                    else{
+                                                        echo '<p class="price">'.$currency.$product_array['product_price'].'</p>';
+                                                    }
+                                                    echo '</div>';
+                                                    if ($product_array['product_offer_price'] != ""){ 
+                                                        echo
+                                                                '<div class="ribbon sale">
+                                                                    <div class="theribbon">SALE</div>
+                                                                    <div class="ribbon-background"></div>
+                                                                </div>';
+                                                                
+                                                    }
+                                                    echo '
+                                                        </div>
+                                                    </div>';
+                                            }
+                                        
+                                            
+                                        }
+                                        
+                                        
+                                    }
+                                
+                            
+                            }
+                            a:;
+                        ?>
+                        </div>
+                        </div>
                 </div>
                 
 
@@ -231,20 +231,20 @@
                         <h3>Other Products</h3>
                         <p class="lead">Get the best products from our shop</p>
                         <div id="get-inspired" class="owl-carousel owl-theme">
-							<?php
-								$files = array_reverse($files);
-								for($i=0;$i<count($files);$i++){
-								if($i==4){break;}
-								else{
-									echo 
-									'<div class="item">
-										<a href="#">
-										<img src="./images/'.$files[$i].'" alt="Best Products" class="img-responsive">
-										</a>
-									</div>';
-								}
-							}
-							?>
+                            <?php
+                                $files = array_reverse($files);
+                                for($i=0;$i<count($files);$i++){
+                                if($i==4){break;}
+                                else{
+                                    echo 
+                                    '<div class="item">
+                                        <a href="#">
+                                        <img style="margin-left: auto; margin-right:auto;" src="./images/'.$files[$i].'" alt="Best Products" class="img-responsive">
+                                        </a>
+                                    </div>';
+                                }
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>

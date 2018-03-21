@@ -141,7 +141,7 @@
                                             foreach ($buy_data as $buy_key => $buy_value) {
                                                 echo '<tr>
                                                     <td>
-                                                        <img src="images/'.$buy_value[0].'" alt="Image not available">
+                                                        <img style="width: 45px; height:50px;" src="images/'.$buy_value[0].'" alt="Image not available">
                                                     </td>
                                                     <td>'.$buy_value[1].'
                                                     </td>

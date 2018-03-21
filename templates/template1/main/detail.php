@@ -222,7 +222,7 @@
                     <div class="row" id="productMain">
                         <div class="col-sm-6">
                             <div id="mainImage">
-                                <?php echo "<img src='images/".$proimages[0]."' alt='Image not found' class='img-responsive'>"; ?>
+                                <?php echo "<img style='margin-left:auto; margin-right:auto;' src='images/".$proimages[0]."' alt='Image not found' class='img-responsive'>"; ?>
                             </div>
 
                             <?php
@@ -307,7 +307,7 @@
                                         echo "
                                             <div class='col-xs-4'>
                                                 <a href='images/".$value."' class='thumb'>
-                                                 <img src='images/".$value."' alt='image not available' class='img-responsive'>
+                                                 <img style='width: 250px; height: 200px;' src='images/".$value."' alt='image not available' class='img-responsive'>
                                                 </a> 
                                             </div>
                                         ";
@@ -406,23 +406,22 @@
                                                                     }
                                                                     echo '<div class="front">
                                                                         <a href="detail.php?pro='.$pro_data[$count][0].'&id='.$pro_data[$count][1]["product_id"].'">
-                                                                            <img src="images/'.$pro_data[$count][1]["product_image"][0].'" alt="Image not available" class="img-responsive">
+                                                                            <img style="width:200px; height:250px" src="images/'.$pro_data[$count][1]["product_image"][0].'" alt="Image not available" class="img-responsive">
                                                                         </a>
                                                                     </div>
                                                                     <div class="back">
                                                                         <a href="detail.php?pro='.$pro_data[$count][0].'&id='.$pro_data[$count][1]["product_id"].'">';
                                                                             if (isset($pro_data[$count][1]['product_image'][1])){
-                                                                                echo '<img src="images/'.$pro_data[$count][1]["product_image"][1].'" alt="Image not available" class="img-responsive">';
+                                                                                echo '<img style="width:200px; height:250px" src="images/'.$pro_data[$count][1]["product_image"][1].'" alt="Image not available" class="img-responsive">';
                                                                             }
                                                                             else {
-                                                                                echo '<img src="images/'.$pro_data[$count][1]["product_image"][0].'" alt="Image not available" class="img-responsive">';
+                                                                                echo '<img style="width:200px; height:250px" src="images/'.$pro_data[$count][1]["product_image"][0].'" alt="Image not available" class="img-responsive">';
                                                                             }
                                                                         echo '</a>
                                                                     </div>
                                                             </div>
                                                         </div>
-                                                            <a href="detail.php?pro='.$pro_data[$count][0].'&id='.$pro_data[$count][1]["product_id"].'" class="invisible">
-                                                                <img src="images/'.$pro_data[$count][1]["product_image"][0].'" alt="Image not available" class="img-responsive">
+                                                            
                                                             </a>
                                                             <div class="text">
                                                                 <h3>'.$pro_data[$count][0].'</h3>';
