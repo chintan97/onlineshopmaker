@@ -10,6 +10,9 @@ if(!isset($_SESSION["username"])){
 <html>
 <head>
 	<title>admin page</title>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/skel.min.js"></script>
+	<script src="js/skel-layers.min.js"></script>
 <style>
    .menu {
       	float:left;
@@ -35,8 +38,8 @@ if(!isset($_SESSION["username"])){
     	float: right;
    		position:relative;
 	}
-	.badge1[data-badge]:after {
-	   content:attr(data-badge);
+	.badge1[value]:after {
+	   content:attr(value);
 	   position:absolute;
 	   top:-10px;
 	   right:-10px;
@@ -89,11 +92,33 @@ if(!isset($_SESSION["username"])){
 		else if(choice == "change-password-admin"){
 			document.getElementById("mainContent").innerHTML='<iframe width=100% height=100% src="change-password-admin.php">iframe is not supported, try Chrome browser</iframe>';
 		}
-		else if(choice == "download-website"){
-			document.getElementById("mainContent").innerHTML='<iframe width=100% height=100% src="download-website-admin.php">iframe is not supported, try Chrome browser</iframe>';
+		else if(choice == "show-notifications"){
+			document.getElementById("mainContent").innerHTML='<iframe width=100% height=100% src="view-notifications.php">iframe is not supported, try Chrome browser</iframe>';
 		}
   	}
   </script>
+  <script>
+	var temp = 1;
+	$(document).ready(function(){
+	function check_notifications() {
+		  if (window.XMLHttpRequest) {
+		    // code for IE7+, Firefox, Chrome, Opera, Safari
+		    xmlhttp=new XMLHttpRequest();
+		  } else {  // code for IE6, IE5
+		    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+		  }
+		  xmlhttp.onreadystatechange=function() {
+		    if (this.readyState==4 && this.status==200) {
+		      document.getElementById("badge1").value=this.responseText;
+		    }
+		  }
+		  xmlhttp.open("GET","check-notifications.php",true);
+		  xmlhttp.send();
+		}
+	setInterval(check_notifications,30000);
+	});
+  </script>
+
 </head>
 <body style="background-color: #FCFBF1">
 	<div class="menu" id="menu"><br>
@@ -104,7 +129,6 @@ if(!isset($_SESSION["username"])){
 		<button onclick="load_pages('delete-products');">Delete product</button><br><br>
 		<button onclick="load_pages('add-products');">Add product</button><br><br>
 		<button onclick="load_pages('view-orders');">View orders</button><br><br>
-		<button onclick="load_pages('download-website');">Download website</button><br><br>
 	</div>
 	<div class="hr">
 		<hr width="1" size="610">
@@ -112,7 +136,7 @@ if(!isset($_SESSION["username"])){
 	<div class="topBar" id="topBar">
 		<button onclick="load_pages('change-password-admin');">Change Password</button>
 		<button><a href="logout.php" style="text-decoration: none; color: #FFFFFF">Logout</a></button>
-		<button class="badge1" data-badge="0">Notifications</button>
+		<button onclick="load_pages('show-notifications');" class="badge1" id="badge1" value="0">Notifications</button>
 		<hr>
 	</div>
   	<div class="mainContent" id="mainContent">
