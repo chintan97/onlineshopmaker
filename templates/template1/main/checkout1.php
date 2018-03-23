@@ -136,7 +136,7 @@
                 <div class="col-md-9" id="checkout">
 
                     <div class="box">
-                        <form method="post" name="update_data" action="checkout2.php">
+                        <form method="post" name="update_data" action="update_product_data_user.php">
                             <h1>Checkout</h1>
                             <ul class="nav nav-pills nav-justified">
                                 <li class="active"><a href="#"><i class="fa fa-map-marker"></i><br>Address</a>
