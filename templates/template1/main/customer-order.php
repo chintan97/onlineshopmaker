@@ -10,12 +10,36 @@
             $order_file = fopen('orders.json', 'a+');
             $order_file_read = fread($order_file, filesize('orders.json'));
             $order_file_data = json_decode($order_file_read, true);
-            $order_data = $order_file_data[$shopname][$order_id];
             $show_data = []; // [0=product name, 1=product id, 2=quantity, 3=sold price, 4=subtotal, 5=status]
-            foreach ($order_data['order_detail'] as $key => $value) {
-                array_push($show_data, [$value['product_name'], $value['product_id'], $value['product_quantity'], $value['sold_price'], $value['subtotal'], $value['status']]);
+            if (isset($order_file_data[$shopname][$order_id])){
+                $order_data = $order_file_data[$shopname][$order_id];
+                foreach ($order_data['order_detail'] as $key => $value) {
+                    array_push($show_data, [$value['product_name'], $value['product_id'], $value['product_quantity'], $value['sold_price'], $value['subtotal'], $value['status']]);
+                }
+                $other_data = [$order_data['name'], $order_data['address'], $order_data['city'], $order_data['zip'], $order_data['state'], $order_data['country'], $order_data['total_amount'], $order_data['date'], $order_data['time']];
             }
-            $other_data = [$order_data['name'], $order_data['address'], $order_data['city'], $order_data['zip'], $order_data['state'], $order_data['country'], $order_data['total_amount'], $order_data['date'], $order_data['time']];
+            if (file_exists('cancelled_orders.json')){
+                $cancel_file_read = file_get_contents('cancelled_orders.json');
+                $cancel_file_data = json_decode($cancel_file_read, true);
+                if (isset($cancel_file_data[$shopname][$order_id])){
+                    $order_data = $cancel_file_data[$shopname][$order_id];
+                    foreach ($order_data['order_detail'] as $key => $value) {
+                        array_push($show_data, [$value['product_name'], $value['product_id'], $value['product_quantity'], $value['sold_price'], $value['subtotal'], $value['status']]);
+                    }
+                    $other_data = [$order_data['name'], $order_data['address'], $order_data['city'], $order_data['zip'], $order_data['state'], $order_data['country'], $order_data['total_amount'], $order_data['date'], $order_data['time']];
+                }
+            }
+            if (file_exists('shipped_orders.json')){
+                $ship_file_read = file_get_contents('shipped_orders.json');
+                $ship_file_data = json_decode($ship_file_read, true);
+                if (isset($ship_file_data[$shopname][$order_id])){
+                    $order_data = $ship_file_data[$shopname][$order_id];
+                    foreach ($order_data['order_detail'] as $key => $value) {
+                        array_push($show_data, [$value['product_name'], $value['product_id'], $value['product_quantity'], $value['sold_price'], $value['subtotal'], $value['status']]);
+                    }
+                    $other_data = [$order_data['name'], $order_data['address'], $order_data['city'], $order_data['zip'], $order_data['state'], $order_data['country'], $order_data['total_amount'], $order_data['date'], $order_data['time']];
+                }
+            }
         }
         else {
             echo '<script>window.location.href="customer-orders.php";</script>';
@@ -158,11 +182,17 @@
                                                     <td>'.$currency.$value[3].'</td>
                                                     <td>'.$currency.$value[4].'</td>
                                                     <td>';
-                                                    if ($value[5] == 'cancelled (user)'){
-                                                        echo 'cancelled';
+                                                    if ($value[5] == 'order received'){
+                                                        echo '<span class="label label-info">order received</span>';
                                                     }
-                                                    else {
-                                                        echo $value[5];
+                                                    else if ($value[5] == 'cancelled (user)'){
+                                                        echo '<span class="label label-danger">cancelled by you</span>';
+                                                    }
+                                                    else if ($value[5] == 'order cancelled'){
+                                                        echo '<span class="label label-danger">cancelled by seller</span>';
+                                                    }
+                                                    else if ($value[5] == 'order shipped'){
+                                                        echo '<span class="label label-warning"  style="background-color:green">order shipped</span>';
                                                     }
                                                     echo '</td>
                                                     <td>';
@@ -179,7 +209,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="5" class="text-right">Order total</th>
+                                        <th colspan="6" class="text-right">Order total</th>
                                         <th><strong><?php echo $currency.$other_data[6]; ?></strong></th>
                                     </tr>
                                 </tfoot>

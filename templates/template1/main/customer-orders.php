@@ -16,9 +16,32 @@
             $order_file = file_get_contents('orders.json');
             $order_file_data = json_decode($order_file, true);
             foreach ($orders_id as $order_key => $order_value) {
-                $get_data = $order_file_data[$shopname][$order_value];
-                array_push($orders, [$order_value, $get_data['date'], $get_data['time'], $get_data['total_amount'], $get_data['order_detail'][0]['status']]);
+                if (isset($order_file_data[$shopname][$order_value])){
+                    $get_data = $order_file_data[$shopname][$order_value];
+                    array_push($orders, [$order_value, $get_data['date'], $get_data['time'], $get_data['total_amount'], $get_data['order_detail'][0]['status']]);
+                }
             }
+            if (file_exists('cancelled_orders.json')){
+                $cancel_file = file_get_contents('cancelled_orders.json');
+                $cancel_file_data = json_decode($cancel_file, true);
+                foreach ($orders_id as $order_key => $order_value) {
+                    if (isset($cancel_file_data[$shopname][$order_value])){
+                        $get_data = $cancel_file_data[$shopname][$order_value];
+                        array_push($orders, [$order_value, $get_data['date'], $get_data['time'], $get_data['total_amount'], $get_data['order_detail'][0]['status']]);
+                    }
+            }
+            }
+            if (file_exists('shipped_orders.json')){
+                $ship_file = file_get_contents('shipped_orders.json');
+                $ship_file_data = json_decode($ship_file, true);
+                foreach ($orders_id as $order_key => $order_value) {
+                    if (isset($ship_file_data[$shopname][$order_value])){
+                        $get_data = $ship_file_data[$shopname][$order_value];
+                        array_push($orders, [$order_value, $get_data['date'], $get_data['time'], $get_data['total_amount'], $get_data['order_detail'][0]['status']]);
+                    }
+            }
+            }
+
         }
     }
 ?>
@@ -155,9 +178,20 @@
                                                 <th># '.$value[0].'</th>
                                                 <td>'.$value[1].'</td>
                                                 <td>'.$value[2].'</td>
-                                                <td>'.$currency.$value[3].'</td>
-                                                <td><span class="label label-info">'.$value[4].'</span>
-                                                </td>
+                                                <td>'.$currency.$value[3].'</td>';
+                                                if ($value[4] == 'order received'){
+                                                    echo '<td><span class="label label-info">order received</span>';
+                                                }
+                                                else if ($value[4] == 'cancelled (user)'){
+                                                    echo '<td><span class="label label-danger">cancelled by you</span>';
+                                                }
+                                                else if ($value[4] == 'order cancelled'){
+                                                    echo '<td><span class="label label-danger">cancelled by seller</span>';
+                                                }
+                                                else if ($value[4] == 'order shipper'){
+                                                    echo '<td><span class="label label-warning"  style="background-color:green">order shipped</span>';
+                                                }
+                                                echo '</td>
                                                 <td><a href="customer-order.php?order_id='.$value[0].'" class="btn btn-primary btn-sm">View</a>
                                                 </td>
                                             </tr>';
