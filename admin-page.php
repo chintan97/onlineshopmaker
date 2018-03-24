@@ -61,9 +61,10 @@ if(!isset($_SESSION["username"])){
 	    text-decoration: none;
 	    display: inline-block;
 	    font-size: 14px;
-	    margin: 4px 2px;
+	    margin: 2px 2px;
 	    cursor: pointer;
 	    border-radius: 4px;
+	    width: 170px;
 	}
   </style>
   <script type="text/javascript">
@@ -94,6 +95,12 @@ if(!isset($_SESSION["username"])){
 		}
 		else if(choice == "show-notifications"){
 			document.getElementById("mainContent").innerHTML='<iframe width=100% height=100% src="view-notifications.php">iframe is not supported, try Chrome browser</iframe>';
+		}
+		else if(choice == "download-website"){
+			document.getElementById("mainContent").innerHTML='<iframe width=100% height=100% src="download-website-admin.php">iframe is not supported, try Chrome browser</iframe>';
+		}
+		else if(choice == "update-shop-address"){
+			document.getElementById("mainContent").innerHTML='<iframe width=100% height=100% src="update-shop-admin.php">iframe is not supported, try Chrome browser</iframe>';
 		}
   	}
   </script>
@@ -129,6 +136,8 @@ if(!isset($_SESSION["username"])){
 		<button onclick="load_pages('delete-products');">Delete product</button><br><br>
 		<button onclick="load_pages('add-products');">Add product</button><br><br>
 		<button onclick="load_pages('view-orders');">View orders</button><br><br>
+		<button onclick="load_pages('download-website');">Download website</button><br><br>
+		<button onclick="load_pages('update-shop-address');">Update shop data</button><br><br>
 	</div>
 	<div class="hr">
 		<hr width="1" size="610">

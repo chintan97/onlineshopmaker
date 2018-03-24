@@ -82,19 +82,19 @@
 
 	<div class="metroblock buysblock left ">
 	  <span class="icon fontawesome-briefcase left"></span>
-	  <span class="count">0</span>
+	  <span class="count"><?php echo $_SESSION['new_orders']; ?></span>
 	  <div class="clear"></div>
 	  <h2>New Orders</h2>
 	</div>
 	<div class="metroblock customerblock left ">
 	  <span class="icon fontawesome-user left"></span>
-	  <span class="count">0</span>
+	  <span class="count"><?php echo $_SESSION['total_customers']; ?></span>
 	  <div class="clear"></div>
 	  <h2>Total customers</h2>
 	</div>
 	<div class="metroblock shoppingblock left ">
 	  <span class="icon fontawesome-truck left"></span>
-	  <span class="count">0</span>
+	  <span class="count"><?php echo $_SESSION['products_sold']; ?></span>
 	  <div class="clear"></div>
 	  <h2>Total items sold</h2>
 	</div>
