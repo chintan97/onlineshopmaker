@@ -22,14 +22,48 @@ else{
 <div id="top">
         <div class="container">
             <div class="col-md-6 offer" data-animate="fadeInDown">
-                <a id="offer_button" href="#" class="btn btn-success btn-sm" data-animate-hover="shake">Offer of the day</a>
-                <a id="offer_text" href="#"> 
+                
             <?php 
                 if (isset($_SESSION['offer'])){
+                    if ($_SESSION['offer'] != "No Offers For Now"){
+                        echo '<a id="offer_button" href="detail.php?pro='.$_SESSION["offer_product"].'&id='.$_SESSION["offer_product_id"].'" class="btn btn-success btn-sm" data-animate-hover="shake">Offer of the day</a>
+                            <a id="offer_text" href="detail.php?pro='.$_SESSION["offer_product"].'&id='.$_SESSION["offer_product_id"].'">';
+                    }
+                    else {
+                        echo '<a id="offer_button" href="#" class="btn btn-success btn-sm" data-animate-hover="shake">Offer of the day</a>
+                            <a id="offer_text" href="#"> ';
+                    }
                     echo $_SESSION['offer'];
                 }
                 else {
-                    echo 'No Offers For Now';
+                    $max_offer = 0;
+                    $max_offer_product_name = '';
+                    $max_offer_product_id = '';
+                    foreach ($json[$shopname] as $o_cat => $o_catdata) {
+                        foreach ($o_catdata as $o_subcat => $o_subcatdata) {
+                            foreach ($o_subcatdata as $o_productname => $o_productdata) {
+                                if ((int)$o_productdata['product_offer_percentage'] > (int)$max_offer){
+                                    $max_offer = (int)$o_productdata['product_offer_percentage'];
+                                    $max_offer_product_name = $o_productname;
+                                    $max_offer_product_id = $o_productdata['product_id'];
+                                }
+                            }
+                        }
+                    }
+                    if ($max_offer == 0){
+                        $_SESSION['offer'] = "No Offers For Now";
+                        echo '<a id="offer_button" href="#" class="btn btn-success btn-sm" data-animate-hover="shake">Offer of the day</a>
+                            <a id="offer_text" href="#"> ';
+                        echo $_SESSION['offer'];
+                    }
+                    else {
+                        $_SESSION['offer'] = $max_offer."% off on ".$max_offer_product_name."";
+                        $_SESSION['offer_product'] = $max_offer_product_name;
+                        $_SESSION['offer_product_id'] = $max_offer_product_id;
+                        echo '<a id="offer_button" href="detail.php?pro='.$_SESSION["offer_product"].'&id='.$_SESSION["offer_product_id"].'" class="btn btn-success btn-sm" data-animate-hover="shake">Offer of the day</a>
+                            <a id="offer_text" href="detail.php?pro='.$_SESSION["offer_product"].'&id='.$_SESSION["offer_product_id"].'">';
+                        echo $_SESSION['offer'];
+                    }
                 }
             ?>
             </a>
