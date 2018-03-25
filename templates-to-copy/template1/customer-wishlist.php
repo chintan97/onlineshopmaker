@@ -139,23 +139,21 @@
 					                                }
 			                                        echo '<div class="front">
 			                                            <a href="detail.php?pro='.$value[2].'&id='.$value[3].'">
-			                                                <img src="images/'.$value[4][0].'" alt="Image not available" class="img-responsive">
+			                                                <img style="width:200px; height:250px;" src="images/'.$value[4][0].'" alt="Image not available" class="img-responsive">
 			                                            </a>
 			                                        </div>
 			                                        <div class="back">
 			                                            <a href="detail.php?pro='.$value[2].'&id='.$value[3].'">';
 			                                            	if (isset($value[4][1])){
-			                                            		echo '<img src="images/'.$value[4][1].'" alt="Image not available" class="img-responsive">';
+			                                            		echo '<img style="width:200px; height:250px;" src="images/'.$value[4][1].'" alt="Image not available" class="img-responsive">';
 			                                            	}
 			                                            	else{
-			                                            		echo '<img src="images/'.$value[4][0].'" alt="Image not available" class="img-responsive">';
+			                                            		echo '<img style="width:200px; height:250px;" src="images/'.$value[4][0].'" alt="Image not available" class="img-responsive">';
 			                                            	}
 			                                            echo '</a>
 			                                        </div>
 			                                    </div>
 			                                </div>
-			                                <a href="detail.php?pro='.$value[2].'&id='.$value[3].'" class="invisible">
-			                                    <img src="images/'.$value[4][0].'" alt="Image not available" class="img-responsive">
 			                                </a>
 			                                <div class="text">
 			                                    <h3><a href="detail.php?pro='.$value[2].'&id='.$value[3].'">'.$value[2].'</a></h3>';
