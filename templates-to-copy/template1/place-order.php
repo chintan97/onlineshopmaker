@@ -60,14 +60,6 @@
 		}
 		file_put_contents('user_folder/user_data.json', json_encode($user_file_data));
 		fclose($user_file);
-		$product_file = fopen('product_data.json', 'a+');
-		$product_file_read = fread($product_file, filesize('product_data.json'));
-		$product_file_data = json_decode($product_file_read, true);
-		foreach ($_SESSION['buy_data'] as $cart_key => $cart_value) {
-			$product_file_data[$_GET['shop']][$cart_value[7]][$cart_value[8]][$cart_value[1]]['product_stock'] = (String)((int)$product_file_data[$_GET['shop']][$cart_value[7]][$cart_value[8]][$cart_value[1]]['product_stock'] - (int)$cart_value[6]);	
-		}
-		file_put_contents('product_data.json', json_encode($product_file_data));
-		fclose($product_file);
 		$_SESSION['buy_data'] = [];
 		$_SESSION['cart'] = [];
 		echo "<script>alert('Thank you for shopping with us. We will place your order soon.');

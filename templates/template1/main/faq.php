@@ -80,9 +80,6 @@
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
                                 <li>
-                                    <a href="text.php">Text page</a>
-                                </li>
-                                <li>
                                     <a href="contact.php">Contact page</a>
                                 </li>
                                 <li>
@@ -95,13 +92,6 @@
                     </div>
 
                     <!-- *** PAGES MENU END *** -->
-
-
-                    <div class="banner">
-                        <a href="#">
-                            <img src="img/banner.jpg" alt="sales 2014" class="img-responsive">
-                        </a>
-                    </div>
                 </div>
 
                 <div class="col-md-9">
@@ -131,12 +121,13 @@
                                 </div>
                                 <div id="faq1" class="panel-collapse collapse">
                                     <div class="panel-body">
-                                        <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper.
-                                            Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                                        <p>Order delivery may take time as per external changes like environmental troubles. You can always check current status of you order by logging in with your account.</p>
+
+                                        <p>Steps to check order status.</p>
                                         <ul>
-                                            <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-                                            <li>Aliquam tincidunt mauris eu risus.</li>
-                                            <li>Vestibulum auctor dapibus neque.</li>
+                                            <li>Login with your credentials from <a href="register.php">here</a>.</li>
+                                            <li>Select your order from list of your orders.</li>
+                                            <li>You can see your order details there. If order is cancelled by us for some reasons, you can check here.</li>
                                         </ul>
                                     </div>
                                 </div>
@@ -157,9 +148,12 @@
                                 </div>
                                 <div id="collapseTwo" class="panel-collapse collapse">
                                     <div class="panel-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
-                                        on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat
-                                        craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                        Postal rates can vary from location to location. There are many variations in postal rates as below.
+                                        <ul>
+                                        	<li>If order total is more than some amount, we can offer free delivery on order.</li>
+                                        	<li>If order total is less than some amount, we can charge some delivery charge for order.</li>
+                                        	<li>For some products, delivery charges can be charged if it need more care to deliver.</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -180,9 +174,35 @@
                                 </div>
                                 <div id="collapseThree" class="panel-collapse collapse">
                                     <div class="panel-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird
-                                        on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat
-                                        craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                        <p>Currently we have no facility to send orders oversees.</p>
+
+                                        <p>We regret for inconvenience.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.panel -->
+
+                          <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                    <h4 class="panel-title">
+
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour">
+
+						4. What are return policies?
+
+					    </a>
+
+					</h4>
+                                </div>
+                                <div id="collapseFour" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <p>Product can be returned if return is available. Product return time is mentioned if applicable in product datails.</p>
+                                        <ul>
+                                        	<li>You can contact us to return product if applicable.</li>
+                                        	<li>We will reach to you within 2 business days.</li>
+                                        	<li>You have not to worry if we don't reach you within replacement time. If contact time is within replacement time that is mentioned, we will avail replacement.</li>
+                                        	<li>During replacement, you should pack product because it has to reach us. Delivery time packing is recommended if possible.</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>

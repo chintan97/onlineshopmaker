@@ -22,7 +22,7 @@ if (!file_exists('user_folders/'.$_SESSION['username'].'/admin-folder')){
 }
 
 $the_folder = 'user_folders/chintan_admin';
-$zip_file_name = 'archived_name.zip';
+$zip_file_name = 'my_website.zip';
 
 class FlxZipArchive extends ZipArchive {
         /** Add a Dir with Files and Subdirs to the archive;;;;; @param string $location Real Location;;;;  @param string $name Name in Archive;;; @author Nicolas Heimann;;;; @access private  **/

@@ -80,10 +80,7 @@
                         <div class="panel-body">
                             <ul class="nav nav-pills nav-stacked">
                                 <li>
-                                    <a href="#">page 1</a>
-                                </li>
-                                <li>
-                                    <a href="#">page 2</a>
+                                    <a href="#">Contact</a>
                                 </li>
                                 <li>
                                     <a href="faq.php">FAQ</a>
