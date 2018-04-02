@@ -78,8 +78,6 @@
                             <ul class="nav nav-pills nav-justified">
                                 <li><a href="checkout1.php"><i class="fa fa-map-marker"></i><br>Address</a>
                                 </li>
-                                <li><a href="checkout2.php"><i class="fa fa-truck"></i><br>Delivery Method</a>
-                                </li>
                                 <li class="active"><a href="#"><i class="fa fa-money"></i><br>Payment Method</a>
                                 </li>
                                 <li class="disabled"><a href="checkout4.php"><i class="fa fa-eye"></i><br>Order Review</a>
@@ -136,7 +134,7 @@
 
                             <div class="box-footer">
                                 <div class="pull-left">
-                                    <a href="basket.php" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Shipping method</a>
+                                    <a href="checkout1.php" class="btn btn-default"><i class="fa fa-chevron-left"></i>Back to Address changing</a>
                                 </div>
                                 <div class="pull-right">
                                     <button type="submit" class="btn btn-primary">Continue to Order review<i class="fa fa-chevron-right"></i>

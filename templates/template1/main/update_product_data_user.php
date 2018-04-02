@@ -24,7 +24,7 @@ if($flag){
 		$new = $old - $product[4];
 		$json[$root][$product[0]][$product[1]][$product[2]]['product_stock'] = (string)$new;
 		file_put_contents($file_name, json_encode($json));
-		echo '<script>window.location.href="checkout2.php";</script>';
+		echo '<script>window.location.href="checkout3.php";</script>';
 
 	}
 }

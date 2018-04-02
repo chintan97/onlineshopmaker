@@ -86,8 +86,6 @@
                             <ul class="nav nav-pills nav-justified">
                                 <li><a href="checkout1.php"><i class="fa fa-map-marker"></i><br>Address</a>
                                 </li>
-                                <li><a href="checkout2.php"><i class="fa fa-truck"></i><br>Delivery Method</a>
-                                </li>
                                 <li><a href="checkout3.php"><i class="fa fa-money"></i><br>Payment Method</a>
                                 </li>
                                 <li class="active"><a href="#"><i class="fa fa-eye"></i><br>Order Review</a>
