@@ -8,10 +8,12 @@
 		$product_file = file_get_contents('product_data.json');
 		$product_data = json_decode($product_file, true);
 		$show_data = [];  // [0=cat, 1=subcat, 2=name, 3=id, 4=image, 5=price, 6=offer_price, 7=offer_percentage, 8=stock]
-		foreach ($_SESSION['wishlist'] as $wishlist_key => $wishlist_value) {
-			$temp_data = $product_data[$shopname][$wishlist_value[0]][$wishlist_value[1]][$wishlist_value[2]];
-			array_push($show_data, [$wishlist_value[0], $wishlist_value[1], $wishlist_value[2], $wishlist_value[3], $temp_data['product_image'], $temp_data['product_price'], $temp_data['product_offer_price'], $temp_data['product_offer_percentage'], $temp_data['product_stock']]);
-		}
+		if (isset($_SESSION['wishlist'])){
+            foreach ($_SESSION['wishlist'] as $wishlist_key => $wishlist_value) {
+                $temp_data = $product_data[$shopname][$wishlist_value[0]][$wishlist_value[1]][$wishlist_value[2]];
+                array_push($show_data, [$wishlist_value[0], $wishlist_value[1], $wishlist_value[2], $wishlist_value[3], $temp_data['product_image'], $temp_data['product_price'], $temp_data['product_offer_price'], $temp_data['product_offer_percentage'], $temp_data['product_stock']]);
+            }
+        }
 	}
 ?>
 <!DOCTYPE html>
@@ -126,6 +128,9 @@
                     <div class="row products">
 
                     	<?php
+                            if (count($show_data) == 0){
+                                echo "<div class='col-md-12 col-sm-4'><div class='product'><br>&nbsp;&nbsp;&nbsp;&nbsp;<strong>You have no items in wishlist.<br></strong></div></div>";
+                            }
                     		foreach ($show_data as $key => $value) {
                     			echo '<div class="col-md-3 col-sm-4">
 			                            <div class="product">

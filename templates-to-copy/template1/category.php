@@ -3,6 +3,12 @@
         $cat_get = $_GET['cat'];
         $subcat_get = $_GET['subcat'];
     }
+    if (isset($_GET['brands'])){
+        $selected_brands_get = $_GET['brands'];
+        $selected_colors_get = $_GET['colors'];
+        $selected_brands = explode(",", $selected_brands_get);
+        $selected_colors = explode(",", $selected_colors_get);
+    }
     $file_pro = file_get_contents('product_data.json');
     $data_pro = json_decode($file_pro, true);
     $categories = [];
@@ -17,7 +23,7 @@
                 array_push($subcategories, $subcatname);
                 foreach ($subcatdata as $proname1 => $prodata) {
                     $procount++;
-                    if ($subcat_get == '' && $catname == $cat_get){
+                    if ($subcat_get == '' && $catname == $cat_get && !isset($_GET['brands'])){
                         array_push($data_show, [$proname1, $prodata, $subcatname]);
                         if ($prodata['product_brand'] != '' && !in_array(strtolower($prodata['product_brand']), $brands)){
                             array_push($brands, strtolower($prodata['product_brand']));
@@ -26,8 +32,28 @@
                             array_push($colors, strtolower($prodata['product_color']));
                         }
                     }
-                    else if ($subcat_get != '' && $subcatname == $subcat_get){
+                    else if ($subcat_get != '' && $subcatname == $subcat_get && $catname == $cat_get && !isset($_GET['brands'])){
                         array_push($data_show, [$proname1, $prodata, $subcatname]);
+                        if ($prodata['product_brand'] != '' && !in_array(strtolower($prodata['product_brand']), $brands)){
+                            array_push($brands, strtolower($prodata['product_brand']));
+                        }
+                        if ($prodata['product_color'] != '' && !in_array(strtolower($prodata['product_color']), $colors)){
+                            array_push($colors, strtolower($prodata['product_color']));
+                        }
+                    }
+                    else if (isset($_GET['brands']) && $catname == $cat_get){
+                        foreach ($selected_colors as $key_color => $value_color) {
+                            if ($value_color != '' && strtolower($prodata['product_color']) == $value_color){
+                                if (!in_array([$proname1, $prodata, $subcatname], $data_show))
+                                    array_push($data_show, [$proname1, $prodata, $subcatname]);
+                            }
+                        }
+                        foreach ($selected_brands as $key_brand => $value_brand) {
+                            if ($value_brand != '' && strtolower($prodata['product_brand']) == $value_brand){
+                                if (!in_array([$proname1, $prodata, $subcatname], $data_show))
+                                    array_push($data_show, [$proname1, $prodata, $subcatname]);
+                            }
+                        }
                         if ($prodata['product_brand'] != '' && !in_array(strtolower($prodata['product_brand']), $brands)){
                             array_push($brands, strtolower($prodata['product_brand']));
                         }
@@ -79,7 +105,30 @@
 
     <link rel="shortcut icon" href="favicon.png">
 
-
+    <script type="text/javascript">
+        function add_filters(){
+            event.preventDefault();
+            var color_count = document.getElementsByClassName('color_class');
+            var brand_count = document.getElementsByClassName('brand_class');
+            var colorChoices = [];
+            var brandChoices = [];
+            var procat = '<?php echo $_GET["cat"]; ?>';
+            var prosubcat = '<?php echo $_GET["subcat"] ?>';
+            for (var i=0; i<color_count.length; i++){
+                if (document.getElementById('selected_colors['+i+']').checked){
+                    colorChoices.push(document.getElementById('selected_colors['+i+']').value);
+                }
+            }
+            for (var i=0; i<brand_count.length; i++){
+                if (document.getElementById('selected_brands['+i+']').checked){
+                    brandChoices.push(document.getElementById('selected_brands['+i+']').value);
+                }
+            }
+            console.log(procat);
+            console.log(prosubcat);
+            window.location.href = 'category.php?cat='+procat+'&subcat='+prosubcat+'&brands='+brandChoices+'&colors='+colorChoices+'';
+        }
+    </script>
 
 </head>
 
@@ -164,7 +213,7 @@
                                             foreach ($brands as $key => $value) {
                                                 echo '<div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox">'.$value.'
+                                                            <input type="checkbox" class="brand_class" id="selected_brands['.$key.']" value='.$value.'>'.$value.'
                                                         </label>
                                                       </div>';
                                             }
@@ -177,7 +226,7 @@
                                     
                                 </div>
 
-                                <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
+                                <button onclick="add_filters();" class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
                                 <button type="reset" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</button>
                             </form>
                         </div>
@@ -198,7 +247,7 @@
                                             foreach ($colors as $key => $value) {
                                                 echo '<div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox"><span class="colour '.$value.'"></span> '.$value.'
+                                                            <input type="checkbox" class="color_class" id="selected_colors['.$key.']" value='.$value.'><span class="colour '.$value.'"></span> '.$value.'
                                                         </label>
                                                       </div>';
                                             }
@@ -210,7 +259,7 @@
 
                                 </div>
 
-                                <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
+                                <button onclick="add_filters();" class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
                                 <button type="reset" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</button>
                             </form>
                         </div>

@@ -6,9 +6,9 @@
 </head>
 <body>
 	<?php
-	if (file_exists('user_folders/'.$_SESSION["username"].'/notifications.json') && filesize('user_folders/'.$_SESSION["username"].'/notifications.json') > 0){
-		$file = fopen('user_folders/'.$_SESSION["username"].'/notifications.json', 'a+');
-		$file_data = fread($file, filesize('user_folders/'.$_SESSION["username"].'/notifications.json'));
+	if (file_exists('../notifications.json') && filesize('../notifications.json') > 0){
+		$file = fopen('../notifications.json', 'a+');
+		$file_data = fread($file, filesize('../notifications.json'));
 		$file_read = json_decode($file_data, true);
 		$count = 1;
 		if (count($file_read['root']) > 0){
@@ -26,7 +26,7 @@
 			}
 			$file_read['root'][$key][6] = 'seen';
 		}
-		file_put_contents('user_folders/'.$_SESSION["username"].'/notifications.json', json_encode($file_read));
+		file_put_contents('../notifications.json', json_encode($file_read));
 		fclose($file);
 	}
 	else {

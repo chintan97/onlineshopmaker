@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	if (!isset($_SESSION['username'])){
-		echo "<script>window.location.href='admin-page.php';</script>";
+		echo "<script>window.location.href='index.php';</script>";
 	}
 ?>
 <html>
@@ -66,12 +66,12 @@
 	if (isset($_POST['new_password_1'])){
 		$old_password = $_POST['old_password'];
 		$new_password = $_POST['new_password_1'];
-		$file = fopen('user_folders/'.$_SESSION["username"].'/owner_data.json', 'a+');
-		$file_read = fread($file, filesize('user_folders/'.$_SESSION["username"].'/owner_data.json'));
+		$file = fopen('../owner_data.json', 'a+');
+		$file_read = fread($file, filesize('../owner_data.json'));
 		$read_data = json_decode($file_read, true);
 		if ($read_data[$_SESSION['username']]['password'] == $old_password){
 			$read_data[$_SESSION['username']]['password'] = $new_password;
-			file_put_contents('user_folders/'.$_SESSION["username"].'/owner_data.json', json_encode($read_data));
+			file_put_contents('../owner_data.json', json_encode($read_data));
 			echo "<script>alert('Password successfully changed!');</script>";
 		}
 		else {

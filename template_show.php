@@ -89,7 +89,7 @@ if(!isset($_SESSION["username"])){
 							}
 						?>
 					</div><br>
-					<div align="center"><a href="templatechosen.php?temp=<?php echo $x;?>" class="button">Choose and Proceed</a>&nbsp;&nbsp;<a href="templates/<?php echo $x;?>/main/index.php" class="button iframe" id="live demo">Live Demo</a></div>
+					<div align="center"><a href="templatechosen.php?temp=<?php echo $x;?>" class="button">Choose and Proceed</a>&nbsp;&nbsp;<a href="templates/<?php echo $x;?>/main/index.html" class="button iframe" id="live demo">Live Demo</a></div>
 				</div>
 				
 			</section>

@@ -188,7 +188,7 @@
                                                 else if ($value[4] == 'order cancelled'){
                                                     echo '<td><span class="label label-danger">cancelled by seller</span>';
                                                 }
-                                                else if ($value[4] == 'order shipper'){
+                                                else if ($value[4] == 'order shipped'){
                                                     echo '<td><span class="label label-warning"  style="background-color:green">order shipped</span>';
                                                 }
                                                 echo '</td>

@@ -84,6 +84,31 @@
 
     <link rel="shortcut icon" href="favicon.png">
 
+    <script type="text/javascript">
+        function add_filters(){
+            event.preventDefault();
+            var color_count = document.getElementsByClassName('color_class');
+            var brand_count = document.getElementsByClassName('brand_class');
+            var colorChoices = [];
+            var brandChoices = [];
+            var procat = '<?php echo $procat; ?>';
+            var prosubcat = '<?php echo $prosubcat ?>';
+            for (var i=0; i<color_count.length; i++){
+                if (document.getElementById('selected_colors['+i+']').checked){
+                    colorChoices.push(document.getElementById('selected_colors['+i+']').value);
+                }
+            }
+            for (var i=0; i<brand_count.length; i++){
+                if (document.getElementById('selected_brands['+i+']').checked){
+                    brandChoices.push(document.getElementById('selected_brands['+i+']').value);
+                }
+            }
+            console.log(procat);
+            console.log(prosubcat);
+            window.location.href = 'category.php?cat='+procat+'&subcat='+prosubcat+'&brands='+brandChoices+'&colors='+colorChoices+'';
+        }
+    </script>
+
 </head>
 
 <body>
@@ -159,7 +184,7 @@
                                             foreach ($brands as $key => $value) {
                                                 echo '<div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox">'.$value.'
+                                                            <input type="checkbox" class="brand_class" id="selected_brands['.$key.']" value='.$value.'>'.$value.'
                                                         </label>
                                                       </div>';
                                             }
@@ -172,7 +197,7 @@
                                     
                                 </div>
 
-                                <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
+                                <button class="btn btn-default btn-sm btn-primary" onclick="add_filters();"><i class="fa fa-pencil"></i> Apply</button>
                                 <button type="reset" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</button>
                             </form>
 
@@ -194,7 +219,7 @@
                                             foreach ($colors as $key => $value) {
                                                 echo '<div class="checkbox">
                                                         <label>
-                                                            <input type="checkbox"><span class="colour '.$value.'"></span> '.$value.'
+                                                            <input type="checkbox" class="color_class" id="selected_colors['.$key.']" value='.$value.'><span class="colour '.$value.'"></span> '.$value.'
                                                         </label>
                                                       </div>';
                                             }
@@ -206,7 +231,7 @@
 
                                 </div>
 
-                                <button class="btn btn-default btn-sm btn-primary"><i class="fa fa-pencil"></i> Apply</button>
+                                <button class="btn btn-default btn-sm btn-primary" onclick="add_filters();"><i class="fa fa-pencil"></i> Apply</button>
                                 <button type="reset" class="btn btn-sm btn-danger pull-right"><i class="fa fa-times-circle"></i> Clear</button>
                             </form>
 

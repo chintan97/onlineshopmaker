@@ -146,11 +146,11 @@
 					<br>
 					<table class="table table-hover">
 						<?php 
-							if (file_exists('orders.json') == 0){
+							if (file_exists('user_folders/'.$_SESSION["username"].'/orders.json') == 0){
 								echo "<h3 align='center'>You have no orders.</h3>";
 							}
 							else {
-								$file_name = 'orders.json';
+								$file_name = 'user_folders/'.$_SESSION["username"].'/orders.json';
 								$str = file_get_contents($file_name);
 								$json = json_decode($str, true);
 								//print_r($read_data);
@@ -261,11 +261,11 @@
 					<br>
 					<table class="table table-hover">
 						<?php 
-							if (file_exists('shipped_orders.json') == 0){
+							if (file_exists('user_folders/'.$_SESSION["username"].'/shipped_orders.json') == 0){
 								echo "<h3 align='center'>You have no orders.</h3>";
 							}
 							else {
-								$file_name = 'shipped_orders.json';
+								$file_name = 'user_folders/'.$_SESSION["username"].'/shipped_orders.json';
 								$str = file_get_contents($file_name);
 								$json = json_decode($str, true);
 								$root = array_keys($json)[0];
@@ -350,11 +350,11 @@
 					<br>
 					<table class="table table-hover">
 						<?php 
-							if (file_exists('cancelled_orders.json') == 0){
+							if (file_exists('user_folders/'.$_SESSION["username"].'/cancelled_orders.json') == 0){
 								echo "<h3 align='center'>You have no orders.</h3>";
 							}
 							else {
-								$file_name = 'cancelled_orders.json';
+								$file_name = 'user_folders/'.$_SESSION["username"].'/cancelled_orders.json';
 								$str = file_get_contents($file_name);
 								$json = json_decode($str, true);
 								$root = array_keys($json)[0];

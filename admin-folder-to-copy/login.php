@@ -36,9 +36,6 @@ if(isset($_SESSION["username"])){
 				<nav id="nav">
 					<ul>
 						<li><a href="index.php">Home</a></li>
-						<li><a href="ourgoal.php">Our Goal</a></li>
-						<li><a href="websitebuilder.php">Website Builder</a></li>
-						<li><a href="#" class="button special">Sign Up/In</a></li>
 					</ul>
 				</nav>
 			</header>
@@ -79,8 +76,6 @@ if(isset($_SESSION["username"])){
 								<ul class="unstyled">
 									<li><a href="index.php">Home</a></li>
 									<li><a href="#">Register/Log In</a></li>
-									<li><a href="ourgoal.php">Our Goal</a></li>
-									<li><a href="websitebuilder.php">Website Builder</a></li>
 								</ul>
 							</section>
 							<section class="3u 6u(medium) 12u$(small)">
