@@ -37,7 +37,53 @@
 
     <link rel="shortcut icon" href="favicon.png">
 
-
+    <script type="text/javascript">
+        function send_message(){
+            var firstname = document.getElementById('firstname').value;
+            var lastname = document.getElementById('lastname').value;
+            var email = document.getElementById('email').value;
+            var subject = document.getElementById('subject').value;
+            var message = document.getElementById('message').value;
+            var email_pattern = /^\w+\@[a-zA-Z_.]+\.\w{2,5}$/;
+            if (firstname == ''){
+                event.preventDefault();
+                alert('Please enter first name');
+                document.getElementById('firstname').focus();
+                return false;
+            }
+            else if (lastname == ''){
+                event.preventDefault();
+                alert('Please enter last name!');
+                document.getElementById('lastname').focus();
+                return false;
+            }
+            else if (email == ''){
+                event.preventDefault();
+                alert('Please enter email!');
+                document.getElementById('email').focus();
+                return false;
+            }
+            else if (subject == ''){
+                event.preventDefault();
+                alert('Please enter subject!');
+                document.getElementById('subject').focus();
+                return false;
+            }
+            else if (message == ''){
+                event.preventDefault();
+                alert('Please enter message!');
+                document.getElementById('message').focus();
+                return false;
+            }
+            else if (email_pattern.test(email) == false){
+                event.preventDefault();
+                alert('Please enter valid email!');
+                document.getElementById('email').focus();
+                return false;
+            }
+            document.contact_form.submit();
+        }
+    </script>
 
 </head>
 
@@ -161,41 +207,41 @@
                         <hr>
                         <h2>Contact form</h2>
 
-                        <form>
+                        <form name="contact_form" method="post">
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="firstname">Firstname</label>
-                                        <input type="text" class="form-control" id="firstname">
+                                        <input type="text" id="firstname" name="firstname" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="lastname">Lastname</label>
-                                        <input type="text" class="form-control" id="lastname">
+                                        <input type="text" id="lastname" name="lastname" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="email">Email</label>
-                                        <input type="text" class="form-control" id="email">
+                                        <input type="text" class="form-control" id="email" name="email">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label for="subject">Subject</label>
-                                        <input type="text" class="form-control" id="subject">
+                                        <input type="text" class="form-control" id="subject" name="subject">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label for="message">Message</label>
-                                        <textarea id="message" class="form-control" style="resize:none;height:150px;"></textarea>
+                                        <textarea id="message" name="message" class="form-control" style="resize:none;height:150px;"></textarea>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-12 text-center">
-                                    <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send message</button>
+                                    <button onclick="send_message();" type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Send message</button>
 
                                 </div>
                             </div>
@@ -302,3 +348,31 @@
         }
       }
     </script>
+
+<?php
+    if (isset($_POST['firstname'])){
+        $firstname = $_POST['firstname'];
+        $email = $_POST['email'];
+        $lastname  =$_POST['lastname'];
+        $subject = $_POST['subject'];
+        $message = $_POST['message'];
+        //$to = $email;
+        $to = $read_data[$user]['contact_email'];
+        $headers = "From:".$email."\r\n";
+
+        $mail=mail($to, $subject, $message, $headers);
+        if (!$mail){
+            echo "<script>alert('Something went wrong! Please try again!');
+            window.location.href='contact.php';</script>";
+        }
+        else {
+            echo "<script>alert('Thank you for contacting us, we will reach to your query soon.');
+            window.location.href='contact.php';</script>";
+        }
+        unset($_POST['firstname']);
+        unset($_POST['lastname']);
+        unset($_POST['email']);
+        unset($_POST['subject']);
+        unset($_POST['message']);
+    }
+?>
